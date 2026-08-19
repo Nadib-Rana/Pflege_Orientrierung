@@ -5,20 +5,20 @@ import { Star } from "lucide-react";
 
 export function HeroSection() {
   return (
-    <section id="compass" className="relative overflow-hidden bg-[#FBFBFC] pt-8 pb-16 md:pt-12 md:pb-24 border-b border-slate-100">
+    <section id="compass" className="relative overflow-hidden bg-[#FBFBFC] py-12 md:py-16 lg:py-20 border-b border-slate-100">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
           {/* Left Column: Heading, Subtitle, Image & Social Proof */}
-          <div className="lg:col-span-7 space-y-5">
+          <div className="lg:col-span-6 space-y-6">
             {/* Pill Badge */}
-            <div className="inline-flex items-center gap-2 rounded-lg bg-[#F1F5F9] px-3 py-1 text-xs font-normal text-[#64748B]">
+            <div className="inline-flex items-center gap-2 rounded-lg bg-[#F1F5F9] px-3.5 py-1 text-xs font-normal text-[#64748B]">
               <span className="h-1.5 w-1.5 rounded-full bg-[#10B981]" />
               <span>Your care journey starts here</span>
             </div>
 
             {/* Main Headline */}
-            <h1 className="text-4xl sm:text-5xl lg:text-[58px] font-extrabold tracking-tight text-[#0B284D] leading-[1.12] font-sans">
-              Navigate Care <br className="hidden sm:inline" />
+            <h1 className="text-4xl sm:text-5xl lg:text-[56px] font-extrabold tracking-tight text-[#0B284D] leading-[1.12] font-sans">
+              Navigate Care <br />
               With Confidence
             </h1>
 
@@ -30,19 +30,19 @@ export function HeroSection() {
             </p>
 
             {/* Hero Image Container */}
-            <div className="relative overflow-hidden rounded-2xl border border-slate-200/60 shadow-sm aspect-[16/10] max-w-[480px] bg-slate-100 mt-2">
+            <div className="relative overflow-hidden rounded-2xl border border-slate-200/60 shadow-sm aspect-[16/10] max-w-[460px] bg-slate-100">
               <Image
                 src="/images/hero_caregiver.jpg"
                 alt="Caregiver nurse assisting elderly woman in wheelchair"
                 fill
                 priority
                 className="object-cover"
-                sizes="(max-width: 768px) 100vw, 480px"
+                sizes="(max-width: 768px) 100vw, 460px"
               />
             </div>
 
             {/* Social Proof: Avatars + 5 Stars + Trusted Text */}
-            <div className="flex items-center gap-3 pt-2">
+            <div className="flex items-center gap-3 pt-1">
               {/* Overlapping Avatar Stack */}
               <div className="flex -space-x-2 overflow-hidden">
                 <Image
@@ -83,7 +83,7 @@ export function HeroSection() {
           </div>
 
           {/* Right Column: Care Compass Quiz Card */}
-          <div className="lg:col-span-5 flex justify-center lg:justify-end">
+          <div className="lg:col-span-6 flex justify-center lg:justify-end">
             <CareCompassHeroCard />
           </div>
         </div>
