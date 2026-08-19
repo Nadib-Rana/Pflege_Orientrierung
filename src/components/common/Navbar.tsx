@@ -47,22 +47,21 @@ export function Navbar() {
         </nav>
 
         {/* Right Actions: Language Selector & Get Started CTA */}
-        <div className="hidden md:flex items-center gap-3">
-          {/* Language Selector Dropdown */}
+        <div className="hidden md:flex items-center gap-3.5">
+          {/* Language Selector Dropdown (matches Previous button style) */}
           <div className="relative">
             <button
               onClick={() => setLangDropdownOpen(!langDropdownOpen)}
-              className="flex items-center gap-2 rounded-xl border border-[#A5C8EE] bg-white px-3 py-1.5 text-xs font-semibold text-[#0F2E59] shadow-2xs hover:bg-slate-50 transition-colors cursor-pointer"
+              className="flex items-center gap-2 rounded-lg border-2 border-[#0F2E59] bg-white px-4 py-2 text-sm font-semibold text-[#0F2E59] hover:bg-slate-50 transition-colors cursor-pointer shadow-xs"
               aria-expanded={langDropdownOpen}
               aria-label="Select language"
             >
-              {/* US Flag SVG Icon matching screenshot */}
+              {/* US Flag SVG Icon */}
               <svg className="h-4 w-5 rounded-xs overflow-hidden" viewBox="0 0 640 480">
                 <g fillRule="evenodd">
                   <path fill="#bd3d44" d="M0 0h640v480H0z" />
                   <path stroke="#fff" strokeWidth="37" d="M0 55.4h640M0 129.2h640M0 203h640M0 277h640M0 350.8h640M0 424.6h640" />
                   <path fill="#192f5d" d="M0 0h256v258.5H0z" />
-                  {/* Stylized Star matrix */}
                   <circle cx="40" cy="35" r="8" fill="#fff" />
                   <circle cx="90" cy="35" r="8" fill="#fff" />
                   <circle cx="140" cy="35" r="8" fill="#fff" />
@@ -90,11 +89,11 @@ export function Navbar() {
                 </g>
               </svg>
               <span>{selectedLang.name}</span>
-              <ChevronDown className="h-3.5 w-3.5 text-[#0F2E59]" />
+              <ChevronDown className="h-4 w-4 text-[#0F2E59]" />
             </button>
 
             {langDropdownOpen && (
-              <div className="absolute right-0 mt-2 w-36 rounded-xl border border-slate-100 bg-white py-1.5 shadow-lg z-50 animate-in fade-in-50 zoom-in-95">
+              <div className="absolute right-0 mt-2 w-36 rounded-xl border border-slate-200 bg-white py-1.5 shadow-lg z-50 animate-in fade-in-50 zoom-in-95">
                 {languages.map((lang) => (
                   <button
                     key={lang.code}
@@ -114,10 +113,10 @@ export function Navbar() {
             )}
           </div>
 
-          {/* Primary CTA */}
+          {/* Primary CTA (matches Continue button style) */}
           <a
             href="#compass"
-            className="rounded-xl bg-[#0F2E59] hover:bg-[#153E75] text-white px-5 py-2 text-xs font-semibold shadow-xs transition-colors cursor-pointer"
+            className="rounded-lg bg-[#0F2E59] hover:bg-[#153E75] text-white px-7 py-2.5 text-sm font-semibold shadow-xs transition-colors cursor-pointer inline-flex items-center justify-center"
           >
             Get Started
           </a>
