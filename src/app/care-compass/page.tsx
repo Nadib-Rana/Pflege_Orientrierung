@@ -2,8 +2,9 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { BrandLogo } from "@/components/common/BrandLogo";
-import { Check, ChevronLeft, Lock, RotateCcw, FileText, AlertCircle } from "lucide-react";
+import { Check, ChevronLeft, Lock, RotateCcw, FileText, AlertCircle, BookmarkCheck } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 // Comprehensive 12-question care compass assessment dataset
@@ -142,47 +143,142 @@ const questions = [
   },
 ];
 
+const STORAGE_KEY = "pflege_care_compass_progress_v1";
+
 export default function CareCompassPage() {
-  const [stage, setStage] = useState<"start" | "questions" | "complete" | "guidance">("start");
-  const [currentStep, setCurrentStep] = useState(1);
-  const [answers, setAnswers] = useState<Record<number, string>>({
-    1: "A parent or parent-in-law",
+  const router = useRouter();
+  const [stage, setStage] = useState<"start" | "questions" | "complete" | "guidance">(() => {
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      return stored ? JSON.parse(stored).stage : "start";
+    } catch {
+      return "start";
+    }
+  });
+  const [answers, setAnswers] = useState<Record<number, string>>(() => {
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      return stored ? JSON.parse(stored).answers : { 1: "A parent or parent-in-law" };
+    } catch {
+      return { 1: "A parent or parent-in-law" };
+    }
+  });
+  const [currentStep, setCurrentStep] = useState(() => {
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      return stored ? JSON.parse(stored).currentStep : 1;
+    } catch {
+      return 1;
+    }
+  });
+  const [savedToast, setSavedToast] = useState(false);
+  const [hasSavedProgress, setHasSavedProgress] = useState(() => {
+    try {
+      return !!localStorage.getItem(STORAGE_KEY);
+    } catch {
+      return false;
+    }
   });
 
   const totalSteps = questions.length;
   const currentQ = questions[currentStep - 1];
 
+  // Save Progress to Client Side (localStorage)
+  const saveProgressToClient = (overrideStep?: number, overrideStage?: string) => {
+    try {
+      const data = {
+        currentStep: overrideStep ?? currentStep,
+        stage: overrideStage ?? stage,
+        answers,
+        updatedAt: new Date().toISOString(),
+      };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    } catch {
+      // Handle potential quota error
+    }
+  };
+
   const handleSelectOption = (option: string) => {
-    setAnswers((prev) => ({
-      ...prev,
+    const updated = {
+      ...answers,
       [currentQ.id]: option,
-    }));
+    };
+    setAnswers(updated);
+
+    // Auto-save on selection
+    try {
+      localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify({
+          currentStep,
+          stage: "questions",
+          answers: updated,
+          updatedAt: new Date().toISOString(),
+        })
+      );
+    } catch {
+      // Ignore
+    }
   };
 
   const handleNext = () => {
     if (currentStep < totalSteps) {
-      setCurrentStep((prev) => prev + 1);
+      const nextStep = currentStep + 1;
+      setCurrentStep(nextStep);
+      saveProgressToClient(nextStep, "questions");
     } else {
       setStage("complete");
+      saveProgressToClient(totalSteps, "complete");
     }
   };
 
   const handlePrev = () => {
     if (currentStep > 1) {
-      setCurrentStep((prev) => prev - 1);
+      const prevStep = currentStep - 1;
+      setCurrentStep(prevStep);
+      saveProgressToClient(prevStep, "questions");
     } else {
       setStage("start");
     }
   };
 
+  const handleSaveAndExit = () => {
+    saveProgressToClient();
+    setSavedToast(true);
+    setTimeout(() => {
+      router.push("/");
+    }, 800);
+  };
+
+  const handleResume = () => {
+    setStage("questions");
+  };
+
   const handleRestart = () => {
-    setAnswers({ 1: "A parent or parent-in-law" });
+    const initialAnswers = { 1: "A parent or parent-in-law" };
+    setAnswers(initialAnswers);
     setCurrentStep(1);
     setStage("start");
+    setHasSavedProgress(false);
+    try {
+      localStorage.removeItem(STORAGE_KEY);
+    } catch {
+      // Ignore
+    }
   };
 
   return (
-    <div className="min-h-screen bg-[#F4F7FB] flex flex-col justify-between">
+    <div className="min-h-screen bg-[#F4F7FB] flex flex-col justify-between relative">
+      {/* Toast Notification when saved */}
+      {savedToast && (
+        <div className="fixed top-6 right-6 z-50 flex items-center gap-2.5 rounded-2xl bg-[#0F2E59] text-white px-5 py-3 shadow-xl border border-slate-700 animate-in fade-in slide-in-from-top-4 duration-300">
+          <BookmarkCheck className="h-5 w-5 text-emerald-400" />
+          <div className="text-xs sm:text-sm">
+            <span className="font-bold">Progress Saved!</span> Returning to home...
+          </div>
+        </div>
+      )}
+
       {/* ================= STAGE 1: CARE COMPASS START ================= */}
       {stage === "start" && (
         <div className="flex-1 flex flex-col items-center justify-center px-4 py-12 sm:py-16">
@@ -227,13 +323,35 @@ export default function CareCompassPage() {
               </div>
             </div>
 
-            {/* Start Button */}
-            <button
-              onClick={() => setStage("questions")}
-              className="w-full sm:w-auto min-w-[200px] rounded-xl bg-[#0F2E59] hover:bg-[#0A2244] text-white px-10 py-3.5 text-sm font-bold shadow-md transition-all cursor-pointer mb-8"
-            >
-              Start
-            </button>
+            {/* Start / Resume Action Buttons */}
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-8">
+              {hasSavedProgress ? (
+                <>
+                  <button
+                    onClick={handleResume}
+                    className="w-full sm:w-auto min-w-[200px] rounded-xl bg-[#0F2E59] hover:bg-[#0A2244] text-white px-8 py-3.5 text-sm font-bold shadow-md transition-all cursor-pointer"
+                  >
+                    Resume (Question {currentStep} of {totalSteps})
+                  </button>
+                  <button
+                    onClick={() => {
+                      handleRestart();
+                      setStage("questions");
+                    }}
+                    className="w-full sm:w-auto rounded-xl border-2 border-slate-300 hover:border-slate-400 text-slate-700 px-6 py-3 text-sm font-semibold transition-colors cursor-pointer"
+                  >
+                    Start Over
+                  </button>
+                </>
+              ) : (
+                <button
+                  onClick={() => setStage("questions")}
+                  className="w-full sm:w-auto min-w-[200px] rounded-xl bg-[#0F2E59] hover:bg-[#0A2244] text-white px-10 py-3.5 text-sm font-bold shadow-md transition-all cursor-pointer"
+                >
+                  Start
+                </button>
+              )}
+            </div>
 
             {/* Privacy Alert Note */}
             <div className="rounded-2xl bg-[#FFFBEB] border border-[#FDE68A]/70 p-4 text-left flex items-start gap-3">
@@ -253,16 +371,17 @@ export default function CareCompassPage() {
       {/* ================= STAGE 2: QUESTIONS ================= */}
       {stage === "questions" && (
         <div className="flex-1 flex flex-col">
-          {/* Assessment Header with Save & Exit */}
+          {/* Assessment Header with Client-Side Save & Exit */}
           <header className="sticky top-0 z-40 w-full bg-white/95 backdrop-blur-md border-b border-slate-200/60 px-4 sm:px-8 py-3.5">
             <div className="mx-auto max-w-4xl flex items-center justify-between">
               <BrandLogo />
-              <Link
-                href="/"
-                className="rounded-lg border-2 border-[#0F2E59] bg-white px-4 py-1.5 text-xs sm:text-sm font-semibold text-[#0F2E59] hover:bg-slate-50 transition-colors"
+              <button
+                type="button"
+                onClick={handleSaveAndExit}
+                className="rounded-lg border-2 border-[#0F2E59] bg-white px-4 py-1.5 text-xs sm:text-sm font-semibold text-[#0F2E59] hover:bg-slate-50 transition-colors cursor-pointer"
               >
                 Save & Exit
-              </Link>
+              </button>
             </div>
           </header>
 
@@ -337,12 +456,13 @@ export default function CareCompassPage() {
                   Previous
                 </button>
 
-                <Link
-                  href="/"
-                  className="text-xs sm:text-sm font-medium text-slate-500 hover:text-slate-800 transition-colors"
+                <button
+                  type="button"
+                  onClick={handleSaveAndExit}
+                  className="text-xs sm:text-sm font-medium text-slate-500 hover:text-slate-800 transition-colors cursor-pointer"
                 >
                   Save & Exit
-                </Link>
+                </button>
 
                 <button
                   type="button"
@@ -364,12 +484,13 @@ export default function CareCompassPage() {
           <header className="sticky top-0 z-40 w-full bg-white/95 backdrop-blur-md border-b border-slate-200/60 px-4 sm:px-8 py-3.5">
             <div className="mx-auto max-w-4xl flex items-center justify-between">
               <BrandLogo />
-              <Link
-                href="/"
-                className="rounded-lg border-2 border-[#0F2E59] bg-white px-4 py-1.5 text-xs sm:text-sm font-semibold text-[#0F2E59] hover:bg-slate-50 transition-colors"
+              <button
+                type="button"
+                onClick={handleSaveAndExit}
+                className="rounded-lg border-2 border-[#0F2E59] bg-white px-4 py-1.5 text-xs sm:text-sm font-semibold text-[#0F2E59] hover:bg-slate-50 transition-colors cursor-pointer"
               >
                 Save & Exit
-              </Link>
+              </button>
             </div>
           </header>
 
@@ -398,7 +519,10 @@ export default function CareCompassPage() {
               <div className="pt-2 space-y-3">
                 <button
                   type="button"
-                  onClick={() => setStage("guidance")}
+                  onClick={() => {
+                    setStage("guidance");
+                    saveProgressToClient(totalSteps, "guidance");
+                  }}
                   className="inline-flex w-full items-center justify-center rounded-xl bg-[#0F2E59] hover:bg-[#0A2244] text-white px-8 py-3 text-sm font-bold shadow-md transition-all cursor-pointer"
                 >
                   View My Guidance
@@ -425,12 +549,13 @@ export default function CareCompassPage() {
           <header className="sticky top-0 z-40 w-full bg-white/95 backdrop-blur-md border-b border-slate-200/60 px-4 sm:px-8 py-3.5">
             <div className="mx-auto max-w-4xl flex items-center justify-between">
               <BrandLogo />
-              <Link
-                href="/"
-                className="rounded-lg border-2 border-[#0F2E59] bg-white px-4 py-1.5 text-xs sm:text-sm font-semibold text-[#0F2E59] hover:bg-slate-50 transition-colors"
+              <button
+                type="button"
+                onClick={handleSaveAndExit}
+                className="rounded-lg border-2 border-[#0F2E59] bg-white px-4 py-1.5 text-xs sm:text-sm font-semibold text-[#0F2E59] hover:bg-slate-50 transition-colors cursor-pointer"
               >
                 Save & Exit
-              </Link>
+              </button>
             </div>
           </header>
 
