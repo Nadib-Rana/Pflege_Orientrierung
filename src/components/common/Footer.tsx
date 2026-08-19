@@ -1,32 +1,44 @@
 import React from "react";
 import Link from "next/link";
-import { siteConfig } from "@/config/site";
 import { BrandLogo } from "@/components/common/BrandLogo";
-import { Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
+import { Facebook, Instagram, Twitter, Linkedin } from "lucide-react";
 
 export function Footer() {
+  const quickLinks = [
+    { title: "Home", href: "/" },
+    { title: "About", href: "#about" },
+    { title: "Care compass", href: "#compass" },
+    { title: "How it works", href: "#how-it-works" },
+    { title: "Contact", href: "#contact" },
+  ];
+
+  const legalLinks = [
+    { title: "Privacy Policy", href: "#" },
+    { title: "Terms & Conditions", href: "#" },
+  ];
+
   return (
-    <footer className="bg-[#0A1128] text-slate-300 pt-16 pb-12 border-t border-slate-800">
+    <footer className="bg-[#081F38] text-slate-300 pt-16 pb-12">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8 pb-14 border-b border-slate-800/80">
-          {/* Column 1: Brand & Tagline */}
-          <div className="lg:col-span-4 space-y-4">
-            <BrandLogo variant="dark" showTagline={true} />
-            <p className="text-xs text-slate-400 max-w-xs leading-relaxed">
-              Empowering family caregivers with personalized guidance, clear roadmaps, and trusted
-              support pathways.
+        {/* Main 4-Column Footer Grid matching exact screenshot */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8 pb-14 border-b border-slate-700/60">
+          {/* Column 1: Logo & Tagline */}
+          <div className="lg:col-span-4 space-y-3">
+            <BrandLogo variant="dark" />
+            <p className="text-xs sm:text-sm text-slate-300/90 font-normal pt-1 tracking-normal">
+              Guiding Care with Confidence
             </p>
           </div>
 
           {/* Column 2: Quick Links */}
-          <div className="lg:col-span-3 space-y-3">
-            <h4 className="text-sm font-bold text-white tracking-wide">Quick Links</h4>
-            <ul className="space-y-2 text-xs">
-              {siteConfig.navItems.map((item) => (
+          <div className="lg:col-span-3 space-y-3.5">
+            <h4 className="text-base sm:text-lg font-bold text-white tracking-wide">Quick Links</h4>
+            <ul className="space-y-2.5 text-xs sm:text-sm">
+              {quickLinks.map((item) => (
                 <li key={item.title}>
                   <Link
                     href={item.href}
-                    className="text-slate-400 hover:text-white transition-colors"
+                    className="text-slate-300/90 hover:text-white transition-colors"
                   >
                     {item.title}
                   </Link>
@@ -36,38 +48,36 @@ export function Footer() {
           </div>
 
           {/* Column 3: Contact */}
-          <div className="lg:col-span-3 space-y-3">
-            <h4 className="text-sm font-bold text-white tracking-wide">Contact</h4>
-            <div className="space-y-2 text-xs text-slate-400 leading-relaxed">
-              <p>{siteConfig.contact.address}</p>
+          <div className="lg:col-span-3 space-y-3.5">
+            <h4 className="text-base sm:text-lg font-bold text-white tracking-wide">Contact</h4>
+            <div className="space-y-2.5 text-xs sm:text-sm text-slate-300/90 leading-relaxed">
               <p>
-                <a
-                  href={`tel:${siteConfig.contact.phone}`}
-                  className="hover:text-white transition-colors"
-                >
-                  {siteConfig.contact.phone}
+                Centralidade do Kilamba, <br />
+                Quarteirão P, Building P11, <br />
+                Luanda – Angola.
+              </p>
+              <p>
+                <a href="tel:+244956880998" className="hover:text-white transition-colors">
+                  +244 956 880 998
                 </a>
               </p>
               <p>
-                <a
-                  href={`mailto:${siteConfig.contact.email}`}
-                  className="hover:text-white transition-colors"
-                >
-                  {siteConfig.contact.email}
+                <a href="mailto:hello@Pflege.com" className="hover:text-white transition-colors">
+                  hello@Pflege.com
                 </a>
               </p>
             </div>
           </div>
 
           {/* Column 4: Legal */}
-          <div className="lg:col-span-2 space-y-3">
-            <h4 className="text-sm font-bold text-white tracking-wide">Legal</h4>
-            <ul className="space-y-2 text-xs">
-              {siteConfig.legal.map((item) => (
+          <div className="lg:col-span-2 space-y-3.5">
+            <h4 className="text-base sm:text-lg font-bold text-white tracking-wide">Legal</h4>
+            <ul className="space-y-2.5 text-xs sm:text-sm">
+              {legalLinks.map((item) => (
                 <li key={item.title}>
                   <Link
                     href={item.href}
-                    className="text-slate-400 hover:text-white transition-colors"
+                    className="text-slate-300/90 hover:text-white transition-colors"
                   >
                     {item.title}
                   </Link>
@@ -77,46 +87,46 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Bottom Row: Copyright & Social Links */}
+        {/* Bottom Bar: Copyright & Styled Square Social Icons matching screenshot */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
-          <p>© {new Date().getFullYear()} Pflege Orientrierung reserved the all rights.</p>
+          <p>© 2026 Pflege Orientrierung reserved the all rights.</p>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2.5">
             <a
               href="https://facebook.com"
               target="_blank"
               rel="noreferrer"
               aria-label="Facebook"
-              className="text-slate-400 hover:text-white transition-colors"
+              className="flex h-7 w-7 items-center justify-center rounded-md bg-[#133A63] hover:bg-[#1A4C80] text-slate-200 hover:text-white transition-colors shadow-2xs"
             >
-              <Facebook className="h-4 w-4" />
-            </a>
-            <a
-              href="https://twitter.com"
-              target="_blank"
-              rel="noreferrer"
-              aria-label="Twitter"
-              className="text-slate-400 hover:text-white transition-colors"
-            >
-              <Twitter className="h-4 w-4" />
+              <Facebook className="h-3.5 w-3.5 fill-current" />
             </a>
             <a
               href="https://instagram.com"
               target="_blank"
               rel="noreferrer"
               aria-label="Instagram"
-              className="text-slate-400 hover:text-white transition-colors"
+              className="flex h-7 w-7 items-center justify-center rounded-md bg-[#133A63] hover:bg-[#1A4C80] text-slate-200 hover:text-white transition-colors shadow-2xs"
             >
-              <Instagram className="h-4 w-4" />
+              <Instagram className="h-3.5 w-3.5" />
+            </a>
+            <a
+              href="https://twitter.com"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Twitter"
+              className="flex h-7 w-7 items-center justify-center rounded-md bg-[#133A63] hover:bg-[#1A4C80] text-slate-200 hover:text-white transition-colors shadow-2xs"
+            >
+              <Twitter className="h-3.5 w-3.5 fill-current" />
             </a>
             <a
               href="https://linkedin.com"
               target="_blank"
               rel="noreferrer"
               aria-label="LinkedIn"
-              className="text-slate-400 hover:text-white transition-colors"
+              className="flex h-7 w-7 items-center justify-center rounded-md bg-[#133A63] hover:bg-[#1A4C80] text-slate-200 hover:text-white transition-colors shadow-2xs"
             >
-              <Linkedin className="h-4 w-4" />
+              <Linkedin className="h-3.5 w-3.5 fill-current" />
             </a>
           </div>
         </div>
