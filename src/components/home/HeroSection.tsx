@@ -32,7 +32,7 @@ export function HeroSection() {
             {/* Hero Image Container */}
             <div className="relative overflow-hidden rounded-2xl border border-slate-200/60 shadow-sm aspect-[16/10] max-w-[460px] bg-slate-100">
               <Image
-                src="/images/hero_caregiver.jpg"
+                src="/images/hero_image.png"
                 alt="Caregiver nurse assisting elderly woman in wheelchair"
                 fill
                 priority

@@ -25,7 +25,7 @@ export function CareJourneySection() {
           {/* Column 1: Tall Single Card (Adult child helping parent walk) */}
           <div className="group relative overflow-hidden rounded-3xl bg-slate-100 min-h-[460px] sm:min-h-[500px] shadow-xs">
             <Image
-              src="/images/journey_parent_walk.jpg"
+              src="/images/journey_parent_walk.png"
               alt="Adult child helping parent walk"
               fill
               className="object-cover transition-transform duration-500 group-hover:scale-103"
@@ -44,7 +44,7 @@ export function CareJourneySection() {
             {/* Top Card: Video call check-in with sibling */}
             <div className="group relative overflow-hidden rounded-3xl bg-slate-100 flex-1 min-h-[220px] shadow-xs">
               <Image
-                src="/images/journey_videocall.jpg"
+                src="/images/Video_call_check-in_with_sibling.png"
                 alt="Video call check-in with sibling"
                 fill
                 className="object-cover transition-transform duration-500 group-hover:scale-103"
@@ -60,7 +60,7 @@ export function CareJourneySection() {
             {/* Bottom Card: Medication organizer on kitchen table */}
             <div className="group relative overflow-hidden rounded-3xl bg-slate-100 flex-1 min-h-[220px] shadow-xs">
               <Image
-                src="/images/journey_medication.jpg"
+                src="/images/Image_Gallery_Item.png"
                 alt="Medication organizer on kitchen table"
                 fill
                 className="object-cover transition-transform duration-500 group-hover:scale-103"
@@ -77,7 +77,7 @@ export function CareJourneySection() {
           {/* Column 3: Tall Single Card (Spouse caregiver, quiet morning coffee) */}
           <div className="group relative overflow-hidden rounded-3xl bg-slate-100 min-h-[460px] sm:min-h-[500px] shadow-xs">
             <Image
-              src="/images/journey_coffee.jpg"
+              src="/images/Spouse_caregiver_quiet_morning_coffee.png"
               alt="Spouse caregiver, quiet morning coffee"
               fill
               className="object-cover transition-transform duration-500 group-hover:scale-103"
@@ -93,7 +93,7 @@ export function CareJourneySection() {
           {/* Column 4: Tall Single Card (Support group) */}
           <div className="group relative overflow-hidden rounded-3xl bg-slate-100 min-h-[460px] sm:min-h-[500px] shadow-xs">
             <Image
-              src="/images/journey_support.jpg"
+              src="/images/Support_group.png"
               alt="Support group"
               fill
               className="object-cover transition-transform duration-500 group-hover:scale-103"
