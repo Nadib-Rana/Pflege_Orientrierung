@@ -13,7 +13,7 @@ export const siteConfig = {
   url: "https://polaris-care.vercel.app",
   navItems: [
     { title: "Home", href: "/" },
-    { title: "Care compass", href: "/#compass" },
+    { title: "Care compass", href: "/care-compass" },
     { title: "How it works", href: "/#how-it-works" },
     { title: "Contact", href: "/#contact" },
     { title: "About", href: "/about" },
