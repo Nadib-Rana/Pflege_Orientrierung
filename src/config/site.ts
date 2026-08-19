@@ -24,7 +24,7 @@ export const siteConfig = {
     email: "hello@Pflege.com",
   },
   legal: [
-    { title: "Privacy Policy", href: "#" },
-    { title: "Terms & Conditions", href: "#" },
+    { title: "Privacy Policy", href: "/privacy" },
+    { title: "Terms & Conditions", href: "/terms" },
   ],
 };
