@@ -15,14 +15,14 @@ export function BrandLogo({ className, variant = "light", showTagline = false }:
     <Link href="/" className={cn("inline-flex flex-col select-none group", className)}>
       {/* Exact Vector Brand Logo from public/LogoPflegeOrientierung with perfect color adaptation */}
       <svg
-        viewBox="170 430 690 155"
+        viewBox="150 420 740 170"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         className={cn(
           "w-auto transition-transform group-hover:scale-102",
           isDark
-            ? "h-9 sm:h-10 max-w-[200px] sm:max-w-[230px]"
-            : "h-8 sm:h-9 max-w-[190px] sm:max-w-[220px]"
+            ? "h-9 sm:h-10 max-w-[210px] sm:max-w-[240px]"
+            : "h-8 sm:h-9 max-w-[195px] sm:max-w-[225px]"
         )}
       >
         {/* Compass Symbol */}
