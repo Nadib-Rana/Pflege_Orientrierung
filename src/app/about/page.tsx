@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { User, ShieldCheck, LayoutGrid, Sparkles, Star } from "lucide-react";
+import { User, Trees, AppWindow, Star } from "lucide-react";
 import { TextRevealStatement } from "@/components/about/TextRevealStatement";
 import type { Metadata } from "next";
 
@@ -11,30 +11,20 @@ export const metadata: Metadata = {
     "Caregiving can be complex and overwhelming. Polaris helps transform uncertainty into clarity with trusted guidance designed around the needs of family caregivers.",
 };
 
-export default function AboutPage() {
-  const trustFeatures = [
-    {
-      icon: User,
-      title: "Personalized",
-      description: "Advice tailored to your unique Swiss canton and family dynamics.",
-    },
-    {
-      icon: ShieldCheck,
-      title: "Private",
-      description: "Full data sovereignty with servers located exclusively in Switzerland.",
-    },
-    {
-      icon: LayoutGrid,
-      title: "Accessible",
-      description: "Available 24/7 on any device when you need immediate answers.",
-    },
-    {
-      icon: Sparkles,
-      title: "Calm Experience",
-      description: "Designed specifically to reduce the cognitive load of caregiving.",
-    },
-  ];
+// Incognito Hat & Glasses Privacy Icon matching exact screenshot
+function IncognitoIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+      <path d="M4 10h16" />
+      <path d="M7 10l2-6h6l2 6" />
+      <circle cx="8.5" cy="15.5" r="2.5" />
+      <circle cx="15.5" cy="15.5" r="2.5" />
+      <path d="M11 15.5h2" />
+    </svg>
+  );
+}
 
+export default function AboutPage() {
   return (
     <main className="min-h-screen bg-white">
       {/* 1. Hero Header Section */}
@@ -242,33 +232,71 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* 5. Why Families Trust Polaris (4 Cards Grid) */}
-      <section className="py-16 md:py-24 bg-white border-b border-slate-100">
+      {/* 5. Why Families Trust Polaris (Asymmetric Bento Grid matching screenshot) */}
+      <section className="py-16 md:py-24 bg-[#F8FAFC] border-b border-slate-100">
         <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-extrabold tracking-tight text-[#0C2B4E] text-center mb-14">
             Why Families Trust Polaris
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
-            {trustFeatures.map((feat, idx) => {
-              const Icon = feat.icon;
-              return (
-                <div
-                  key={idx}
-                  className="rounded-3xl bg-[#F3F6FA] p-8 sm:p-9 flex flex-col justify-start transition-all hover:shadow-xs"
-                >
-                  <div className="flex h-12 w-12 items-center justify-center rounded-[12px] bg-[#0C2B4E] text-white shadow-xs mb-6 shrink-0">
-                    <Icon className="h-5 w-5 stroke-[2]" />
-                  </div>
-                  <h3 className="text-xl sm:text-[22px] font-bold text-[#0C2B4E] mb-2.5">
-                    {feat.title}
-                  </h3>
-                  <p className="text-xs sm:text-[13px] text-[#5A6A80] leading-relaxed">
-                    {feat.description}
-                  </p>
+          <div className="space-y-6">
+            {/* Row 1: Short Card (Personalized) + Wide Card (Private) */}
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-stretch">
+              {/* Card 1: Personalized (Shorter Width) */}
+              <div className="md:col-span-4 rounded-3xl bg-white p-8 sm:p-9 border border-slate-100/80 shadow-sm flex flex-col justify-start">
+                <div className="flex h-12 w-12 items-center justify-center rounded-[12px] bg-[#0C2B4E] text-white shadow-xs mb-6 shrink-0">
+                  <User className="h-5 w-5 stroke-[2]" />
                 </div>
-              );
-            })}
+                <h3 className="text-xl sm:text-[22px] font-bold text-[#0C2B4E] mb-2">
+                  Personalized
+                </h3>
+                <p className="text-xs sm:text-[13px] text-[#5A6A80] leading-relaxed">
+                  Advice tailored to your unique Swiss canton and family dynamics.
+                </p>
+              </div>
+
+              {/* Card 2: Private (Wider Width) */}
+              <div className="md:col-span-8 rounded-3xl bg-white p-8 sm:p-9 border border-slate-100/80 shadow-sm flex flex-col justify-start">
+                <div className="flex h-12 w-12 items-center justify-center rounded-[12px] bg-[#0C2B4E] text-white shadow-xs mb-6 shrink-0">
+                  <IncognitoIcon className="h-5 w-5" />
+                </div>
+                <h3 className="text-xl sm:text-[22px] font-bold text-[#0C2B4E] mb-2">
+                  Private
+                </h3>
+                <p className="text-xs sm:text-[13px] text-[#5A6A80] leading-relaxed">
+                  Full data sovereignty with servers located exclusively in Switzerland.
+                </p>
+              </div>
+            </div>
+
+            {/* Row 2: Wide Card (Accessible) + Short Card (Calm Experience) */}
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-stretch">
+              {/* Card 3: Accessible (Wider Width) */}
+              <div className="md:col-span-8 rounded-3xl bg-white p-8 sm:p-9 border border-slate-100/80 shadow-sm flex flex-col justify-start">
+                <div className="flex h-12 w-12 items-center justify-center rounded-[12px] bg-[#0C2B4E] text-white shadow-xs mb-6 shrink-0">
+                  <AppWindow className="h-5 w-5 stroke-[2]" />
+                </div>
+                <h3 className="text-xl sm:text-[22px] font-bold text-[#0C2B4E] mb-2">
+                  Accessible
+                </h3>
+                <p className="text-xs sm:text-[13px] text-[#5A6A80] leading-relaxed">
+                  Available 24/7 on any device when you need immediate answers.
+                </p>
+              </div>
+
+              {/* Card 4: Calm Experience (Shorter Width) */}
+              <div className="md:col-span-4 rounded-3xl bg-white p-8 sm:p-9 border border-slate-100/80 shadow-sm flex flex-col justify-start">
+                <div className="flex h-12 w-12 items-center justify-center rounded-[12px] bg-[#0C2B4E] text-white shadow-xs mb-6 shrink-0">
+                  <Trees className="h-5 w-5 stroke-[2]" />
+                </div>
+                <h3 className="text-xl sm:text-[22px] font-bold text-[#0C2B4E] mb-2">
+                  Calm Experience
+                </h3>
+                <p className="text-xs sm:text-[13px] text-[#5A6A80] leading-relaxed">
+                  Designed specifically to reduce the cognitive load of caregiving.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
