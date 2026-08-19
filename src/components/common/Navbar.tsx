@@ -119,12 +119,12 @@ export function Navbar() {
           </div>
 
           {/* Primary CTA (matches Continue button style) */}
-          <a
-            href="#compass"
+          <Link
+            href="/care-compass"
             className="rounded-lg bg-[#0F2E59] hover:bg-[#153E75] text-white px-7 py-2.5 text-sm font-semibold shadow-xs transition-colors cursor-pointer inline-flex items-center justify-center"
           >
             Get Started
-          </a>
+          </Link>
         </div>
 
         {/* Mobile Menu Toggle */}
@@ -158,13 +158,13 @@ export function Navbar() {
             ))}
 
             <div className="pt-3 border-t border-slate-200 flex flex-col gap-2">
-              <a
-                href="#compass"
+              <Link
+                href="/care-compass"
                 onClick={() => setMobileMenuOpen(false)}
                 className="w-full text-center rounded-xl bg-[#0F2E59] text-white py-2 text-xs font-semibold"
               >
                 Get Started
-              </a>
+              </Link>
             </div>
           </nav>
         </div>

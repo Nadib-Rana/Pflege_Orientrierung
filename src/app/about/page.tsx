@@ -314,7 +314,7 @@ export default function AboutPage() {
               toward confident caregiving starts here.
             </p>
             <Link
-              href="/#compass"
+              href="/care-compass"
               className="inline-flex items-center justify-center rounded-xl bg-white hover:bg-slate-100 text-[#0C2B4E] px-8 py-3.5 text-sm font-bold shadow-md transition-all hover:shadow-lg cursor-pointer"
             >
               Start Your Care Compass
