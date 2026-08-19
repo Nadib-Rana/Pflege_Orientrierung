@@ -23,7 +23,7 @@ export function Footer() {
         {/* Main 4-Column Footer Grid matching exact screenshot */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8 pb-14 border-b border-slate-700/60">
           {/* Column 1: Logo & Tagline */}
-          <div className="lg:col-span-4 space-y-3">
+          <div className="lg:col-span-4 space-y-3 lg:pr-10">
             <BrandLogo variant="dark" />
             <p className="text-xs sm:text-sm text-slate-300/90 font-normal pt-1 tracking-normal">
               Guiding Care with Confidence

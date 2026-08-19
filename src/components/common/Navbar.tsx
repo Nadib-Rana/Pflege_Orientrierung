@@ -23,7 +23,7 @@ export function Navbar() {
     <header className="sticky top-0 z-50 w-full bg-[#F3F6FA] border-b border-slate-200/50">
       <div className="mx-auto flex h-18 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Brand Logo */}
-        <BrandLogo />
+        <BrandLogo className="mr-4 lg:mr-8" />
 
         {/* Desktop Navigation Links */}
         <nav className="hidden lg:flex items-center gap-7 text-[14px]">
