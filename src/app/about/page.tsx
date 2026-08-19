@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { User, ShieldCheck, LayoutGrid, Sparkles, Star } from "lucide-react";
+import { TextRevealStatement } from "@/components/about/TextRevealStatement";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -110,16 +111,9 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* 3. Statement / Purpose Callout Section */}
+      {/* 3. Statement / Purpose Callout Section with Scroll Text Reveal Animation */}
       <section className="py-16 md:py-24 bg-white border-b border-slate-100">
-        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">
-          <p className="text-xl sm:text-2xl md:text-[28px] font-bold text-[#0C2B4E] leading-relaxed tracking-tight">
-            Pflege Orientierung was created to make caregiving easier to navigate. We help families
-            understand their situation, find clarity, and take the right next step with
-            confidence. Because no caregiving journey is the same, our guidance is tailored to each
-            individual situation.
-          </p>
-        </div>
+        <TextRevealStatement text="Pflege Orientierung was created to make caregiving easier to navigate. We help families understand their situation, find clarity, and take the right next step with confidence. Because no caregiving journey is the same, our guidance is tailored to each individual situation." />
       </section>
 
       {/* 4. The Polaris Story (Vertical Timeline) */}
