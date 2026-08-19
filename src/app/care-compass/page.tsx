@@ -532,13 +532,12 @@ export default function CareCompassPage() {
                   Go to Home
                 </Link>
 
-                <button
-                  type="button"
-                  onClick={() => alert("Personal support request initiated. Our team will contact you shortly.")}
+                <Link
+                  href="/contact"
                   className="w-full inline-flex items-center justify-center rounded-xl bg-[#0F2E59] hover:bg-[#0A2244] text-white py-3 text-xs sm:text-sm font-bold shadow-md transition-colors cursor-pointer"
                 >
                   Request personal support
-                </button>
+                </Link>
               </div>
             </div>
           </div>

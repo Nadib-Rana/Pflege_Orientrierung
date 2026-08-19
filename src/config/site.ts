@@ -15,7 +15,7 @@ export const siteConfig = {
     { title: "Home", href: "/" },
     { title: "Care compass", href: "/care-compass" },
     { title: "How it works", href: "/#how-it-works" },
-    { title: "Contact", href: "/#contact" },
+    { title: "Contact", href: "/contact" },
     { title: "About", href: "/about" },
   ] as NavItem[],
   contact: {
