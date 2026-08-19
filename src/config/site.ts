@@ -6,7 +6,7 @@ export interface NavItem {
 }
 
 export const siteConfig = {
-  name: "Next.js_Starter_Template",
+  name: "Pflege_Orientrierung",
   description:
     "A clean, modern, and production-ready Next.js 16 + React 19 + TypeScript + Tailwind CSS starter template.",
   url: "https://example.com",

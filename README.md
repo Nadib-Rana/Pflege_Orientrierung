@@ -1,4 +1,4 @@
-# 🚀 Next.js_Starter_Template
+# 🚀 Pflege_Orientrierung
 
 [![Next.js 16](https://img.shields.io/badge/Next.js-16.0+-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
 [![React 19](https://img.shields.io/badge/React-19.0-blue?style=for-the-badge&logo=react)](https://react.dev/)
