@@ -1,8 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { ArrowLeft, ArrowRight, Sparkles } from "lucide-react";
+import { ArrowLeft, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface Question {
@@ -51,7 +50,7 @@ const questions: Question[] = [
 export function CareCompassHeroCard() {
   const [currentStep, setCurrentStep] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState<Record<number, string>>({
-    0: "A parent or parent-in-law", // Default selected from mockup
+    0: "A parent or parent-in-law", // Exact default from screenshot
   });
   const [isCompleted, setIsCompleted] = useState(false);
 
@@ -84,43 +83,48 @@ export function CareCompassHeroCard() {
   };
 
   return (
-    <div className="w-full max-w-lg rounded-2xl border border-slate-200/80 bg-white p-6 sm:p-7 shadow-xl shadow-slate-100/80 transition-all duration-300">
-      {/* 3 Window Top Dots */}
-      <div className="flex items-center gap-1.5 mb-5">
-        <div className="h-2.5 w-2.5 rounded-full bg-emerald-400" />
-        <div className="h-2.5 w-2.5 rounded-full bg-amber-400" />
-        <div className="h-2.5 w-2.5 rounded-full bg-rose-400" />
+    <div className="w-full max-w-[500px] rounded-3xl border border-slate-100 bg-white p-7 sm:p-9 shadow-xl shadow-slate-200/50">
+      {/* 3 Top Window Dots matching exact screenshot */}
+      <div className="flex items-center gap-2 mb-6">
+        <div className="h-3 w-3 rounded-full bg-[#E53E3E]" />
+        <div className="h-3 w-3 rounded-full bg-[#DD6B20]" />
+        <div className="h-3 w-3 rounded-full bg-[#38A169]" />
       </div>
 
       {!isCompleted ? (
         <>
-          {/* Progress Header */}
-          <div className="mb-4">
-            <div className="flex items-center justify-between text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
+          {/* Progress Header matching screenshot */}
+          <div className="mb-6">
+            <div className="flex items-center justify-between text-xs font-normal text-[#718096] mb-2.5">
               <span>Question progress</span>
-              <span className="text-slate-600 font-bold font-mono">
+              <span className="font-medium text-[#4A5568] tracking-wider font-sans">
                 {currentStep + 1} OF {totalSteps}
               </span>
             </div>
-            {/* Progress Bar */}
-            <div className="h-1.5 w-full overflow-hidden rounded-full bg-slate-100">
+
+            {/* Custom Track with end dot */}
+            <div className="relative h-2 w-full rounded-full bg-[#BDD6EE] overflow-visible">
               <div
-                className="h-full bg-[#0F1E36] transition-all duration-500 rounded-full"
-                style={{ width: `${((currentStep + 1) / totalSteps) * 100}%` }}
+                className="h-full rounded-full bg-[#0C2B4E] transition-all duration-300"
+                style={{ width: `${Math.max(18, ((currentStep + 1) / totalSteps) * 100)}%` }}
               />
+              {/* Dot on right end of track as in design */}
+              <div className="absolute right-0 top-1/2 -translate-y-1/2 h-2 w-2 rounded-full bg-[#0C2B4E]" />
             </div>
           </div>
 
           {/* Question Title & Subtitle */}
-          <div className="mb-5">
-            <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-[#0F172A]">
+          <div className="mb-6">
+            <h3 className="text-2xl sm:text-[28px] font-bold tracking-tight text-[#0C2B4E] leading-snug">
               {currentQ.question}
             </h3>
-            <p className="text-xs sm:text-sm text-slate-500 mt-1">{currentQ.subtitle}</p>
+            <p className="text-xs sm:text-sm text-[#718096] mt-1.5 font-normal">
+              {currentQ.subtitle}
+            </p>
           </div>
 
-          {/* Options List */}
-          <div className="space-y-2.5 mb-6">
+          {/* Options Cards */}
+          <div className="space-y-3 mb-8">
             {currentQ.options.map((option, idx) => {
               const isSelected = selectedOption === option;
               return (
@@ -129,74 +133,81 @@ export function CareCompassHeroCard() {
                   type="button"
                   onClick={() => handleSelectOption(option)}
                   className={cn(
-                    "flex w-full items-center gap-3.5 rounded-xl border p-3.5 text-left text-xs sm:text-sm font-medium transition-all duration-200 cursor-pointer",
-                    isSelected
-                      ? "border-[#0F1E36] bg-slate-50/80 text-[#0F172A] shadow-xs ring-1 ring-[#0F1E36]"
-                      : "border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50/50"
+                    "flex w-full items-center gap-3.5 rounded-xl px-4 py-3.5 text-left text-sm font-medium transition-all cursor-pointer",
+                    "bg-[#F0F4F9] hover:bg-[#E6EDF5] text-[#0C2B4E]"
                   )}
                 >
-                  {/* Custom Radio Icon */}
+                  {/* Radio Icon matching screenshot */}
                   <div
                     className={cn(
-                      "flex h-5 w-5 shrink-0 items-center justify-center rounded-full border transition-all",
-                      isSelected
-                        ? "border-[#0F1E36] bg-[#0F1E36] text-white"
-                        : "border-slate-300 bg-white"
+                      "flex h-4 w-4 shrink-0 items-center justify-center rounded-full border-2 border-[#0C2B4E] bg-white transition-all"
                     )}
                   >
-                    {isSelected && <div className="h-2 w-2 rounded-full bg-white" />}
+                    {isSelected && (
+                      <div className="h-2 w-2 rounded-full bg-[#0C2B4E]" />
+                    )}
                   </div>
-                  <span className="flex-grow">{option}</span>
+
+                  <span className="flex-grow text-[#0C2B4E] font-medium leading-tight">
+                    {option}
+                  </span>
                 </button>
               );
             })}
           </div>
 
-          {/* Bottom Actions */}
-          <div className="flex items-center justify-between gap-3 pt-2">
-            <Button
-              variant="outline"
-              size="sm"
+          {/* Bottom Action Buttons */}
+          <div className="flex items-center justify-between gap-4 pt-1">
+            <button
+              type="button"
               onClick={handlePrev}
               disabled={currentStep === 0}
-              className="rounded-lg border-slate-200 px-4 text-xs font-medium text-slate-700 hover:bg-slate-100 disabled:opacity-40"
+              className="flex items-center gap-1.5 rounded-lg border-2 border-[#0C2B4E] bg-white px-5 py-2 text-sm font-semibold text-[#0C2B4E] hover:bg-slate-50 transition-colors disabled:opacity-40 cursor-pointer"
             >
-              <ArrowLeft className="mr-1.5 h-3.5 w-3.5" /> Previous
-            </Button>
+              <ArrowLeft className="h-4 w-4" />
+              <span>Previous</span>
+            </button>
 
-            <Button
-              size="sm"
+            <button
+              type="button"
               onClick={handleNext}
               disabled={!selectedOption}
-              className="rounded-lg bg-[#0F1E36] hover:bg-[#1B365D] text-white px-6 text-xs font-semibold shadow-xs disabled:opacity-40"
+              className="rounded-lg bg-[#0C2B4E] hover:bg-[#123A63] text-white px-7 py-2.5 text-sm font-semibold shadow-xs transition-colors disabled:opacity-40 cursor-pointer"
             >
-              Continue <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
-            </Button>
+              Continue
+            </button>
           </div>
         </>
       ) : (
         /* Result Preview state */
-        <div className="py-4 text-center space-y-4">
+        <div className="py-6 text-center space-y-4">
           <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-emerald-100 text-emerald-600">
             <Sparkles className="h-6 w-6" />
           </div>
-          <h3 className="text-xl font-bold text-slate-900">Your Compass Roadmap is Ready!</h3>
+          <h3 className="text-xl font-bold text-[#0C2B4E]">Your Compass Roadmap is Ready!</h3>
           <p className="text-xs sm:text-sm text-slate-600 max-w-sm mx-auto leading-relaxed">
             Based on your answers, we have prepared a tailored guidance plan with insurance support,
             Spitex estimates, and next steps.
           </p>
-          <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 text-left text-xs text-slate-700 space-y-1.5">
-            <p className="font-semibold text-slate-900">Selected Focus:</p>
-            <p>• Recipient: {selectedAnswers[0] || "A parent"}</p>
-            <p>• Estimated Support: Personalized Roadmap</p>
+          <div className="rounded-xl border border-slate-200 bg-[#F0F4F9] p-4 text-left text-xs text-[#0C2B4E] space-y-1.5">
+            <p className="font-semibold">Selected Focus:</p>
+            <p>• Recipient: {selectedAnswers[0] || "A parent or parent-in-law"}</p>
+            <p>• Status: Completed 12 of 12 Questions</p>
           </div>
-          <div className="flex gap-2 justify-center pt-2">
-            <Button variant="outline" size="sm" onClick={handleReset} className="rounded-lg text-xs">
+          <div className="flex gap-3 justify-center pt-2">
+            <button
+              type="button"
+              onClick={handleReset}
+              className="rounded-lg border border-slate-300 px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-100"
+            >
               Start Over
-            </Button>
-            <Button size="sm" className="rounded-lg bg-[#0F1E36] text-white text-xs">
-              Download Roadmap
-            </Button>
+            </button>
+            <button
+              type="button"
+              className="rounded-lg bg-[#0C2B4E] px-5 py-2 text-xs font-semibold text-white hover:bg-[#123A63]"
+            >
+              View Full Report
+            </button>
           </div>
         </div>
       )}

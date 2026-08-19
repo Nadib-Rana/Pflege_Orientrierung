@@ -5,44 +5,44 @@ import { Star } from "lucide-react";
 
 export function HeroSection() {
   return (
-    <section id="compass" className="relative overflow-hidden bg-[#FAFAFA] pt-10 pb-16 md:pt-14 md:pb-24 border-b border-slate-100">
+    <section id="compass" className="relative overflow-hidden bg-[#FBFBFC] pt-8 pb-16 md:pt-12 md:pb-24 border-b border-slate-100">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
           {/* Left Column: Heading, Subtitle, Image & Social Proof */}
-          <div className="lg:col-span-7 space-y-6">
+          <div className="lg:col-span-7 space-y-5">
             {/* Pill Badge */}
-            <div className="inline-flex items-center gap-2 rounded-full border border-slate-200/80 bg-white px-3.5 py-1 text-xs font-medium text-slate-600 shadow-2xs">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#0D9488]" />
+            <div className="inline-flex items-center gap-2 rounded-lg bg-[#F1F5F9] px-3 py-1 text-xs font-normal text-[#64748B]">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#10B981]" />
               <span>Your care journey starts here</span>
             </div>
 
             {/* Main Headline */}
-            <h1 className="text-4xl sm:text-5xl lg:text-[54px] font-extrabold tracking-tight text-[#0F1E36] leading-[1.12] font-sans">
+            <h1 className="text-4xl sm:text-5xl lg:text-[58px] font-extrabold tracking-tight text-[#0B284D] leading-[1.12] font-sans">
               Navigate Care <br className="hidden sm:inline" />
               With Confidence
             </h1>
 
             {/* Subheading */}
-            <p className="text-sm sm:text-base text-slate-600 leading-relaxed max-w-xl">
+            <p className="text-sm sm:text-base text-[#64748B] leading-relaxed max-w-lg font-normal">
               Pflege Orientrierung is a supportive companion for family caregivers. Answer a few
               questions to receive personalized guidance, helping you decide your next steps with
               clarity and confidence.
             </p>
 
             {/* Hero Image Container */}
-            <div className="relative overflow-hidden rounded-2xl border border-slate-200/80 shadow-md aspect-[16/10] max-w-lg bg-slate-100">
+            <div className="relative overflow-hidden rounded-2xl border border-slate-200/60 shadow-sm aspect-[16/10] max-w-[480px] bg-slate-100 mt-2">
               <Image
                 src="/images/hero_caregiver.jpg"
-                alt="Adult daughter supporting elderly mother in warm kitchen"
+                alt="Caregiver nurse assisting elderly woman in wheelchair"
                 fill
                 priority
-                className="object-cover transition-transform duration-500 hover:scale-102"
-                sizes="(max-width: 768px) 100vw, 550px"
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 480px"
               />
             </div>
 
             {/* Social Proof: Avatars + 5 Stars + Trusted Text */}
-            <div className="flex items-center gap-3 pt-1">
+            <div className="flex items-center gap-3 pt-2">
               {/* Overlapping Avatar Stack */}
               <div className="flex -space-x-2 overflow-hidden">
                 <Image
@@ -70,12 +70,12 @@ export function HeroSection() {
 
               {/* Stars & Text */}
               <div className="flex flex-col">
-                <div className="flex items-center gap-0.5 text-amber-400">
+                <div className="flex items-center gap-0.5 text-[#F59E0B]">
                   {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
+                    <Star key={i} className="h-3.5 w-3.5 fill-[#F59E0B] text-[#F59E0B]" />
                   ))}
                 </div>
-                <span className="text-xs font-semibold text-slate-700 mt-0.5">
+                <span className="text-xs font-semibold text-[#0B284D] mt-0.5">
                   Trusted by 10k+ caregivers
                 </span>
               </div>
