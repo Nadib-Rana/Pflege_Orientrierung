@@ -6,15 +6,15 @@ import { Facebook, Instagram, Twitter, Linkedin } from "lucide-react";
 export function Footer() {
   const quickLinks = [
     { title: "Home", href: "/" },
-    { title: "About", href: "#about" },
-    { title: "Care compass", href: "#compass" },
-    { title: "How it works", href: "#how-it-works" },
-    { title: "Contact", href: "#contact" },
+    { title: "About", href: "/about" },
+    { title: "Care compass", href: "/care-compass" },
+    { title: "How it works", href: "/#how-it-works" },
+    { title: "Contact", href: "/contact" },
   ];
 
   const legalLinks = [
-    { title: "Privacy Policy", href: "#" },
-    { title: "Terms & Conditions", href: "#" },
+    { title: "Privacy Policy", href: "/privacy" },
+    { title: "Terms & Conditions", href: "/terms" },
   ];
 
   return (

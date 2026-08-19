@@ -148,7 +148,7 @@ export default function ContactPage() {
                   {/* Disclaimer & Emergency Notice */}
                   <p className="text-[11px] text-slate-400 leading-normal pt-1">
                     By submitting this form you agree to our{" "}
-                    <Link href="#" className="underline hover:text-slate-600">
+                    <Link href="/privacy" className="underline hover:text-slate-600">
                       Privacy Policy
                     </Link>
                     . Polaris is not an emergency service — in an emergency in Switzerland, please
