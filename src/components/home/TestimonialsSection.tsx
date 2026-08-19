@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { ChevronLeft, ChevronRight, Quote } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface Testimonial {
   id: number;
@@ -10,6 +10,8 @@ interface Testimonial {
   role: string;
   quote: string;
   image: string;
+  nextMemberName: string;
+  nextMemberImage: string;
 }
 
 const testimonials: Testimonial[] = [
@@ -18,24 +20,30 @@ const testimonials: Testimonial[] = [
     name: "Sarah Renner",
     role: "Family Caregiver, Zurich",
     quote:
-      "The Care Compass was simple to complete, yet the recommendations felt thoughtful and relevant. Instead of endless searching online, I finally had clear guidance tailored to my situation.",
+      "\"The Care Compass was simple to complete, yet the recommendations felt thoughtful and relevant. Instead of endless searching online, I finally had clear guidance tailored to my situation.\"",
     image: "/images/sarah.jpg",
+    nextMemberName: "Angel Dia",
+    nextMemberImage: "/images/angel.jpg",
   },
   {
     id: 2,
     name: "Angel Dia",
     role: "Spouse Caregiver, Bern",
     quote:
-      "Pflege Orientrierung helped us clarify our insurance entitlements and find the right local Spitex service within days. The relief our family felt was truly immeasurable.",
+      "\"Pflege Orientrierung helped us clarify our insurance entitlements and find the right local Spitex service within days. The relief our family felt was truly immeasurable.\"",
     image: "/images/angel.jpg",
+    nextMemberName: "Thomas Mueller",
+    nextMemberImage: "/images/journey_videocall.jpg",
   },
   {
     id: 3,
     name: "Thomas Mueller",
     role: "Primary Caregiver, Lucerne",
     quote:
-      "Navigating elder care for my father felt completely overwhelming before this. The step-by-step roadmap gave our whole family a calm, structured plan to move forward.",
-    image: "/images/journey_coffee.jpg",
+      "\"Navigating elder care for my father felt completely overwhelming before this. The step-by-step roadmap gave our whole family a calm, structured plan to move forward.\"",
+    image: "/images/journey_videocall.jpg",
+    nextMemberName: "Sarah Renner",
+    nextMemberImage: "/images/sarah.jpg",
   },
 ];
 
@@ -43,8 +51,6 @@ export function TestimonialsSection() {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const current = testimonials[currentIndex];
-  const nextIndex = (currentIndex + 1) % testimonials.length;
-  const nextMember = testimonials[nextIndex];
 
   const handlePrev = () => {
     setCurrentIndex((prev) => (prev === 0 ? testimonials.length - 1 : prev - 1));
@@ -55,97 +61,100 @@ export function TestimonialsSection() {
   };
 
   return (
-    <section className="py-16 md:py-24 bg-[#FAFAFA] border-b border-slate-100">
+    <section className="py-16 md:py-24 bg-[#F8FAFC] border-b border-slate-100">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="text-center max-w-2xl mx-auto mb-14">
-          <div className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white px-3.5 py-1 text-xs font-semibold text-slate-600 mb-3 shadow-2xs">
+        {/* Section Header matching exact design */}
+        <div className="text-center max-w-2xl mx-auto mb-14 space-y-3">
+          <div className="inline-flex items-center gap-1.5 rounded-full border border-slate-200/80 bg-white px-4 py-1 text-xs font-medium text-slate-600 shadow-2xs">
             Testimonials
           </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[#0F1E36]">
-            What Our Members Are Saying
+          <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-extrabold tracking-tight text-[#0C2B4E] leading-tight">
+            What Our Members Are <br />
+            Saying
           </h2>
-          <p className="mt-3.5 text-xs sm:text-sm text-slate-500 leading-relaxed">
+          <p className="text-xs sm:text-sm text-[#718096] max-w-lg mx-auto leading-relaxed">
             Hear from family caregivers who have found greater clarity, confidence, and support with
             Pflege Orientrierung.
           </p>
         </div>
 
-        {/* 3-Column / Highlight Card Layout matching Mockup */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
-          {/* Left: Author Portrait Photo */}
-          <div className="lg:col-span-4 relative overflow-hidden rounded-2xl border border-slate-200/80 bg-slate-100 shadow-sm min-h-[320px] lg:min-h-full">
+        {/* 3-Column Layout matching exact screenshot */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch max-w-6xl mx-auto">
+          {/* 1. Left: Author Portrait Photo */}
+          <div className="lg:col-span-4 relative overflow-hidden rounded-3xl border border-slate-200/60 bg-slate-100 shadow-sm min-h-[380px] lg:min-h-full">
             <Image
               src={current.image}
               alt={current.name}
               fill
               className="object-cover transition-opacity duration-300"
-              sizes="(max-width: 1024px) 100vw, 33vw"
+              sizes="(max-width: 1024px) 100vw, 380px"
             />
           </div>
 
-          {/* Center: Main Quote Card (Dark Navy / Slate) */}
-          <div className="lg:col-span-5 flex flex-col justify-between rounded-2xl bg-[#0F1E36] p-8 sm:p-10 text-white shadow-xl">
-            {/* Quote Icon */}
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-white/10 text-[#0D9488] mb-6">
-              <Quote className="h-5 w-5 fill-current" />
+          {/* 2. Middle: Dark Navy Quote Card */}
+          <div className="lg:col-span-5 flex flex-col justify-between rounded-3xl bg-[#0F355E] p-8 sm:p-10 text-white shadow-lg shadow-blue-950/10 min-h-[380px]">
+            <div>
+              {/* Large Double Quotation Symbol */}
+              <div className="text-white font-serif text-5xl sm:text-6xl leading-none select-none opacity-95 mb-4">
+                &rdquo;&rdquo;
+              </div>
+
+              {/* Quote Text */}
+              <blockquote className="text-base sm:text-[17px] font-normal leading-relaxed text-slate-100">
+                {current.quote}
+              </blockquote>
             </div>
 
-            {/* Quote Text */}
-            <blockquote className="text-sm sm:text-base md:text-lg font-medium leading-relaxed text-slate-100 italic">
-              &ldquo;{current.quote}&rdquo;
-            </blockquote>
-
-            {/* Author Name */}
-            <div className="mt-8 pt-6 border-t border-white/10">
-              <p className="text-sm font-bold text-white tracking-wide">- {current.name}</p>
-              <p className="text-xs text-slate-400 mt-0.5">{current.role}</p>
+            {/* Author Signature */}
+            <div className="pt-6">
+              <p className="text-sm font-medium text-slate-200">- {current.name}</p>
             </div>
           </div>
 
-          {/* Right: Next Member Preview & Navigation Controls */}
-          <div className="lg:col-span-3 flex flex-col justify-between gap-4">
-            {/* Next Member Preview Card */}
+          {/* 3. Right: Next Member Preview & Arrow Buttons */}
+          <div className="lg:col-span-3 flex flex-col justify-between py-2">
+            {/* Next Member Horizontal Card */}
             <div
               onClick={handleNext}
-              className="group flex flex-col justify-between flex-grow rounded-2xl border border-slate-200/80 bg-white p-5 shadow-xs transition-all hover:border-slate-300 hover:shadow-md cursor-pointer"
+              className="flex items-center gap-3.5 group cursor-pointer"
             >
-              <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl bg-slate-100 mb-3">
+              <div className="relative h-22 w-22 sm:h-24 sm:w-24 shrink-0 overflow-hidden rounded-2xl border border-slate-200/80 bg-slate-100 shadow-2xs">
                 <Image
-                  src={nextMember.image}
-                  alt={nextMember.name}
+                  src={current.nextMemberImage}
+                  alt={current.nextMemberName}
                   fill
                   className="object-cover transition-transform duration-300 group-hover:scale-105"
-                  sizes="250px"
+                  sizes="100px"
                 />
               </div>
-              <div className="flex items-center justify-between">
-                <div>
-                  <span className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
-                    Next Member
-                  </span>
-                  <p className="text-sm font-bold text-[#0F1E36] group-hover:text-[#0D9488] transition-colors">
-                    {nextMember.name} &rarr;
-                  </p>
-                </div>
+              <div className="flex flex-col">
+                <span className="text-xs text-[#718096] font-normal">Next Member</span>
+                <span className="text-sm font-bold text-[#0C2B4E] group-hover:text-[#0D9488] transition-colors flex items-center gap-1 mt-0.5">
+                  {current.nextMemberName} &rarr;
+                </span>
               </div>
             </div>
 
-            {/* Carousel Arrow Buttons */}
-            <div className="flex items-center justify-end gap-2 pt-2">
+            {/* Bottom-Right Arrows matching exact screenshot */}
+            <div className="flex items-center justify-end gap-3 pt-6 lg:pt-0">
+              {/* Previous Minimal Arrow */}
               <button
+                type="button"
                 onClick={handlePrev}
                 aria-label="Previous testimonial"
-                className="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 shadow-xs transition-all hover:bg-slate-100 hover:text-slate-900 cursor-pointer"
+                className="flex h-10 w-10 items-center justify-center text-slate-700 hover:text-[#0C2B4E] transition-colors cursor-pointer"
               >
-                <ChevronLeft className="h-4 w-4" />
+                <ChevronLeft className="h-6 w-6 stroke-[2.5]" />
               </button>
+
+              {/* Next Solid Navy Circle Button */}
               <button
+                type="button"
                 onClick={handleNext}
                 aria-label="Next testimonial"
-                className="flex h-10 w-10 items-center justify-center rounded-full bg-[#0F1E36] text-white shadow-xs transition-all hover:bg-[#1B365D] cursor-pointer"
+                className="flex h-11 w-11 items-center justify-center rounded-full bg-[#0F355E] hover:bg-[#154477] text-white shadow-md shadow-blue-950/20 transition-all cursor-pointer"
               >
-                <ChevronRight className="h-4 w-4" />
+                <ChevronRight className="h-5 w-5 stroke-[2.5]" />
               </button>
             </div>
           </div>
