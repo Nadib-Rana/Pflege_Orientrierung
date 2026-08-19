@@ -52,22 +52,22 @@ export function FaqSection() {
   return (
     <section id="contact" className="py-16 md:py-24 bg-[#F8FAFC]">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start max-w-6xl mx-auto">
-          {/* Left Column: FAQ Badge, Heading, and Contact CTA */}
-          <div className="lg:col-span-4 flex flex-col justify-between self-stretch min-h-[380px]">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-start max-w-6xl mx-auto">
+          {/* Left Column: FAQ Badge, Heading, and Desktop-only Contact CTA */}
+          <div className="lg:col-span-4 flex flex-col justify-between self-stretch min-h-0 lg:min-h-[380px]">
             <div>
-              <div className="inline-flex items-center gap-1.5 rounded-full border border-slate-200/80 bg-white px-4 py-1 text-xs font-medium text-slate-600 shadow-2xs mb-5">
+              <div className="inline-flex items-center gap-1.5 rounded-full border border-slate-200/80 bg-white px-4 py-1 text-xs font-medium text-slate-600 shadow-2xs mb-4 sm:mb-5">
                 FAQ
               </div>
 
-              <h2 className="text-4xl sm:text-5xl lg:text-[52px] font-extrabold tracking-tight text-[#0C2B4E] leading-[1.12]">
+              <h2 className="text-3xl sm:text-4xl lg:text-[52px] font-extrabold tracking-tight text-[#0C2B4E] leading-[1.12]">
                 Still Have <br />
                 Questions?
               </h2>
             </div>
 
-            {/* Bottom Contact Us Button matching exact screenshot */}
-            <div className="pt-8 space-y-3">
+            {/* Desktop Contact Us Button (hidden on mobile, shown on lg+) */}
+            <div className="hidden lg:block pt-8 space-y-3">
               <p className="text-xs text-[#718096] leading-relaxed">
                 Contact Us, for more <br />
                 information.
@@ -81,7 +81,7 @@ export function FaqSection() {
             </div>
           </div>
 
-          {/* Right Column: Floating White Accordion Cards matching exact screenshot */}
+          {/* Right Column: Floating White Accordion Cards & Mobile Contact CTA */}
           <div className="lg:col-span-8 space-y-4">
             {faqs.map((faq) => {
               const isOpen = openId === faq.id;
@@ -116,6 +116,19 @@ export function FaqSection() {
                 </div>
               );
             })}
+
+            {/* Mobile Contact Us CTA (Placed cleanly at the bottom after FAQ cards) */}
+            <div className="block lg:hidden pt-6 mt-4 border-t border-slate-200/60 space-y-3">
+              <p className="text-xs text-[#718096] leading-relaxed">
+                Contact Us, for more information.
+              </p>
+              <a
+                href="mailto:hello@Pflege.com"
+                className="inline-flex w-full items-center justify-center rounded-xl border-2 border-[#0C2B4E] bg-white hover:bg-slate-50 py-3 text-sm font-semibold text-[#0C2B4E] shadow-2xs transition-colors cursor-pointer text-center"
+              >
+                Contact Us
+              </a>
+            </div>
           </div>
         </div>
       </div>
