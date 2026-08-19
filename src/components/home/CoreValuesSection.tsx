@@ -82,9 +82,9 @@ export function CoreValuesSection() {
                 )}
               >
                 <div>
-                  {/* Dark Navy Square Icon Box with White Symbol */}
-                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#0C2B4E] text-white shadow-xs mb-8">
-                    <Icon className="h-5 w-5 stroke-[2.2]" />
+                  {/* Dark Navy Rounded Corner Squircle Icon Box matching exact image */}
+                  <div className="flex h-12 w-12 items-center justify-center rounded-[12px] bg-[#0C2B4E] text-white shadow-xs mb-8">
+                    <Icon className="h-5 w-5 stroke-[2]" />
                   </div>
 
                   {/* Title with exact breaks */}
