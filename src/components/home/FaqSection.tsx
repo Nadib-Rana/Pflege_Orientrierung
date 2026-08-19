@@ -1,9 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Plus, Minus } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { PlusCircle, MinusCircle } from "lucide-react";
 
 interface FaqItem {
   id: number;
@@ -45,77 +43,73 @@ const faqs: FaqItem[] = [
 ];
 
 export function FaqSection() {
-  const [openId, setOpenId] = useState<number | null>(1); // Question 1 is open in mockup
+  const [openId, setOpenId] = useState<number | null>(1); // Question 1 is open by default in design
 
   const toggleFaq = (id: number) => {
     setOpenId((prev) => (prev === id ? null : id));
   };
 
   return (
-    <section id="contact" className="py-16 md:py-24 bg-white">
+    <section id="contact" className="py-16 md:py-24 bg-[#F8FAFC]">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start max-w-6xl mx-auto">
           {/* Left Column: FAQ Badge, Heading, and Contact CTA */}
-          <div className="lg:col-span-4 space-y-5">
-            <div className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-slate-50 px-3.5 py-1 text-xs font-semibold text-slate-600">
-              FAQ
+          <div className="lg:col-span-4 flex flex-col justify-between self-stretch min-h-[380px]">
+            <div>
+              <div className="inline-flex items-center gap-1.5 rounded-full border border-slate-200/80 bg-white px-4 py-1 text-xs font-medium text-slate-600 shadow-2xs mb-5">
+                FAQ
+              </div>
+
+              <h2 className="text-4xl sm:text-5xl lg:text-[52px] font-extrabold tracking-tight text-[#0C2B4E] leading-[1.12]">
+                Still Have <br />
+                Questions?
+              </h2>
             </div>
 
-            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[#0F1E36] leading-tight">
-              Still Have <br />
-              Questions?
-            </h2>
-
-            <div className="pt-4 space-y-3">
-              <p className="text-xs sm:text-sm text-slate-500">
-                Contact Us, for more <br className="hidden sm:inline" />
+            {/* Bottom Contact Us Button matching exact screenshot */}
+            <div className="pt-8 space-y-3">
+              <p className="text-xs text-[#718096] leading-relaxed">
+                Contact Us, for more <br />
                 information.
               </p>
-              <Button
-                asChild
-                variant="outline"
-                className="rounded-full border-slate-300 px-6 text-xs font-semibold text-slate-800 hover:bg-slate-100 cursor-pointer"
+              <a
+                href="mailto:hello@Pflege.com"
+                className="inline-flex items-center justify-center rounded-xl border-2 border-[#0C2B4E] bg-white hover:bg-slate-50 px-6 py-2.5 text-sm font-semibold text-[#0C2B4E] shadow-2xs transition-colors cursor-pointer"
               >
-                <a href="mailto:hello@Pflege.com">Contact Us</a>
-              </Button>
+                Contact Us
+              </a>
             </div>
           </div>
 
-          {/* Right Column: Interactive Accordion List */}
-          <div className="lg:col-span-8 space-y-3">
+          {/* Right Column: Floating White Accordion Cards matching exact screenshot */}
+          <div className="lg:col-span-8 space-y-4">
             {faqs.map((faq) => {
               const isOpen = openId === faq.id;
               return (
                 <div
                   key={faq.id}
-                  className={cn(
-                    "rounded-2xl border transition-all duration-200",
-                    isOpen
-                      ? "border-slate-300 bg-slate-50/60 shadow-2xs"
-                      : "border-slate-200/80 bg-white hover:border-slate-300"
-                  )}
+                  className="rounded-2xl border border-slate-100 bg-white p-5 sm:p-6 shadow-sm hover:shadow-md transition-all duration-200"
                 >
                   <button
                     type="button"
                     onClick={() => toggleFaq(faq.id)}
-                    className="flex w-full items-center justify-between p-5 text-left text-xs sm:text-sm font-semibold text-[#0F172A] cursor-pointer"
+                    className="flex w-full items-center justify-between text-left cursor-pointer"
                     aria-expanded={isOpen}
                   >
-                    <span>{faq.question}</span>
-                    <div
-                      className={cn(
-                        "ml-4 flex h-6 w-6 shrink-0 items-center justify-center rounded-full border transition-all",
-                        isOpen
-                          ? "border-slate-300 bg-white text-slate-700"
-                          : "border-slate-200 text-slate-400"
+                    <span className="text-sm sm:text-base font-bold text-[#0C2B4E] pr-4">
+                      {faq.question}
+                    </span>
+                    <div className="shrink-0 text-slate-400 hover:text-[#0C2B4E] transition-colors">
+                      {isOpen ? (
+                        <MinusCircle className="h-5 w-5 stroke-[1.5]" />
+                      ) : (
+                        <PlusCircle className="h-5 w-5 stroke-[1.5]" />
                       )}
-                    >
-                      {isOpen ? <Minus className="h-3 w-3" /> : <Plus className="h-3 w-3" />}
                     </div>
                   </button>
 
                   {isOpen && (
-                    <div className="px-5 pb-5 pt-0 text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-200/40 mt-1 pt-3 animate-in fade-in-50 duration-200">
+                    <div className="pt-3 text-xs sm:text-sm text-[#718096] leading-relaxed animate-in fade-in-50 duration-200">
                       {faq.answer}
                     </div>
                   )}
