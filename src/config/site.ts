@@ -6,31 +6,25 @@ export interface NavItem {
 }
 
 export const siteConfig = {
-  name: "Pflege_Orientrierung",
+  name: "PflegeOrientierung",
+  tagline: "Guiding Care with Confidence",
   description:
-    "A clean, modern, and production-ready Next.js 16 + React 19 + TypeScript + Tailwind CSS starter template.",
-  url: "https://example.com",
-  ogImage: "https://example.com/og.png",
+    "Pflege Orientrierung is a supportive companion for family caregivers. Answer a few questions to receive personalized guidance, helping you decide your next steps with clarity and confidence.",
+  url: "https://pflege-orientierung.com",
   navItems: [
-    {
-      title: "Home",
-      href: "/",
-    },
-    {
-      title: "Features",
-      href: "/#features",
-    },
-    {
-      title: "Structure",
-      href: "/#structure",
-    },
-    {
-      title: "Quick Start",
-      href: "/#quickstart",
-    },
+    { title: "Home", href: "/" },
+    { title: "Care compass", href: "#compass" },
+    { title: "How it works", href: "#how-it-works" },
+    { title: "Contact", href: "#contact" },
+    { title: "About", href: "#about" },
   ] as NavItem[],
-  links: {
-    github: "https://github.com",
-    docs: "https://nextjs.org/docs",
+  contact: {
+    address: "Centralidade do Kilamba, Quarteirão P, Building P11, Luanda – Angola.",
+    phone: "+244 956 880 998",
+    email: "hello@Pflege.com",
   },
+  legal: [
+    { title: "Privacy Policy", href: "/privacy" },
+    { title: "Terms & Conditions", href: "/terms" },
+  ],
 };
