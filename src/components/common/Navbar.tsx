@@ -2,12 +2,14 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { siteConfig } from "@/config/site";
 import { BrandLogo } from "@/components/common/BrandLogo";
 import { ChevronDown, Menu, X, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export function Navbar() {
+  const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [langDropdownOpen, setLangDropdownOpen] = useState(false);
   const [selectedLang, setSelectedLang] = useState({ name: "English", code: "US" });
@@ -27,15 +29,18 @@ export function Navbar() {
 
         {/* Desktop Navigation Links */}
         <nav className="hidden lg:flex items-center gap-7 text-[14px]">
-          {siteConfig.navItems.map((item, index) => {
-            const isHome = index === 0;
+          {siteConfig.navItems.map((item) => {
+            const isActive =
+              item.href === "/"
+                ? pathname === "/"
+                : pathname === item.href || (pathname.startsWith(item.href) && item.href !== "/");
             return (
               <Link
                 key={item.title}
                 href={item.href}
                 className={cn(
                   "transition-colors",
-                  isHome
+                  isActive
                     ? "font-bold text-[#0F2E59]"
                     : "font-normal text-[#64748B] hover:text-[#0F2E59]"
                 )}

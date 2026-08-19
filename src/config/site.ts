@@ -10,13 +10,13 @@ export const siteConfig = {
   tagline: "Guiding Care with Confidence",
   description:
     "Pflege Orientrierung is a supportive companion for family caregivers. Answer a few questions to receive personalized guidance, helping you decide your next steps with clarity and confidence.",
-  url: "https://pflege-orientierung.com",
+  url: "https://polaris-care.vercel.app",
   navItems: [
     { title: "Home", href: "/" },
-    { title: "Care compass", href: "#compass" },
-    { title: "How it works", href: "#how-it-works" },
-    { title: "Contact", href: "#contact" },
-    { title: "About", href: "#about" },
+    { title: "Care compass", href: "/#compass" },
+    { title: "How it works", href: "/#how-it-works" },
+    { title: "Contact", href: "/#contact" },
+    { title: "About", href: "/about" },
   ] as NavItem[],
   contact: {
     address: "Centralidade do Kilamba, Quarteirão P, Building P11, Luanda – Angola.",
@@ -24,7 +24,7 @@ export const siteConfig = {
     email: "hello@Pflege.com",
   },
   legal: [
-    { title: "Privacy Policy", href: "/privacy" },
-    { title: "Terms & Conditions", href: "/terms" },
+    { title: "Privacy Policy", href: "#" },
+    { title: "Terms & Conditions", href: "#" },
   ],
 };
