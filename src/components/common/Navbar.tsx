@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { siteConfig } from "@/config/site";
 import { BrandLogo } from "@/components/common/BrandLogo";
-import { ChevronDown, Menu, X, Check, Globe } from "lucide-react";
+import { ChevronDown, Menu, X, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 // Vector Flag Icons for Multilingual Support
@@ -209,42 +209,8 @@ export function Navbar() {
               );
             })}
 
-            {/* Mobile Dedicated Multilingual Language Selection Bar */}
-            <div className="pt-3 border-t border-slate-200/80 space-y-2">
-              <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                <Globe className="h-3.5 w-3.5 text-[#0F2E59]" />
-                <span>Language / Sprache</span>
-              </div>
-              <div className="grid grid-cols-2 gap-2">
-                {languages.map((lang) => {
-                  const isSelected = selectedLang.code === lang.code;
-                  return (
-                    <button
-                      key={lang.code}
-                      onClick={() => {
-                        setSelectedLang(lang);
-                        setMobileMenuOpen(false);
-                      }}
-                      className={cn(
-                        "flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold border transition-all cursor-pointer",
-                        isSelected
-                          ? "border-[#0F2E59] bg-white text-[#0F2E59] shadow-2xs font-bold"
-                          : "border-slate-200/70 bg-white/60 text-slate-600 hover:bg-white"
-                      )}
-                    >
-                      <div className="flex items-center gap-2">
-                        <FlagIcon code={lang.code} className="h-3 w-4 rounded-2xs overflow-hidden" />
-                        <span>{lang.name}</span>
-                      </div>
-                      {isSelected && <Check className="h-3.5 w-3.5 text-[#00BFA5]" />}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-
             {/* Mobile Get Started Action */}
-            <div className="pt-2">
+            <div className="pt-3 border-t border-slate-200">
               <Link
                 href="/care-compass"
                 onClick={() => setMobileMenuOpen(false)}
