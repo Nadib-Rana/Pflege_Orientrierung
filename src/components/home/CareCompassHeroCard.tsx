@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { ArrowLeft, Check } from "lucide-react";
+import { ArrowLeft, Check, RotateCcw } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { STORAGE_KEY } from "@/components/care-compass/questionsData";
 
 interface Question {
   id: number;
@@ -59,15 +60,82 @@ export function CareCompassHeroCard() {
   const currentQ = questions[currentStep % questions.length];
   const selectedOption = selectedAnswers[currentStep];
 
+  // Sync with client-side saved progress on mount
+  useEffect(() => {
+    try {
+      const storedRaw = localStorage.getItem(STORAGE_KEY);
+      if (storedRaw) {
+        const stored = JSON.parse(storedRaw);
+        if (stored.stage === "complete" || stored.stage === "guidance") {
+          setIsCompleted(true);
+        } else if (typeof stored.currentStep === "number") {
+          setCurrentStep(Math.max(0, Math.min(stored.currentStep - 1, totalSteps - 1)));
+          if (stored.answers) {
+            setSelectedAnswers(stored.answers);
+          }
+        }
+      }
+    } catch {
+      // Ignore
+    }
+  }, []);
+
   const handleSelectOption = (option: string) => {
-    setSelectedAnswers((prev) => ({ ...prev, [currentStep]: option }));
+    const updated = { ...selectedAnswers, [currentStep]: option };
+    setSelectedAnswers(updated);
+    try {
+      const storedRaw = localStorage.getItem(STORAGE_KEY);
+      const existing = storedRaw ? JSON.parse(storedRaw) : {};
+      localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify({
+          ...existing,
+          currentStep: currentStep + 1,
+          stage: "questions",
+          answers: updated,
+          updatedAt: new Date().toISOString(),
+        })
+      );
+    } catch {
+      // Ignore
+    }
   };
 
   const handleNext = () => {
     if (currentStep < totalSteps - 1) {
-      setCurrentStep((prev) => prev + 1);
+      const nextStep = currentStep + 1;
+      setCurrentStep(nextStep);
+      try {
+        const storedRaw = localStorage.getItem(STORAGE_KEY);
+        const existing = storedRaw ? JSON.parse(storedRaw) : {};
+        localStorage.setItem(
+          STORAGE_KEY,
+          JSON.stringify({
+            ...existing,
+            currentStep: nextStep + 1,
+            stage: "questions",
+            answers: selectedAnswers,
+            updatedAt: new Date().toISOString(),
+          })
+        );
+      } catch {
+        // Ignore
+      }
     } else {
       setIsCompleted(true);
+      try {
+        localStorage.setItem(
+          STORAGE_KEY,
+          JSON.stringify({
+            currentStep: totalSteps,
+            stage: "complete",
+            answers: selectedAnswers,
+            updatedAt: new Date().toISOString(),
+          })
+        );
+      } catch {
+        // Ignore
+      }
     }
   };
 
@@ -75,6 +143,17 @@ export function CareCompassHeroCard() {
     if (currentStep > 0) {
       setCurrentStep((prev) => prev - 1);
       setIsCompleted(false);
+    }
+  };
+
+  const handleRetake = () => {
+    setCurrentStep(0);
+    setSelectedAnswers({ 0: "A parent or parent-in-law" });
+    setIsCompleted(false);
+    try {
+      localStorage.removeItem(STORAGE_KEY);
+    } catch {
+      // Ignore
     }
   };
 
@@ -199,10 +278,15 @@ export function CareCompassHeroCard() {
             View My Guidance
           </Link>
 
-          {/* Subtext */}
-          <span className="text-[11px] text-[#A0AEC0] tracking-normal font-normal">
-            Based on your answers
-          </span>
+          {/* Retake Action */}
+          <button
+            type="button"
+            onClick={handleRetake}
+            className="inline-flex items-center gap-1.5 text-xs text-slate-400 hover:text-slate-700 transition-colors mt-2 cursor-pointer"
+          >
+            <RotateCcw className="h-3 w-3" />
+            <span>Retake assessment</span>
+          </button>
         </div>
       )}
     </div>
