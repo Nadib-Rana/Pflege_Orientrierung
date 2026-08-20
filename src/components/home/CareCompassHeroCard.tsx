@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import { ArrowLeft, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -75,11 +76,6 @@ export function CareCompassHeroCard() {
       setCurrentStep((prev) => prev - 1);
       setIsCompleted(false);
     }
-  };
-
-  const handleReset = () => {
-    setCurrentStep(0);
-    setIsCompleted(false);
   };
 
   return (
@@ -196,13 +192,12 @@ export function CareCompassHeroCard() {
           </p>
 
           {/* Action CTA Button */}
-          <button
-            type="button"
-            onClick={handleReset}
-            className="rounded-xl bg-[#0C2B4E] hover:bg-[#123A63] text-white px-8 py-3.5 text-sm font-semibold shadow-md transition-all hover:shadow-lg cursor-pointer mb-3"
+          <Link
+            href="/guidance"
+            className="rounded-xl bg-[#0C2B4E] hover:bg-[#123A63] text-white px-8 py-3.5 text-sm font-semibold shadow-md transition-all hover:shadow-lg cursor-pointer mb-3 inline-block"
           >
             View My Guidance
-          </button>
+          </Link>
 
           {/* Subtext */}
           <span className="text-[11px] text-[#A0AEC0] tracking-normal font-normal">
