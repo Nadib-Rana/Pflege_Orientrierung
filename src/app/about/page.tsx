@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { User, Trees, AppWindow, Star } from "lucide-react";
+import { User, Trees, AppWindow, Star, TriangleAlert } from "lucide-react";
 import { TextRevealStatement } from "@/components/about/TextRevealStatement";
 import type { Metadata } from "next";
 
@@ -121,8 +121,8 @@ export default function AboutPage() {
 
           {/* Timeline Container */}
           <div className="relative">
-            {/* Center Vertical Timeline Blue/Navy Line */}
-            <div className="hidden md:block absolute left-1/2 top-8 bottom-8 -translate-x-1/2 w-[2px] bg-[#0C2B4E]" />
+            {/* Center Vertical Timeline Gradient Line strictly from Node 1 center to Node 3 center (no extra lines at top/bottom) */}
+            <div className="hidden md:block absolute left-1/2 top-[175px] bottom-[175px] -translate-x-1/2 w-[2px] bg-gradient-to-b from-[#0C2B4E] via-[#38BDF8] to-[#0C2B4E]" />
 
             <div className="space-y-14 md:space-y-24">
               {/* ================= STEP 1 (Left Card) ================= */}
@@ -149,10 +149,29 @@ export default function AboutPage() {
                   </div>
                 </div>
 
-                {/* Center Node Marker */}
+                {/* Center Node Marker 1 - Exact Alert Triangle matching Figma */}
                 <div className="hidden md:flex md:col-span-2 justify-center">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white border-2 border-[#0C2B4E] text-[#0C2B4E] font-bold text-xs shadow-md z-10">
-                    A
+                  <div className="flex h-13 w-13 sm:h-14 sm:w-14 items-center justify-center rounded-full bg-white border-[3.5px] border-[#0C2B4E] shadow-md z-10 transition-transform hover:scale-110">
+                    <svg
+                      className="h-6 w-6 sm:h-6.5 sm:w-6.5 text-[#0C2B4E]"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                    >
+                      <path
+                        d="M12 3.5L21.5 20H2.5L12 3.5Z"
+                        stroke="currentColor"
+                        strokeWidth="2.3"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M12 9.5V13.5"
+                        stroke="currentColor"
+                        strokeWidth="2.3"
+                        strokeLinecap="round"
+                      />
+                      <circle cx="12" cy="16.5" r="1.2" fill="currentColor" />
+                    </svg>
                   </div>
                 </div>
 
@@ -165,10 +184,27 @@ export default function AboutPage() {
                 {/* Empty Left Column for Balance */}
                 <div className="hidden md:block md:col-span-5" />
 
-                {/* Center Node Marker */}
+                {/* Center Node Marker 2 - Exact Winding Path / Route matching Figma */}
                 <div className="hidden md:flex md:col-span-2 justify-center">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white border-2 border-[#0C2B4E] text-[#0C2B4E] font-bold text-xs shadow-md z-10">
-                    01
+                  <div className="flex h-13 w-13 sm:h-14 sm:w-14 items-center justify-center rounded-full bg-white border-[3.5px] border-[#3B82F6] shadow-md z-10 transition-transform hover:scale-110">
+                    <svg
+                      className="h-6 w-6 sm:h-7 sm:w-7 text-[#0C2B4E]"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                    >
+                      {/* Continuous S-Road Path */}
+                      <path
+                        d="M7 9v6.5a2.5 2.5 0 0 0 5 0V8.5a2.5 2.5 0 0 1 5 0V15"
+                        stroke="currentColor"
+                        strokeWidth="2.6"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      {/* Solid Filled Start Dot at Top-Left */}
+                      <circle cx="7" cy="9" r="2.2" fill="currentColor" />
+                      {/* Solid Filled End Dot at Bottom-Right */}
+                      <circle cx="17" cy="15" r="2.2" fill="currentColor" />
+                    </svg>
                   </div>
                 </div>
 
@@ -217,10 +253,10 @@ export default function AboutPage() {
                   </div>
                 </div>
 
-                {/* Center Node Marker */}
+                {/* Center Node Marker 3 - Polaris Outline Star matching Figma */}
                 <div className="hidden md:flex md:col-span-2 justify-center">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#0C2B4E] text-white font-bold text-xs shadow-md z-10">
-                    <Star className="h-4 w-4 fill-white" />
+                  <div className="flex h-13 w-13 sm:h-14 sm:w-14 items-center justify-center rounded-full bg-[#0C2B4E] text-white shadow-xl shadow-blue-950/40 z-10 transition-transform hover:scale-110">
+                    <Star className="h-5 w-5 sm:h-6 sm:w-6 text-white stroke-[2.2]" />
                   </div>
                 </div>
 
