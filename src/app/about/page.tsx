@@ -43,57 +43,57 @@ export default function AboutPage() {
         <div className="relative mx-auto max-w-6xl px-4 pt-12 pb-6 overflow-hidden">
           <div className="flex items-center justify-center -space-x-4 sm:-space-x-8 md:-space-x-12 py-4">
             {/* Photo 1: Leftmost (Tilted left) */}
-            <div className="relative h-44 w-32 sm:h-64 sm:w-48 md:h-76 md:w-56 shrink-0 overflow-hidden rounded-2xl md:rounded-3xl border-2 border-white shadow-md transform -rotate-12 translate-y-6 transition-transform hover:rotate-0 hover:z-20 hover:scale-105 bg-slate-100">
+            <div className="relative group h-44 w-32 sm:h-64 sm:w-48 md:h-76 md:w-56 shrink-0 overflow-hidden rounded-2xl md:rounded-3xl border-2 border-white shadow-md transform -rotate-12 translate-y-6 z-0 hover:z-30 hover:scale-108 hover:shadow-2xl transition-all duration-500 ease-out bg-slate-100 cursor-pointer">
               <Image
                 src="/images/journey_parent_walk.png"
                 alt="Senior care assistance"
                 fill
-                className="object-cover"
+                className="object-cover transition-transform duration-700 ease-out group-hover:scale-106"
                 sizes="(max-width: 768px) 130px, 230px"
               />
             </div>
 
             {/* Photo 2: Left (Tilted slightly left) */}
-            <div className="relative h-48 w-36 sm:h-72 sm:w-52 md:h-84 md:w-60 shrink-0 overflow-hidden rounded-2xl md:rounded-3xl border-2 border-white shadow-lg transform -rotate-6 translate-y-2 z-10 transition-transform hover:rotate-0 hover:z-20 hover:scale-105 bg-slate-100">
+            <div className="relative group h-48 w-36 sm:h-72 sm:w-52 md:h-84 md:w-60 shrink-0 overflow-hidden rounded-2xl md:rounded-3xl border-2 border-white shadow-lg transform -rotate-6 translate-y-2 z-10 hover:z-30 hover:scale-108 hover:shadow-2xl transition-all duration-500 ease-out bg-slate-100 cursor-pointer">
               <Image
                 src="/images/hero_caregiver.jpg"
                 alt="Caregiver nursing senior"
                 fill
-                className="object-cover"
+                className="object-cover transition-transform duration-700 ease-out group-hover:scale-106"
                 sizes="(max-width: 768px) 150px, 240px"
               />
             </div>
 
             {/* Photo 3: Center (Prominent Hero Photo) */}
-            <div className="relative h-56 w-44 sm:h-80 sm:w-60 md:h-96 md:w-72 shrink-0 overflow-hidden rounded-2xl md:rounded-3xl border-4 border-white shadow-xl transform rotate-0 -translate-y-2 z-20 transition-transform hover:scale-105 bg-slate-100">
+            <div className="relative group h-56 w-44 sm:h-80 sm:w-60 md:h-96 md:w-72 shrink-0 overflow-hidden rounded-2xl md:rounded-3xl border-4 border-white shadow-xl transform rotate-0 -translate-y-2 z-20 hover:z-30 hover:scale-108 hover:shadow-2xl transition-all duration-500 ease-out bg-slate-100 cursor-pointer">
               <Image
                 src="/images/hero_image.png"
                 alt="Senior with family caregiver"
                 fill
                 priority
-                className="object-cover"
+                className="object-cover transition-transform duration-700 ease-out group-hover:scale-106"
                 sizes="(max-width: 768px) 180px, 290px"
               />
             </div>
 
             {/* Photo 4: Right (Tilted slightly right) */}
-            <div className="relative h-48 w-36 sm:h-72 sm:w-52 md:h-84 md:w-60 shrink-0 overflow-hidden rounded-2xl md:rounded-3xl border-2 border-white shadow-lg transform rotate-6 translate-y-2 z-10 transition-transform hover:rotate-0 hover:z-20 hover:scale-105 bg-slate-100">
+            <div className="relative group h-48 w-36 sm:h-72 sm:w-52 md:h-84 md:w-60 shrink-0 overflow-hidden rounded-2xl md:rounded-3xl border-2 border-white shadow-lg transform rotate-6 translate-y-2 z-10 hover:z-30 hover:scale-108 hover:shadow-2xl transition-all duration-500 ease-out bg-slate-100 cursor-pointer">
               <Image
                 src="/images/Support_group.png"
                 alt="Support community"
                 fill
-                className="object-cover"
+                className="object-cover transition-transform duration-700 ease-out group-hover:scale-106"
                 sizes="(max-width: 768px) 150px, 240px"
               />
             </div>
 
             {/* Photo 5: Rightmost (Tilted right) */}
-            <div className="relative h-44 w-32 sm:h-64 sm:w-48 md:h-76 md:w-56 shrink-0 overflow-hidden rounded-2xl md:rounded-3xl border-2 border-white shadow-md transform rotate-12 translate-y-6 transition-transform hover:rotate-0 hover:z-20 hover:scale-105 bg-slate-100">
+            <div className="relative group h-44 w-32 sm:h-64 sm:w-48 md:h-76 md:w-56 shrink-0 overflow-hidden rounded-2xl md:rounded-3xl border-2 border-white shadow-md transform rotate-12 translate-y-6 z-0 hover:z-30 hover:scale-108 hover:shadow-2xl transition-all duration-500 ease-out bg-slate-100 cursor-pointer">
               <Image
                 src="/images/sarah.jpg"
                 alt="Caregiver review member"
                 fill
-                className="object-cover"
+                className="object-cover transition-transform duration-700 ease-out group-hover:scale-106"
                 sizes="(max-width: 768px) 130px, 230px"
               />
             </div>
