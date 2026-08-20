@@ -5,8 +5,76 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { siteConfig } from "@/config/site";
 import { BrandLogo } from "@/components/common/BrandLogo";
-import { ChevronDown, Menu, X, Check } from "lucide-react";
+import { ChevronDown, Menu, X, Check, Globe } from "lucide-react";
 import { cn } from "@/lib/utils";
+
+// Vector Flag Icons for Multilingual Support
+function FlagIcon({ code, className = "h-4 w-5 rounded-xs overflow-hidden" }: { code: string; className?: string }) {
+  if (code === "DE") {
+    // German Flag
+    return (
+      <svg className={className} viewBox="0 0 640 480">
+        <path fill="#000" d="M0 0h640v160H0z" />
+        <path fill="#d00" d="M0 160h640v160H0z" />
+        <path fill="#ffce00" d="M0 320h640v160H0z" />
+      </svg>
+    );
+  }
+  if (code === "FR") {
+    // French Flag
+    return (
+      <svg className={className} viewBox="0 0 640 480">
+        <path fill="#002395" d="M0 0h213.3v480H0z" />
+        <path fill="#fff" d="M213.3 0h213.4v480H213.3z" />
+        <path fill="#ed2939" d="M426.7 0H640v480H426.7z" />
+      </svg>
+    );
+  }
+  if (code === "IT") {
+    // Italian Flag
+    return (
+      <svg className={className} viewBox="0 0 640 480">
+        <path fill="#009246" d="M0 0h213.3v480H0z" />
+        <path fill="#fff" d="M213.3 0h213.4v480H213.3z" />
+        <path fill="#ce2b37" d="M426.7 0H640v480H426.7z" />
+      </svg>
+    );
+  }
+  // Default: US Flag
+  return (
+    <svg className={className} viewBox="0 0 640 480">
+      <g fillRule="evenodd">
+        <path fill="#bd3d44" d="M0 0h640v480H0z" />
+        <path stroke="#fff" strokeWidth="37" d="M0 55.4h640M0 129.2h640M0 203h640M0 277h640M0 350.8h640M0 424.6h640" />
+        <path fill="#192f5d" d="M0 0h256v258.5H0z" />
+        <circle cx="40" cy="35" r="8" fill="#fff" />
+        <circle cx="90" cy="35" r="8" fill="#fff" />
+        <circle cx="140" cy="35" r="8" fill="#fff" />
+        <circle cx="190" cy="35" r="8" fill="#fff" />
+        <circle cx="65" cy="70" r="8" fill="#fff" />
+        <circle cx="115" cy="70" r="8" fill="#fff" />
+        <circle cx="165" cy="70" r="8" fill="#fff" />
+        <circle cx="215" cy="70" r="8" fill="#fff" />
+        <circle cx="40" cy="105" r="8" fill="#fff" />
+        <circle cx="90" cy="105" r="8" fill="#fff" />
+        <circle cx="140" cy="105" r="8" fill="#fff" />
+        <circle cx="190" cy="105" r="8" fill="#fff" />
+        <circle cx="65" cy="140" r="8" fill="#fff" />
+        <circle cx="115" cy="140" r="8" fill="#fff" />
+        <circle cx="165" cy="140" r="8" fill="#fff" />
+        <circle cx="215" cy="140" r="8" fill="#fff" />
+        <circle cx="40" cy="175" r="8" fill="#fff" />
+        <circle cx="90" cy="175" r="8" fill="#fff" />
+        <circle cx="140" cy="175" r="8" fill="#fff" />
+        <circle cx="190" cy="175" r="8" fill="#fff" />
+        <circle cx="65" cy="210" r="8" fill="#fff" />
+        <circle cx="115" cy="210" r="8" fill="#fff" />
+        <circle cx="165" cy="210" r="8" fill="#fff" />
+        <circle cx="215" cy="210" r="8" fill="#fff" />
+      </g>
+    </svg>
+  );
+}
 
 export function Navbar() {
   const pathname = usePathname();
@@ -25,7 +93,7 @@ export function Navbar() {
     <header className="sticky top-0 z-50 w-full bg-[#F3F6FA] border-b border-slate-200/50">
       <div className="mx-auto flex h-18 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Brand Logo */}
-        <BrandLogo className="mr-4 lg:mr-8" />
+        <BrandLogo className="mr-3 sm:mr-4 lg:mr-8" />
 
         {/* Desktop Navigation Links */}
         <nav className="hidden lg:flex items-center gap-7 text-[14px]">
@@ -51,54 +119,24 @@ export function Navbar() {
           })}
         </nav>
 
-        {/* Right Actions: Language Selector & Get Started CTA */}
-        <div className="hidden md:flex items-center gap-3.5">
-          {/* Language Selector Dropdown (matches Previous button style) */}
+        {/* Right Actions: Multilingual Selector (Mobile, Tablet, Desktop) & Get Started CTA */}
+        <div className="flex items-center gap-2 sm:gap-3.5">
+          {/* Universal Language Selector Dropdown (Available on Mobile, Tablet & Desktop) */}
           <div className="relative">
             <button
               onClick={() => setLangDropdownOpen(!langDropdownOpen)}
-              className="flex items-center gap-2 rounded-lg border-2 border-[#0F2E59] bg-white px-4 py-2 text-sm font-semibold text-[#0F2E59] hover:bg-slate-50 transition-colors cursor-pointer shadow-xs"
+              className="flex items-center gap-1.5 sm:gap-2 rounded-lg border-2 border-[#0F2E59] bg-white px-2.5 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold text-[#0F2E59] hover:bg-slate-50 transition-colors cursor-pointer shadow-xs"
               aria-expanded={langDropdownOpen}
               aria-label="Select language"
             >
-              {/* US Flag SVG Icon */}
-              <svg className="h-4 w-5 rounded-xs overflow-hidden" viewBox="0 0 640 480">
-                <g fillRule="evenodd">
-                  <path fill="#bd3d44" d="M0 0h640v480H0z" />
-                  <path stroke="#fff" strokeWidth="37" d="M0 55.4h640M0 129.2h640M0 203h640M0 277h640M0 350.8h640M0 424.6h640" />
-                  <path fill="#192f5d" d="M0 0h256v258.5H0z" />
-                  <circle cx="40" cy="35" r="8" fill="#fff" />
-                  <circle cx="90" cy="35" r="8" fill="#fff" />
-                  <circle cx="140" cy="35" r="8" fill="#fff" />
-                  <circle cx="190" cy="35" r="8" fill="#fff" />
-                  <circle cx="65" cy="70" r="8" fill="#fff" />
-                  <circle cx="115" cy="70" r="8" fill="#fff" />
-                  <circle cx="165" cy="70" r="8" fill="#fff" />
-                  <circle cx="215" cy="70" r="8" fill="#fff" />
-                  <circle cx="40" cy="105" r="8" fill="#fff" />
-                  <circle cx="90" cy="105" r="8" fill="#fff" />
-                  <circle cx="140" cy="105" r="8" fill="#fff" />
-                  <circle cx="190" cy="105" r="8" fill="#fff" />
-                  <circle cx="65" cy="140" r="8" fill="#fff" />
-                  <circle cx="115" cy="140" r="8" fill="#fff" />
-                  <circle cx="165" cy="140" r="8" fill="#fff" />
-                  <circle cx="215" cy="140" r="8" fill="#fff" />
-                  <circle cx="40" cy="175" r="8" fill="#fff" />
-                  <circle cx="90" cy="175" r="8" fill="#fff" />
-                  <circle cx="140" cy="175" r="8" fill="#fff" />
-                  <circle cx="190" cy="175" r="8" fill="#fff" />
-                  <circle cx="65" cy="210" r="8" fill="#fff" />
-                  <circle cx="115" cy="210" r="8" fill="#fff" />
-                  <circle cx="165" cy="210" r="8" fill="#fff" />
-                  <circle cx="215" cy="210" r="8" fill="#fff" />
-                </g>
-              </svg>
-              <span>{selectedLang.name}</span>
-              <ChevronDown className="h-4 w-4 text-[#0F2E59]" />
+              <FlagIcon code={selectedLang.code} className="h-3.5 w-4.5 sm:h-4 sm:w-5 rounded-xs overflow-hidden" />
+              <span className="hidden sm:inline">{selectedLang.name}</span>
+              <span className="sm:hidden text-xs">{selectedLang.code}</span>
+              <ChevronDown className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-[#0F2E59]" />
             </button>
 
             {langDropdownOpen && (
-              <div className="absolute right-0 mt-2 w-36 rounded-xl border border-slate-200 bg-white py-1.5 shadow-lg z-50 animate-in fade-in-50 zoom-in-95">
+              <div className="absolute right-0 mt-2 w-36 sm:w-40 rounded-xl border border-slate-200 bg-white py-1.5 shadow-xl z-50 animate-in fade-in-50 zoom-in-95">
                 {languages.map((lang) => (
                   <button
                     key={lang.code}
@@ -106,9 +144,17 @@ export function Navbar() {
                       setSelectedLang(lang);
                       setLangDropdownOpen(false);
                     }}
-                    className="flex w-full items-center justify-between px-3.5 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-50 transition-colors"
+                    className={cn(
+                      "flex w-full items-center justify-between px-3.5 py-2 text-xs font-medium transition-colors cursor-pointer",
+                      selectedLang.code === lang.code
+                        ? "bg-[#F0F7FF] text-[#0F2E59] font-bold"
+                        : "text-slate-700 hover:bg-slate-50"
+                    )}
                   >
-                    <span>{lang.name}</span>
+                    <div className="flex items-center gap-2">
+                      <FlagIcon code={lang.code} className="h-3 w-4 rounded-2xs overflow-hidden" />
+                      <span>{lang.name}</span>
+                    </div>
                     {selectedLang.code === lang.code && (
                       <Check className="h-3.5 w-3.5 text-[#00BFA5]" />
                     )}
@@ -118,50 +164,91 @@ export function Navbar() {
             )}
           </div>
 
-          {/* Primary CTA (matches Continue button style) */}
+          {/* Primary CTA (Desktop & Tablet) */}
           <Link
             href="/care-compass"
-            className="rounded-lg bg-[#0F2E59] hover:bg-[#153E75] text-white px-7 py-2.5 text-sm font-semibold shadow-xs transition-colors cursor-pointer inline-flex items-center justify-center"
+            className="hidden sm:inline-flex rounded-lg bg-[#0F2E59] hover:bg-[#153E75] text-white px-5 sm:px-7 py-2 sm:py-2.5 text-xs sm:text-sm font-semibold shadow-xs transition-colors cursor-pointer items-center justify-center"
           >
             Get Started
           </Link>
-        </div>
 
-        {/* Mobile Menu Toggle */}
-        <div className="flex lg:hidden">
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2 rounded-lg text-slate-700 hover:bg-slate-100"
-            aria-label="Toggle navigation menu"
-          >
-            {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6 text-[#0F2E59]" />}
-          </button>
+          {/* Mobile Menu Toggle (Mobile & Tablet < lg) */}
+          <div className="flex lg:hidden">
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="p-1.5 sm:p-2 rounded-lg text-slate-700 hover:bg-slate-100 cursor-pointer"
+              aria-label="Toggle navigation menu"
+            >
+              {mobileMenuOpen ? <X className="h-6 w-6 text-[#0F2E59]" /> : <Menu className="h-6 w-6 text-[#0F2E59]" />}
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* Mobile Menu Drawer */}
+      {/* Mobile & Tablet Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="border-b border-slate-200 bg-[#F3F6FA] px-4 py-5 lg:hidden">
+        <div className="border-b border-slate-200 bg-[#F3F6FA] px-4 py-5 lg:hidden animate-in slide-in-from-top-2 duration-200">
           <nav className="flex flex-col space-y-3">
-            {siteConfig.navItems.map((item, idx) => (
-              <Link
-                key={item.title}
-                href={item.href}
-                onClick={() => setMobileMenuOpen(false)}
-                className={cn(
-                  "text-sm font-medium",
-                  idx === 0 ? "text-[#0F2E59] font-bold" : "text-slate-600 hover:text-[#0F2E59]"
-                )}
-              >
-                {item.title}
-              </Link>
-            ))}
+            {siteConfig.navItems.map((item) => {
+              const isActive =
+                item.href === "/"
+                  ? pathname === "/"
+                  : pathname === item.href || (pathname.startsWith(item.href) && item.href !== "/");
+              return (
+                <Link
+                  key={item.title}
+                  href={item.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={cn(
+                    "text-sm font-medium py-1",
+                    isActive ? "text-[#0F2E59] font-bold" : "text-slate-600 hover:text-[#0F2E59]"
+                  )}
+                >
+                  {item.title}
+                </Link>
+              );
+            })}
 
-            <div className="pt-3 border-t border-slate-200 flex flex-col gap-2">
+            {/* Mobile Dedicated Multilingual Language Selection Bar */}
+            <div className="pt-3 border-t border-slate-200/80 space-y-2">
+              <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                <Globe className="h-3.5 w-3.5 text-[#0F2E59]" />
+                <span>Language / Sprache</span>
+              </div>
+              <div className="grid grid-cols-2 gap-2">
+                {languages.map((lang) => {
+                  const isSelected = selectedLang.code === lang.code;
+                  return (
+                    <button
+                      key={lang.code}
+                      onClick={() => {
+                        setSelectedLang(lang);
+                        setMobileMenuOpen(false);
+                      }}
+                      className={cn(
+                        "flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold border transition-all cursor-pointer",
+                        isSelected
+                          ? "border-[#0F2E59] bg-white text-[#0F2E59] shadow-2xs font-bold"
+                          : "border-slate-200/70 bg-white/60 text-slate-600 hover:bg-white"
+                      )}
+                    >
+                      <div className="flex items-center gap-2">
+                        <FlagIcon code={lang.code} className="h-3 w-4 rounded-2xs overflow-hidden" />
+                        <span>{lang.name}</span>
+                      </div>
+                      {isSelected && <Check className="h-3.5 w-3.5 text-[#00BFA5]" />}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Mobile Get Started Action */}
+            <div className="pt-2">
               <Link
                 href="/care-compass"
                 onClick={() => setMobileMenuOpen(false)}
-                className="w-full text-center rounded-xl bg-[#0F2E59] text-white py-2 text-xs font-semibold"
+                className="w-full text-center rounded-xl bg-[#0F2E59] hover:bg-[#0A2244] text-white py-3 text-xs sm:text-sm font-semibold shadow-xs block transition-colors"
               >
                 Get Started
               </Link>
