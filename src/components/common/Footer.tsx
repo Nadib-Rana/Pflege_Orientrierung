@@ -18,20 +18,20 @@ export function Footer() {
   ];
 
   return (
-    <footer className="bg-[#081F38] text-slate-300 pt-12 sm:pt-16 pb-10 sm:pb-12">
+    <footer className="bg-[#081F38] text-slate-300 pt-12 sm:pt-16 pb-12 sm:pb-14">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Main Responsive Footer Grid: 4-Columns on Tablet (md) and Desktop (lg) */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-12 gap-8 md:gap-6 lg:gap-8 pb-10 sm:pb-14 border-b border-slate-700/60">
-          {/* Column 1: Logo & Tagline */}
-          <div className="col-span-1 sm:col-span-2 md:col-span-4 space-y-3 md:pr-4 lg:pr-10">
+        {/* Main Responsive Footer Grid */}
+        <div className="grid grid-cols-2 md:grid-cols-12 gap-y-8 gap-x-6 sm:gap-8 md:gap-6 lg:gap-8 pb-10 sm:pb-14 border-b border-slate-700/60">
+          {/* Column 1: Logo & Tagline (Full width on mobile, 4-cols on tablet/desktop) */}
+          <div className="col-span-2 md:col-span-4 space-y-3 md:pr-4 lg:pr-10">
             <BrandLogo variant="dark" />
             <p className="text-xs sm:text-sm text-slate-300/90 font-normal pt-1 tracking-normal">
               Guiding Care with Confidence
             </p>
           </div>
 
-          {/* Column 2: Quick Links */}
-          <div className="col-span-1 sm:col-span-1 md:col-span-3 space-y-3 sm:space-y-3.5">
+          {/* Column 2: Quick Links (Col 1 on mobile, 3-cols on tablet/desktop) */}
+          <div className="col-span-1 md:col-span-3 space-y-3 sm:space-y-3.5">
             <h4 className="text-base sm:text-lg font-bold text-white tracking-wide">Quick Links</h4>
             <ul className="space-y-2 sm:space-y-2.5 text-xs sm:text-sm">
               {quickLinks.map((item) => (
@@ -47,8 +47,25 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Column 3: Contact */}
-          <div className="col-span-1 sm:col-span-1 md:col-span-3 space-y-3 sm:space-y-3.5">
+          {/* Column 3: Legal (Col 2 on mobile beside Quick Links, 2-cols on tablet/desktop) */}
+          <div className="col-span-1 md:order-last md:col-span-2 space-y-3 sm:space-y-3.5">
+            <h4 className="text-base sm:text-lg font-bold text-white tracking-wide">Legal</h4>
+            <ul className="space-y-2 sm:space-y-2.5 text-xs sm:text-sm">
+              {legalLinks.map((item) => (
+                <li key={item.title}>
+                  <Link
+                    href={item.href}
+                    className="text-slate-300/90 hover:text-white transition-colors block py-0.5"
+                  >
+                    {item.title}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Column 4: Contact (Full width on mobile below links, 3-cols on tablet/desktop) */}
+          <div className="col-span-2 md:col-span-3 space-y-3 sm:space-y-3.5">
             <h4 className="text-base sm:text-lg font-bold text-white tracking-wide">Contact</h4>
             <div className="space-y-2 sm:space-y-2.5 text-xs sm:text-sm text-slate-300/90 leading-relaxed">
               <p>
@@ -68,27 +85,10 @@ export function Footer() {
               </p>
             </div>
           </div>
-
-          {/* Column 4: Legal */}
-          <div className="col-span-1 sm:col-span-1 md:col-span-2 space-y-3 sm:space-y-3.5">
-            <h4 className="text-base sm:text-lg font-bold text-white tracking-wide">Legal</h4>
-            <ul className="space-y-2 sm:space-y-2.5 text-xs sm:text-sm">
-              {legalLinks.map((item) => (
-                <li key={item.title}>
-                  <Link
-                    href={item.href}
-                    className="text-slate-300/90 hover:text-white transition-colors block py-0.5"
-                  >
-                    {item.title}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
         </div>
 
-        {/* Bottom Bar: Copyright & Styled Square Social Icons */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400 text-center sm:text-left">
+        {/* Bottom Bar: Copyright & Styled Square Social Icons with proper safe area */}
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-5 text-xs text-slate-400 text-center sm:text-left">
           <p className="tracking-normal leading-relaxed">
             © 2026 Pflege Orientrierung reserved the all rights.
           </p>
