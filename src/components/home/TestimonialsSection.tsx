@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Quote } from "lucide-react";
 
 interface Testimonial {
   id: number;
@@ -94,9 +94,9 @@ export function TestimonialsSection() {
           {/* 2. Middle: Dark Navy Quote Card */}
           <div className="lg:col-span-5 flex flex-col justify-between rounded-3xl bg-[#0F355E] p-8 sm:p-10 text-white shadow-lg shadow-blue-950/10 min-h-[380px]">
             <div>
-              {/* Large Double Quotation Symbol */}
-              <div className="text-white font-serif text-5xl sm:text-6xl leading-none select-none opacity-95 mb-4">
-                &rdquo;&rdquo;
+              {/* Crisp Double Quotation Icon */}
+              <div className="mb-5">
+                <Quote className="h-9 w-9 text-white fill-white opacity-95" />
               </div>
 
               {/* Quote Text */}
