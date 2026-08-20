@@ -1,9 +1,19 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { BrandLogo } from "@/components/common/BrandLogo";
 import { Facebook, Instagram, Twitter, Linkedin } from "lucide-react";
 
 export function Footer() {
+  const pathname = usePathname();
+
+  // ONLY hide footer on the "Your Personalised Guidance" page (/guidance)
+  if (pathname === "/guidance") {
+    return null;
+  }
+
   const quickLinks = [
     { title: "Home", href: "/" },
     { title: "About", href: "/about" },

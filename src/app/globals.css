@@ -78,6 +78,7 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-[#F9FAFB] text-foreground antialiased;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
@@ -88,6 +89,7 @@
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;

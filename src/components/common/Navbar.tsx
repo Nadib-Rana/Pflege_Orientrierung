@@ -5,13 +5,12 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { siteConfig } from "@/config/site";
 import { BrandLogo } from "@/components/common/BrandLogo";
-import { ChevronDown, Menu, X, Check } from "lucide-react";
+import { ChevronDown, X, Menu } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 // Vector Flag Icons for Multilingual Support
 function FlagIcon({ code, className = "h-4 w-5 rounded-xs overflow-hidden" }: { code: string; className?: string }) {
   if (code === "DE") {
-    // German Flag
     return (
       <svg className={className} viewBox="0 0 640 480">
         <path fill="#000" d="M0 0h640v160H0z" />
@@ -21,7 +20,6 @@ function FlagIcon({ code, className = "h-4 w-5 rounded-xs overflow-hidden" }: { 
     );
   }
   if (code === "FR") {
-    // French Flag
     return (
       <svg className={className} viewBox="0 0 640 480">
         <path fill="#002395" d="M0 0h213.3v480H0z" />
@@ -31,7 +29,6 @@ function FlagIcon({ code, className = "h-4 w-5 rounded-xs overflow-hidden" }: { 
     );
   }
   if (code === "IT") {
-    // Italian Flag
     return (
       <svg className={className} viewBox="0 0 640 480">
         <path fill="#009246" d="M0 0h213.3v480H0z" />
@@ -82,6 +79,11 @@ export function Navbar() {
   const [langDropdownOpen, setLangDropdownOpen] = useState(false);
   const [selectedLang, setSelectedLang] = useState({ name: "English", code: "US" });
 
+  // ONLY hide the global navigation bar on the "Your Personalised Guidance" page (/guidance)
+  if (pathname === "/guidance") {
+    return null;
+  }
+
   const languages = [
     { name: "English", code: "US" },
     { name: "Deutsch", code: "DE" },
@@ -90,7 +92,7 @@ export function Navbar() {
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-[#F3F6FA] border-b border-slate-200/50">
+    <header className="sticky top-0 z-50 w-full bg-[#F3F6FA] border-b border-slate-200/60">
       <div className="mx-auto flex h-18 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Brand Logo */}
         <BrandLogo className="mr-3 sm:mr-4 lg:mr-8" />
@@ -119,9 +121,9 @@ export function Navbar() {
           })}
         </nav>
 
-        {/* Right Actions: Multilingual Selector (Mobile, Tablet, Desktop) & Get Started CTA */}
-        <div className="flex items-center gap-2 sm:gap-3.5">
-          {/* Universal Language Selector Dropdown (Available on Mobile, Tablet & Desktop) */}
+        {/* Right Actions: Multilingual Selector & Get Started CTA */}
+        <div className="flex items-center gap-2.5 sm:gap-3.5">
+          {/* Universal Language Selector Dropdown */}
           <div className="relative">
             <button
               onClick={() => setLangDropdownOpen(!langDropdownOpen)}
@@ -131,7 +133,7 @@ export function Navbar() {
             >
               <FlagIcon code={selectedLang.code} className="h-3.5 w-4.5 sm:h-4 sm:w-5 rounded-xs overflow-hidden" />
               <span className="hidden sm:inline">{selectedLang.name}</span>
-              <span className="sm:hidden text-xs">{selectedLang.code}</span>
+              <span className="sm:hidden text-xs font-bold">{selectedLang.code}</span>
               <ChevronDown className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-[#0F2E59]" />
             </button>
 
@@ -156,7 +158,7 @@ export function Navbar() {
                       <span>{lang.name}</span>
                     </div>
                     {selectedLang.code === lang.code && (
-                      <Check className="h-3.5 w-3.5 text-[#00BFA5]" />
+                      <div className="h-2 w-2 rounded-full bg-[#14B8A6]" />
                     )}
                   </button>
                 ))}
@@ -172,36 +174,43 @@ export function Navbar() {
             Get Started
           </Link>
 
-          {/* Mobile Menu Toggle (Mobile & Tablet < lg) */}
+          {/* Clean Hamburger Toggle */}
           <div className="flex lg:hidden">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-1.5 sm:p-2 rounded-lg text-slate-700 hover:bg-slate-100 cursor-pointer"
+              className="p-2 rounded-lg text-slate-700 hover:bg-slate-100 active:scale-95 transition-all cursor-pointer"
               aria-label="Toggle navigation menu"
             >
-              {mobileMenuOpen ? <X className="h-6 w-6 text-[#0F2E59]" /> : <Menu className="h-6 w-6 text-[#0F2E59]" />}
+              {mobileMenuOpen ? (
+                <X className="h-6 w-6 text-[#0F2E59]" />
+              ) : (
+                <Menu className="h-6 w-6 text-[#0F2E59]" />
+              )}
             </button>
           </div>
         </div>
       </div>
 
-      {/* Mobile & Tablet Drawer Menu */}
+      {/* Clean, Simple & Smooth Mobile Drawer Dropdown */}
       {mobileMenuOpen && (
-        <div className="border-b border-slate-200 bg-[#F3F6FA] px-4 py-5 lg:hidden animate-in slide-in-from-top-2 duration-200">
-          <nav className="flex flex-col space-y-3">
+        <div className="border-b border-slate-200/80 bg-[#F3F6FA] px-5 py-4 lg:hidden animate-in slide-in-from-top-2 fade-in duration-200 shadow-sm">
+          <nav className="flex flex-col space-y-1.5">
             {siteConfig.navItems.map((item) => {
               const isActive =
                 item.href === "/"
                   ? pathname === "/"
                   : pathname === item.href || (pathname.startsWith(item.href) && item.href !== "/");
+
               return (
                 <Link
                   key={item.title}
                   href={item.href}
                   onClick={() => setMobileMenuOpen(false)}
                   className={cn(
-                    "text-sm font-medium py-1",
-                    isActive ? "text-[#0F2E59] font-bold" : "text-slate-600 hover:text-[#0F2E59]"
+                    "px-3.5 py-2.5 rounded-xl text-sm transition-all",
+                    isActive
+                      ? "font-bold text-[#0F2E59] bg-white shadow-2xs"
+                      : "font-medium text-slate-600 hover:text-[#0F2E59] hover:bg-white/60"
                   )}
                 >
                   {item.title}
@@ -210,11 +219,11 @@ export function Navbar() {
             })}
 
             {/* Mobile Get Started Action */}
-            <div className="pt-3 border-t border-slate-200">
+            <div className="pt-3 border-t border-slate-200/70 mt-1">
               <Link
                 href="/care-compass"
                 onClick={() => setMobileMenuOpen(false)}
-                className="w-full text-center rounded-xl bg-[#0F2E59] hover:bg-[#0A2244] text-white py-3 text-xs sm:text-sm font-semibold shadow-xs block transition-colors"
+                className="w-full text-center rounded-xl bg-[#0F2E59] hover:bg-[#0A2244] text-white py-2.5 text-xs sm:text-sm font-semibold shadow-xs block transition-colors"
               >
                 Get Started
               </Link>
