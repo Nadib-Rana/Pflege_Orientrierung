@@ -1,73 +1,64 @@
+"use client";
+
 import React from "react";
 import { ShieldCheck, Heart, Search, Lock, UserCheck, Users } from "lucide-react";
 import { cn } from "@/lib/utils";
-
-interface CoreValue {
-  icon: React.ComponentType<{ className?: string }>;
-  title: string[];
-  description: string;
-  isHighlighted?: boolean;
-}
-
-const values: CoreValue[] = [
-  {
-    icon: ShieldCheck,
-    title: ["Trusted Guidance"],
-    description:
-      "Clear, structured support that helps caregivers make informed decisions with confidence.",
-    isHighlighted: true, // Soft pastel blue background
-  },
-  {
-    icon: Heart,
-    title: ["Compassion First"],
-    description:
-      "Every interaction is designed with empathy, respect, and understanding for every caregiving journey.",
-  },
-  {
-    icon: Search,
-    title: ["Clarity Over", "Complexity"],
-    description:
-      "We simplify difficult situations into easy-to-understand guidance and practical next steps.",
-  },
-  {
-    icon: Lock,
-    title: ["Privacy & Respect"],
-    description:
-      "Your information remains secure, confidential, and always handled with the highest level of care.",
-  },
-  {
-    icon: UserCheck,
-    title: ["Empowering", "Caregivers"],
-    description:
-      "We help families feel more confident by providing personalized guidance, not overwhelming information.",
-  },
-  {
-    icon: Users,
-    title: ["Human-Centered", "Design"],
-    description:
-      "Every experience is thoughtfully crafted to be accessible, intuitive, and reassuring for everyone.",
-  },
-];
+import { useLanguage } from "@/context/LanguageContext";
 
 export function CoreValuesSection() {
+  const { t } = useLanguage();
+
+  const values = [
+    {
+      icon: ShieldCheck,
+      title: t("coreValues.val1Title"),
+      description: t("coreValues.val1Desc"),
+      isHighlighted: true,
+    },
+    {
+      icon: Lock,
+      title: t("coreValues.val2Title"),
+      description: t("coreValues.val2Desc"),
+    },
+    {
+      icon: Search,
+      title: t("coreValues.val3Title"),
+      description: t("coreValues.val3Desc"),
+    },
+    {
+      icon: Users,
+      title: t("coreValues.val4Title"),
+      description: t("coreValues.val4Desc"),
+    },
+    {
+      icon: Heart,
+      title: t("hero.titleLine1"),
+      description: t("hero.subtitle"),
+    },
+    {
+      icon: UserCheck,
+      title: t("hero.cantonCoverage"),
+      description: t("hero.bullet2"),
+    },
+  ];
+
   return (
     <section id="about" className="py-16 md:py-24 bg-white border-b border-slate-100">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Section Header matching screenshot */}
+        {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-14 space-y-3">
           <div className="inline-flex items-center gap-1.5 rounded-full border border-slate-200/80 bg-[#F1F5F9] px-4 py-1 text-xs font-medium text-slate-600 shadow-2xs">
-            Value
+            {t("coreValues.badge")}
           </div>
           <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-extrabold tracking-tight text-[#0C2B4E] leading-tight">
-            Our Core Value
+            {t("coreValues.title")}
           </h2>
           <p className="text-xs sm:text-sm text-[#718096] max-w-xl mx-auto leading-relaxed">
-            The principles that guide every experience, helping family caregivers navigate their
-            journey with confidence, clarity, and compassion.
+            {t("hero.subtitle")}
           </p>
         </div>
 
-        {/* 6 Cards in 3x2 Grid with Perfect Alignment */}
+        {/* 6 Cards in 3x2 Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto items-stretch">
           {values.map((item, index) => {
             const Icon = item.icon;
@@ -81,19 +72,14 @@ export function CoreValuesSection() {
                     : "bg-[#F3F6FA] text-[#0C2B4E]"
                 )}
               >
-                {/* Dark Navy 12px Rounded Squircle Icon Box */}
+                {/* Dark Navy Squircle Icon Box */}
                 <div className="flex h-12 w-12 items-center justify-center rounded-[12px] bg-[#0C2B4E] text-white shadow-xs mb-7 shrink-0">
                   <Icon className="h-5 w-5 stroke-[2]" />
                 </div>
 
-                {/* Title with consistent height alignment */}
+                {/* Title */}
                 <h3 className="text-xl sm:text-[22px] font-bold tracking-tight text-[#0C2B4E] leading-snug mb-3">
-                  {item.title.map((line, i) => (
-                    <React.Fragment key={i}>
-                      {line}
-                      {i < item.title.length - 1 && <br />}
-                    </React.Fragment>
-                  ))}
+                  {item.title}
                 </h3>
 
                 {/* Description */}

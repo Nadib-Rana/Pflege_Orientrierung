@@ -4,10 +4,12 @@ import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { BrandLogo } from "@/components/common/BrandLogo";
-import { Facebook, Instagram, Twitter, Linkedin } from "lucide-react";
+import { ShieldCheck, Mail, Phone, MapPin } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
 
 export function Footer() {
   const pathname = usePathname();
+  const { t } = useLanguage();
 
   // ONLY hide footer on the "Your Personalised Guidance" page (/guidance)
   if (pathname === "/guidance") {
@@ -15,16 +17,16 @@ export function Footer() {
   }
 
   const quickLinks = [
-    { title: "Home", href: "/" },
-    { title: "About", href: "/about" },
-    { title: "Care compass", href: "/care-compass" },
-    { title: "How it works", href: "/#how-it-works" },
-    { title: "Contact", href: "/contact" },
+    { title: t("nav.home"), href: "/" },
+    { title: t("nav.careCompass"), href: "/care-compass" },
+    { title: t("nav.guidance"), href: "/guidance" },
+    { title: t("nav.about"), href: "/about" },
+    { title: t("nav.contact"), href: "/contact" },
   ];
 
   const legalLinks = [
-    { title: "Privacy Policy", href: "/privacy" },
-    { title: "Terms & Conditions", href: "/terms" },
+    { title: "Swiss FADP Privacy Policy", href: "/privacy" },
+    { title: "Terms of Service", href: "/terms" },
   ];
 
   return (
@@ -32,20 +34,24 @@ export function Footer() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Main Responsive Footer Grid */}
         <div className="grid grid-cols-2 md:grid-cols-12 gap-y-8 gap-x-6 sm:gap-8 md:gap-6 lg:gap-8 pb-10 sm:pb-14 border-b border-slate-700/60">
-          {/* Column 1: Logo & Tagline (Full width on mobile, 4-cols on tablet/desktop) */}
+          {/* Column 1: Logo & Tagline */}
           <div className="col-span-2 md:col-span-4 space-y-3 md:pr-4 lg:pr-10">
             <BrandLogo variant="dark" />
-            <p className="text-xs sm:text-sm text-slate-300/90 font-normal pt-1 tracking-normal">
-              Guiding Care with Confidence
+            <p className="text-xs sm:text-sm text-slate-300/90 font-normal pt-1 leading-relaxed">
+              {t("footer.description")}
             </p>
+            <div className="inline-flex items-center gap-1.5 text-[11px] text-emerald-400 font-medium bg-emerald-950/40 border border-emerald-800/40 px-2.5 py-1 rounded-md mt-2">
+              <ShieldCheck className="h-3.5 w-3.5" />
+              <span>Swiss FADP & DSGVO Art. 32</span>
+            </div>
           </div>
 
-          {/* Column 2: Quick Links (Col 1 on mobile, 3-cols on tablet/desktop) */}
+          {/* Column 2: Quick Links */}
           <div className="col-span-1 md:col-span-3 space-y-3 sm:space-y-3.5">
-            <h4 className="text-base sm:text-lg font-bold text-white tracking-wide">Quick Links</h4>
+            <h4 className="text-base sm:text-lg font-bold text-white tracking-wide">{t("footer.navTitle")}</h4>
             <ul className="space-y-2 sm:space-y-2.5 text-xs sm:text-sm">
               {quickLinks.map((item) => (
-                <li key={item.title}>
+                <li key={item.href}>
                   <Link
                     href={item.href}
                     className="text-slate-300/90 hover:text-white transition-colors block py-0.5"
@@ -57,9 +63,9 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Column 3: Legal (Col 2 on mobile beside Quick Links, 2-cols on tablet/desktop) */}
+          {/* Column 3: Legal */}
           <div className="col-span-1 md:order-last md:col-span-2 space-y-3 sm:space-y-3.5">
-            <h4 className="text-base sm:text-lg font-bold text-white tracking-wide">Legal</h4>
+            <h4 className="text-base sm:text-lg font-bold text-white tracking-wide">{t("footer.legalTitle")}</h4>
             <ul className="space-y-2 sm:space-y-2.5 text-xs sm:text-sm">
               {legalLinks.map((item) => (
                 <li key={item.title}>
@@ -74,73 +80,41 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Column 4: Contact (Full width on mobile below links, 3-cols on tablet/desktop) */}
+          {/* Column 4: Contact */}
           <div className="col-span-2 md:col-span-3 space-y-3 sm:space-y-3.5">
-            <h4 className="text-base sm:text-lg font-bold text-white tracking-wide">Contact</h4>
-            <div className="space-y-2 sm:space-y-2.5 text-xs sm:text-sm text-slate-300/90 leading-relaxed">
-              <p>
-                Centralidade do Kilamba, <br />
-                Quarteirão P, Building P11, <br />
-                Luanda – Angola.
-              </p>
-              <p>
-                <a href="tel:+244956880998" className="hover:text-white transition-colors inline-block py-0.5">
-                  +244 956 880 998
+            <h4 className="text-base sm:text-lg font-bold text-white tracking-wide">{t("nav.contact")}</h4>
+            <div className="space-y-2 text-xs sm:text-sm text-slate-300/90 leading-relaxed">
+              <div className="flex items-start gap-2">
+                <MapPin className="h-4 w-4 text-[#7EA8D9] shrink-0 mt-0.5" />
+                <span>
+                  Bahnhofstrasse 100, <br />
+                  8001 Zürich, Switzerland
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Phone className="h-4 w-4 text-[#7EA8D9] shrink-0" />
+                <a href="tel:+41442111111" className="hover:text-white transition-colors">
+                  +41 44 211 11 11
                 </a>
-              </p>
-              <p>
-                <a href="mailto:hello@Pflege.com" className="hover:text-white transition-colors inline-block py-0.5">
-                  hello@Pflege.com
+              </div>
+              <div className="flex items-center gap-2">
+                <Mail className="h-4 w-4 text-[#7EA8D9] shrink-0" />
+                <a href="mailto:support@polaris-care.ch" className="hover:text-white transition-colors">
+                  support@polaris-care.ch
                 </a>
-              </p>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Bottom Bar: Copyright & Styled Square Social Icons with proper safe area */}
+        {/* Bottom Bar: Copyright */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-5 text-xs text-slate-400 text-center sm:text-left">
           <p className="tracking-normal leading-relaxed">
-            © 2026 Pflege Orientrierung reserved the all rights.
+            {t("footer.copyright", { year: new Date().getFullYear() })}
           </p>
-
-          <div className="flex items-center justify-center gap-2.5">
-            <a
-              href="https://facebook.com"
-              target="_blank"
-              rel="noreferrer"
-              aria-label="Facebook"
-              className="flex h-7 w-7 items-center justify-center rounded-md bg-[#133A63] hover:bg-[#1A4C80] text-slate-200 hover:text-white transition-colors shadow-2xs cursor-pointer"
-            >
-              <Facebook className="h-3.5 w-3.5 fill-current" />
-            </a>
-            <a
-              href="https://instagram.com"
-              target="_blank"
-              rel="noreferrer"
-              aria-label="Instagram"
-              className="flex h-7 w-7 items-center justify-center rounded-md bg-[#133A63] hover:bg-[#1A4C80] text-slate-200 hover:text-white transition-colors shadow-2xs cursor-pointer"
-            >
-              <Instagram className="h-3.5 w-3.5" />
-            </a>
-            <a
-              href="https://twitter.com"
-              target="_blank"
-              rel="noreferrer"
-              aria-label="Twitter"
-              className="flex h-7 w-7 items-center justify-center rounded-md bg-[#133A63] hover:bg-[#1A4C80] text-slate-200 hover:text-white transition-colors shadow-2xs cursor-pointer"
-            >
-              <Twitter className="h-3.5 w-3.5 fill-current" />
-            </a>
-            <a
-              href="https://linkedin.com"
-              target="_blank"
-              rel="noreferrer"
-              aria-label="LinkedIn"
-              className="flex h-7 w-7 items-center justify-center rounded-md bg-[#133A63] hover:bg-[#1A4C80] text-slate-200 hover:text-white transition-colors shadow-2xs cursor-pointer"
-            >
-              <Linkedin className="h-3.5 w-3.5 fill-current" />
-            </a>
-          </div>
+          <p className="text-[11px] text-slate-500">
+            {t("footer.fadpStatement")}
+          </p>
         </div>
       </div>
     </footer>

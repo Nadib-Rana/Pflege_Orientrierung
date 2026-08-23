@@ -1,5 +1,8 @@
+"use client";
+
 import React from "react";
 import { Lock } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface CareCompassStartProps {
   hasSavedProgress: boolean;
@@ -18,25 +21,24 @@ export function CareCompassStart({
   onResume,
   onStartOver,
 }: CareCompassStartProps) {
+  const { t } = useLanguage();
+
   return (
     <div className="flex-1 flex flex-col items-center justify-center px-4 py-12 sm:py-16">
       <div className="w-full max-w-2xl bg-white rounded-3xl p-8 sm:p-12 border border-slate-200/70 shadow-sm text-center">
         {/* Pill Badge */}
         <div className="inline-flex items-center gap-2 rounded-full bg-[#EBF3FC] px-4 py-1 text-xs font-semibold text-[#0F2E59] mb-5">
-          Care Compass
+          {t("quiz.badge")}
         </div>
 
         {/* Main Headline */}
         <h1 className="text-3xl sm:text-4xl font-extrabold text-[#0C2B4E] tracking-tight mb-4 leading-tight">
-          Let&apos;s take a quiet moment <br className="hidden sm:inline" />
-          together.
+          {t("quiz.title")}
         </h1>
 
         {/* Subtitle */}
         <p className="text-xs sm:text-sm text-[#64748B] max-w-lg mx-auto leading-relaxed mb-8">
-          The Care Compass is a short, gentle assessment. It asks a series of thoughtful
-          questions about your caregiving situation and prepares personalized guidance from your
-          answers.
+          {t("quiz.subtitle")}
         </p>
 
         {/* 3 Meta Info Stat Cards */}
@@ -45,7 +47,7 @@ export function CareCompassStart({
             <span className="block text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">
               Time
             </span>
-            <span className="text-xs sm:text-sm font-bold text-[#0C2B4E]">About 8 min</span>
+            <span className="text-xs sm:text-sm font-bold text-[#0C2B4E]">~3 min</span>
           </div>
           <div className="rounded-2xl border border-slate-200/80 bg-white p-3.5 sm:p-4 text-center">
             <span className="block text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">
@@ -57,7 +59,7 @@ export function CareCompassStart({
             <span className="block text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">
               Cost
             </span>
-            <span className="text-xs sm:text-sm font-bold text-[#0C2B4E]">Free</span>
+            <span className="text-xs sm:text-sm font-bold text-[#0C2B4E]">Free (100%)</span>
           </div>
         </div>
 
@@ -86,7 +88,7 @@ export function CareCompassStart({
               onClick={onStart}
               className="w-full sm:w-auto min-w-[200px] rounded-xl bg-[#0F2E59] hover:bg-[#0A2244] text-white px-10 py-3.5 text-sm font-bold shadow-md transition-all cursor-pointer"
             >
-              Start
+              {t("compassCard.startBtn")}
             </button>
           )}
         </div>
@@ -97,9 +99,7 @@ export function CareCompassStart({
             <Lock className="h-3 w-3" />
           </div>
           <p className="text-xs text-[#92400E] leading-relaxed">
-            There are no right or wrong answers. The more honest you are, the more relevant
-            your guidance will be. You are protected by privacy — your answers are only stored
-            on your device.
+            {t("quiz.confidentialNotice")}
           </p>
         </div>
       </div>

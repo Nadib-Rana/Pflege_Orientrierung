@@ -48,6 +48,8 @@ export const metadata: Metadata = {
   },
 };
 
+import { LanguageProvider } from "@/context/LanguageContext";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -59,9 +61,11 @@ export default function RootLayout({
         className={`${montserrat.variable} font-sans antialiased bg-background text-foreground flex flex-col min-h-screen`}
         suppressHydrationWarning
       >
-        <Navbar />
-        <div className="flex-grow">{children}</div>
-        <Footer />
+        <LanguageProvider>
+          <Navbar />
+          <div className="flex-grow">{children}</div>
+          <Footer />
+        </LanguageProvider>
       </body>
     </html>
   );

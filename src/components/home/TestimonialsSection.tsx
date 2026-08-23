@@ -3,53 +3,59 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight, Quote } from "lucide-react";
-import { api, TestimonialItem } from "@/lib/api";
+import { api } from "@/lib/api";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface Testimonial {
   id: string | number;
   name: string;
   role: string;
-  quote: string;
+  quote: Record<string, string>;
   image: string;
-  nextMemberName?: string;
-  nextMemberImage?: string;
 }
 
-const defaultTestimonials: Testimonial[] = [
+const localizedDefaultTestimonials: Testimonial[] = [
   {
     id: 1,
     name: "Sarah Renner",
     role: "Family Caregiver, Zurich",
-    quote:
-      "\"The Care Compass was simple to complete, yet the recommendations felt thoughtful and relevant. Instead of endless searching online, I finally had clear guidance tailored to my situation.\"",
+    quote: {
+      en: "The Care Compass was simple to complete, yet the recommendations felt thoughtful and relevant. Instead of endless searching online, I finally had clear guidance tailored to our family.",
+      de: "Der Pflege-Kompass war schnell ausgefüllt und die Empfehlungen waren sofort verständlich. Statt stundenlang im Internet zu suchen, hatte ich endlich einen klaren Fahrplan für unsere Familie.",
+      fr: "La Boussole des Soins a été simple à remplir et les conseils très pertinents. Au lieu de chercher des heures sur internet, j'ai enfin eu un plan d'action clair pour notre famille.",
+      it: "La Bussola dell'Assistenza è stata semplice e le raccomandazioni molto pertinenti. Invece di cercare a lungo online, ho finalmente avuto un piano chiaro per la nostra famiglia.",
+    },
     image: "/images/sarah.jpg",
-    nextMemberName: "Angel Dia",
-    nextMemberImage: "/images/angel.jpg",
   },
   {
     id: 2,
     name: "Angel Dia",
     role: "Spouse Caregiver, Bern",
-    quote:
-      "\"Pflege Orientrierung helped us clarify our insurance entitlements and find the right local Spitex service within days. The relief our family felt was truly immeasurable.\"",
+    quote: {
+      en: "Polaris Care helped us clarify our insurance entitlements and find the right local Spitex service within days. The relief our family felt was truly immeasurable.",
+      de: "Polaris Care hat uns geholfen, unsere Ansprüche bei der Krankenkasse zu klären und den passenden Spitex-Dienst vor Ort zu finden. Die Erleichterung war enorm.",
+      fr: "Polaris Care nous a aidés à clarifier nos droits d'assurance et à trouver le bon service CMS en quelques jours. Un soulagement immense pour notre famille.",
+      it: "Polaris Care ci ha aiutati a chiarire i diritti assicurativi e a trovare il servizio Spitex ideale in pochi giorni. Un enorme sollievo per tutti noi.",
+    },
     image: "/images/angel.jpg",
-    nextMemberName: "Thomas Mueller",
-    nextMemberImage: "/images/journey_videocall.jpg",
   },
   {
     id: 3,
     name: "Thomas Mueller",
     role: "Primary Caregiver, Lucerne",
-    quote:
-      "\"Navigating elder care for my father felt completely overwhelming before this. The step-by-step roadmap gave our whole family a calm, structured plan to move forward.\"",
+    quote: {
+      en: "Navigating elder care for my father felt completely overwhelming before this. The step-by-step roadmap gave our whole family a calm, structured plan to move forward.",
+      de: "Die Pflege meines Vaters zu organisieren war zuvor überwältigend. Der 4-Schritte-Plan gab unserer ganzen Familie sofort Orientierung und Struktur.",
+      fr: "Prendre en charge mon père semblait insurmontable auparavant. La feuille de route pas à pas a apporté à toute notre famille calme et clarté.",
+      it: "Organizzare le cure per mio padre sembrava insormontabile. Il piano d'azione ha dato a tutta la nostra famiglia serenità e sicurezza.",
+    },
     image: "/images/journey_videocall.jpg",
-    nextMemberName: "Sarah Renner",
-    nextMemberImage: "/images/sarah.jpg",
   },
 ];
 
 export function TestimonialsSection() {
-  const [list, setList] = useState<Testimonial[]>(defaultTestimonials);
+  const { lang, t } = useLanguage();
+  const [list, setList] = useState<Testimonial[]>(localizedDefaultTestimonials);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
@@ -57,25 +63,32 @@ export function TestimonialsSection() {
       try {
         const fetched = await api.getTestimonials();
         if (fetched && fetched.length > 0) {
-          const mapped: Testimonial[] = fetched.map((t, idx) => ({
-            id: t.id,
-            name: t.name,
-            role: `${t.role}${t.canton ? `, ${t.canton}` : ""}`,
-            quote: t.quote.startsWith('"') ? t.quote : `"${t.quote}"`,
-            image: t.imageUrl || "/images/sarah.jpg",
-            nextMemberName: fetched[(idx + 1) % fetched.length].name,
-            nextMemberImage: fetched[(idx + 1) % fetched.length].imageUrl || "/images/angel.jpg",
+          const mapped: Testimonial[] = fetched.map((item) => ({
+            id: item.id,
+            name: item.name,
+            role: `${item.role}${item.canton ? `, ${item.canton}` : ""}`,
+            quote: {
+              en: item.quote,
+              de: item.quote,
+              fr: item.quote,
+              it: item.quote,
+            },
+            image: item.imageUrl || "/images/sarah.jpg",
           }));
           setList(mapped);
         }
       } catch {
-        // Keep default list
+        // Keep localized default list
       }
     }
     loadTestimonials();
   }, []);
 
-  const current = list[currentIndex] || defaultTestimonials[0];
+  const current = list[currentIndex] || localizedDefaultTestimonials[0];
+  const quoteText =
+    typeof current.quote === "object"
+      ? current.quote[lang] || current.quote.en
+      : current.quote;
 
   const handlePrev = () => {
     setCurrentIndex((prev) => (prev === 0 ? list.length - 1 : prev - 1));
@@ -91,13 +104,13 @@ export function TestimonialsSection() {
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
           <div className="inline-flex items-center gap-1.5 rounded-full border border-slate-200/80 bg-slate-50 px-4 py-1 text-xs font-medium text-slate-600 shadow-2xs mb-4">
-            Testimonials
+            {t("testimonials.badge")}
           </div>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#0C2B4E] tracking-tight">
-            Loved by family caregivers
+            {t("testimonials.title")}
           </h2>
           <p className="mt-3 text-xs sm:text-sm text-slate-500 max-w-xl mx-auto">
-            Read real stories from families across Switzerland who found clarity, support, and peace of mind.
+            {t("testimonials.subtitle")}
           </p>
         </div>
 
@@ -106,7 +119,7 @@ export function TestimonialsSection() {
           <div className="relative rounded-3xl bg-[#F8FAFC] border border-slate-200/80 p-8 sm:p-12 md:p-16 shadow-sm overflow-hidden">
             {/* Background Quote Icon */}
             <div className="absolute right-6 bottom-6 sm:right-10 sm:bottom-10 opacity-5 text-[#0F2E59] pointer-events-none">
-              <Quote className="h-32 w-32 md:h-48 md:md:w-48" />
+              <Quote className="h-32 w-32 md:h-48 md:w-48" />
             </div>
 
             <div className="relative z-10 grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
@@ -129,7 +142,7 @@ export function TestimonialsSection() {
               {/* Quote Text & Details */}
               <div className="md:col-span-8 space-y-4 text-center md:text-left">
                 <p className="text-sm sm:text-base md:text-lg text-slate-700 font-medium leading-relaxed italic">
-                  {current.quote}
+                  &ldquo;{quoteText}&rdquo;
                 </p>
 
                 <div className="pt-2">

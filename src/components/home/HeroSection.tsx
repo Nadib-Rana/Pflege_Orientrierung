@@ -1,9 +1,14 @@
+"use client";
+
 import React from "react";
 import Image from "next/image";
 import { CareCompassHeroCard } from "@/components/home/CareCompassHeroCard";
 import { Star } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
 
 export function HeroSection() {
+  const { t } = useLanguage();
+
   return (
     <section id="compass" className="relative overflow-hidden bg-[#FBFBFC] py-12 md:py-16 lg:py-20 border-b border-slate-100">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -13,20 +18,19 @@ export function HeroSection() {
             {/* Pill Badge */}
             <div className="inline-flex items-center gap-2 rounded-lg bg-[#F1F5F9] px-3.5 py-1 text-xs font-normal text-[#64748B]">
               <span className="h-1.5 w-1.5 rounded-full bg-[#10B981]" />
-              <span>Your care journey starts here</span>
+              <span>{t("hero.badge")}</span>
             </div>
 
             {/* Main Headline */}
-            <h1 className="text-4xl sm:text-5xl lg:text-[56px] font-extrabold tracking-tight text-[#0B284D] leading-[1.12] font-sans">
-              Navigate Care <br />
-              With Confidence
+            <h1 className="text-4xl sm:text-5xl lg:text-[54px] font-extrabold tracking-tight text-[#0B284D] leading-[1.12] font-sans">
+              {t("hero.titleLine1")} <br />
+              <span className="text-[#1A5695]">{t("hero.titleHighlight")}</span> <br className="hidden sm:inline" />
+              {t("hero.titleLine2")}
             </h1>
 
             {/* Subheading */}
             <p className="text-sm sm:text-base text-[#64748B] leading-relaxed max-w-lg font-normal">
-              Pflege Orientrierung is a supportive companion for family caregivers. Answer a few
-              questions to receive personalized guidance, helping you decide your next steps with
-              clarity and confidence.
+              {t("hero.subtitle")}
             </p>
 
             {/* Hero Image Container */}
@@ -76,7 +80,7 @@ export function HeroSection() {
                   ))}
                 </div>
                 <span className="text-xs font-semibold text-[#0B284D] mt-0.5">
-                  Trusted by 10k+ caregivers
+                  {t("hero.verifiedPartners")}
                 </span>
               </div>
             </div>

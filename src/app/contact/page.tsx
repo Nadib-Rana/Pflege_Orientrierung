@@ -5,10 +5,12 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { CheckCircle2, Loader2, Send } from "lucide-react";
 import { api } from "@/lib/api";
+import { useLanguage } from "@/context/LanguageContext";
 
 function ContactFormContent() {
   const searchParams = useSearchParams();
   const assessmentCode = searchParams.get("assessmentId") || "";
+  const { t } = useLanguage();
 
   const [formData, setFormData] = useState({
     fullName: "",
@@ -65,18 +67,17 @@ function ContactFormContent() {
           <div className="lg:col-span-5 space-y-6 pt-2">
             {/* Pill Badge */}
             <div className="inline-flex items-center gap-2 rounded-full bg-white border border-slate-200/60 px-4 py-1.5 text-xs font-semibold text-[#0F2E59] shadow-2xs">
-              Personal support
+              {t("contact.badge")}
             </div>
 
             {/* Headline */}
             <h1 className="text-3xl sm:text-4xl lg:text-[44px] font-extrabold tracking-tight text-[#0C2B4E] leading-tight">
-              We&apos;re glad you reached out.
+              {t("contact.title")}
             </h1>
 
             {/* Subtitle */}
             <p className="text-xs sm:text-sm text-[#64748B] leading-relaxed max-w-md">
-              Share a few details and our Swiss certified care advisory team will follow up with you personally. There is no pressure;
-              we take the time to read every message carefully.
+              {t("contact.subtitle")}
             </p>
 
             {assessmentCode && (
@@ -96,17 +97,16 @@ function ContactFormContent() {
                   <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-emerald-50 text-emerald-600">
                     <CheckCircle2 className="h-9 w-9 stroke-[2.5]" />
                   </div>
-                  <h2 className="text-2xl font-bold text-[#0C2B4E]">Message Received</h2>
+                  <h2 className="text-2xl font-bold text-[#0C2B4E]">{t("contact.successTitle")}</h2>
                   <p className="text-xs sm:text-sm text-[#64748B] max-w-md mx-auto leading-relaxed">
-                    Thank you for reaching out to us. Our care advisory team will review your
-                    details and reply to your email / phone during your preferred window.
+                    {t("contact.successDesc")}
                   </p>
                   <div className="pt-4 flex items-center justify-center gap-3">
                     <Link
                       href="/"
                       className="rounded-xl border-2 border-[#0F2E59] bg-white px-6 py-2.5 text-xs sm:text-sm font-semibold text-[#0F2E59] hover:bg-slate-50 transition-colors"
                     >
-                      Return Home
+                      {t("nav.home")}
                     </Link>
                     <button
                       type="button"
@@ -116,7 +116,7 @@ function ContactFormContent() {
                       }}
                       className="rounded-xl bg-[#0F2E59] px-6 py-2.5 text-xs sm:text-sm font-semibold text-white hover:bg-[#0A2244] transition-colors"
                     >
-                      Send another message
+                      {t("contact.submitBtn")}
                     </button>
                   </div>
                 </div>
@@ -131,7 +131,7 @@ function ContactFormContent() {
                   {/* Field 1: Full Name */}
                   <div className="space-y-1.5">
                     <label htmlFor="fullName" className="block text-xs font-semibold text-slate-700">
-                      Full Name *
+                      {t("contact.fullName")} *
                     </label>
                     <input
                       id="fullName"
@@ -139,7 +139,7 @@ function ContactFormContent() {
                       required
                       value={formData.fullName}
                       onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                      placeholder="João Manuel Silva"
+                      placeholder={t("contact.fullNamePlaceholder")}
                       className="w-full rounded-xl bg-[#F3F4F6] px-4 py-3 text-xs sm:text-sm text-slate-800 placeholder:text-slate-400 focus:bg-white focus:ring-2 focus:ring-[#0F2E59] focus:outline-none transition-all"
                     />
                   </div>
@@ -147,7 +147,7 @@ function ContactFormContent() {
                   {/* Field 2: Email */}
                   <div className="space-y-1.5">
                     <label htmlFor="email" className="block text-xs font-semibold text-slate-700">
-                      Email Address *
+                      {t("contact.email")} *
                     </label>
                     <input
                       id="email"
@@ -155,7 +155,7 @@ function ContactFormContent() {
                       required
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      placeholder="name@example.ch"
+                      placeholder={t("contact.emailPlaceholder")}
                       className="w-full rounded-xl bg-[#F3F4F6] px-4 py-3 text-xs sm:text-sm text-slate-800 placeholder:text-slate-400 focus:bg-white focus:ring-2 focus:ring-[#0F2E59] focus:outline-none transition-all"
                     />
                   </div>
@@ -163,7 +163,7 @@ function ContactFormContent() {
                   {/* Field 3: Phone */}
                   <div className="space-y-1.5">
                     <label htmlFor="phone" className="block text-xs font-semibold text-slate-700">
-                      Phone Number *
+                      {t("contact.phone")} *
                     </label>
                     <input
                       id="phone"
@@ -171,7 +171,7 @@ function ContactFormContent() {
                       required
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      placeholder="+41 79 123 45 67"
+                      placeholder={t("contact.phonePlaceholder")}
                       className="w-full rounded-xl bg-[#F3F4F6] px-4 py-3 text-xs sm:text-sm text-slate-800 placeholder:text-slate-400 focus:bg-white focus:ring-2 focus:ring-[#0F2E59] focus:outline-none transition-all"
                     />
                   </div>
@@ -197,14 +197,14 @@ function ContactFormContent() {
                   {/* Field 5: Details / Message */}
                   <div className="space-y-1.5">
                     <label htmlFor="details" className="block text-xs font-semibold text-slate-700">
-                      How can we best assist you?
+                      {t("contact.details")}
                     </label>
                     <textarea
                       id="details"
                       rows={4}
                       value={formData.details}
                       onChange={(e) => setFormData({ ...formData, details: e.target.value })}
-                      placeholder="Tell us about your care situation, Spitex questions, or specific needs..."
+                      placeholder={t("contact.detailsPlaceholder")}
                       className="w-full rounded-xl bg-[#F3F4F6] px-4 py-3 text-xs sm:text-sm text-slate-800 placeholder:text-slate-400 focus:bg-white focus:ring-2 focus:ring-[#0F2E59] focus:outline-none transition-all resize-none"
                     />
                   </div>
@@ -218,18 +218,18 @@ function ContactFormContent() {
                     {isSubmitting ? (
                       <>
                         <Loader2 className="h-4 w-4 animate-spin" />
-                        <span>Sending message...</span>
+                        <span>{t("contact.sending")}</span>
                       </>
                     ) : (
                       <>
                         <Send className="h-4 w-4" />
-                        <span>Send Message</span>
+                        <span>{t("contact.submitBtn")}</span>
                       </>
                     )}
                   </button>
 
                   <p className="text-[11px] text-center text-slate-400">
-                    Compliant with the Swiss Federal Act on Data Protection (FADP). Your data is never sold or shared with third parties.
+                    {t("footer.fadpStatement")}
                   </p>
                 </form>
               )}

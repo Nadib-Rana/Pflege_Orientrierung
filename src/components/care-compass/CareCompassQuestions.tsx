@@ -1,7 +1,10 @@
+"use client";
+
 import React from "react";
 import { ChevronLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Question } from "./questionsData";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface CareCompassQuestionsProps {
   currentQ: Question;
@@ -24,6 +27,8 @@ export function CareCompassQuestions({
   onNext,
   onSaveAndExit,
 }: CareCompassQuestionsProps) {
+  const { t } = useLanguage();
+
   return (
     <div className="flex-1 flex flex-col items-center justify-center px-4 py-8 sm:py-14">
       {/* Assessment Question Container */}
@@ -31,7 +36,7 @@ export function CareCompassQuestions({
         {/* Progress Indicator */}
         <div className="space-y-2">
           <div className="flex justify-between items-center text-xs font-semibold uppercase tracking-wider text-slate-400">
-            <span>Question progress</span>
+            <span>{t("quiz.progress")}</span>
             <span>
               {currentStep} OF {totalSteps}
             </span>
@@ -91,7 +96,7 @@ export function CareCompassQuestions({
             className="rounded-xl border-2 border-[#0F2E59] px-5 py-2 text-xs sm:text-sm font-semibold text-[#0F2E59] hover:bg-slate-50 transition-colors cursor-pointer flex items-center gap-1.5"
           >
             <ChevronLeft className="h-4 w-4" />
-            Previous
+            {t("quiz.prevBtn")}
           </button>
 
           <button
@@ -107,7 +112,7 @@ export function CareCompassQuestions({
             onClick={onNext}
             className="rounded-xl bg-[#0F2E59] hover:bg-[#0A2244] text-white px-7 py-2.5 text-xs sm:text-sm font-semibold shadow-sm transition-all cursor-pointer"
           >
-            {currentStep === totalSteps ? "Finish" : "Continue"}
+            {currentStep === totalSteps ? t("quiz.submitBtn") : t("quiz.nextBtn")}
           </button>
         </div>
       </div>

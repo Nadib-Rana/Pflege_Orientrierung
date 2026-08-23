@@ -3,10 +3,10 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { siteConfig } from "@/config/site";
 import { BrandLogo } from "@/components/common/BrandLogo";
 import { ChevronDown, X, Menu } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useLanguage } from "@/context/LanguageContext";
 
 // Vector Flag Icons for Multilingual Support
 function FlagIcon({ code, className = "h-4 w-5 rounded-xs overflow-hidden" }: { code: string; className?: string }) {
@@ -77,18 +77,19 @@ export function Navbar() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [langDropdownOpen, setLangDropdownOpen] = useState(false);
-  const [selectedLang, setSelectedLang] = useState({ name: "English", code: "US" });
+  const { currentLanguage, languages, setLang, t } = useLanguage();
 
   // ONLY hide the global navigation bar on the "Your Personalised Guidance" page (/guidance)
   if (pathname === "/guidance") {
     return null;
   }
 
-  const languages = [
-    { name: "English", code: "US" },
-    { name: "Deutsch", code: "DE" },
-    { name: "Français", code: "FR" },
-    { name: "Italiano", code: "IT" },
+  const navItems = [
+    { title: t("nav.home"), href: "/" },
+    { title: t("nav.careCompass"), href: "/care-compass" },
+    { title: t("nav.guidance"), href: "/guidance" },
+    { title: t("nav.about"), href: "/about" },
+    { title: t("nav.contact"), href: "/contact" },
   ];
 
   return (
@@ -99,14 +100,14 @@ export function Navbar() {
 
         {/* Desktop Navigation Links */}
         <nav className="hidden lg:flex items-center gap-7 text-[14px]">
-          {siteConfig.navItems.map((item) => {
+          {navItems.map((item) => {
             const isActive =
               item.href === "/"
                 ? pathname === "/"
                 : pathname === item.href || (pathname.startsWith(item.href) && item.href !== "/");
             return (
               <Link
-                key={item.title}
+                key={item.href}
                 href={item.href}
                 className={cn(
                   "transition-colors",
@@ -131,33 +132,33 @@ export function Navbar() {
               aria-expanded={langDropdownOpen}
               aria-label="Select language"
             >
-              <FlagIcon code={selectedLang.code} className="h-3.5 w-4.5 sm:h-4 sm:w-5 rounded-xs overflow-hidden" />
-              <span className="hidden sm:inline">{selectedLang.name}</span>
-              <span className="sm:hidden text-xs font-bold">{selectedLang.code}</span>
+              <FlagIcon code={currentLanguage.code} className="h-3.5 w-4.5 sm:h-4 sm:w-5 rounded-xs overflow-hidden" />
+              <span className="hidden sm:inline">{currentLanguage.name}</span>
+              <span className="sm:hidden text-xs font-bold">{currentLanguage.code}</span>
               <ChevronDown className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-[#0F2E59]" />
             </button>
 
             {langDropdownOpen && (
               <div className="absolute right-0 mt-2 w-36 sm:w-40 rounded-xl border border-slate-200 bg-white py-1.5 shadow-xl z-50 animate-in fade-in-50 zoom-in-95">
-                {languages.map((lang) => (
+                {languages.map((langOpt) => (
                   <button
-                    key={lang.code}
+                    key={langOpt.code}
                     onClick={() => {
-                      setSelectedLang(lang);
+                      setLang(langOpt.lang);
                       setLangDropdownOpen(false);
                     }}
                     className={cn(
                       "flex w-full items-center justify-between px-3.5 py-2 text-xs font-medium transition-colors cursor-pointer",
-                      selectedLang.code === lang.code
+                      currentLanguage.code === langOpt.code
                         ? "bg-[#F0F7FF] text-[#0F2E59] font-bold"
                         : "text-slate-700 hover:bg-slate-50"
                     )}
                   >
                     <div className="flex items-center gap-2">
-                      <FlagIcon code={lang.code} className="h-3 w-4 rounded-2xs overflow-hidden" />
-                      <span>{lang.name}</span>
+                      <FlagIcon code={langOpt.code} className="h-3 w-4 rounded-2xs overflow-hidden" />
+                      <span>{langOpt.name}</span>
                     </div>
-                    {selectedLang.code === lang.code && (
+                    {currentLanguage.code === langOpt.code && (
                       <div className="h-2 w-2 rounded-full bg-[#14B8A6]" />
                     )}
                   </button>
@@ -171,7 +172,7 @@ export function Navbar() {
             href="/care-compass"
             className="hidden sm:inline-flex rounded-lg bg-[#0F2E59] hover:bg-[#153E75] text-white px-5 sm:px-7 py-2 sm:py-2.5 text-xs sm:text-sm font-semibold shadow-xs transition-colors cursor-pointer items-center justify-center"
           >
-            Get Started
+            {t("nav.getStarted")}
           </Link>
 
           {/* Clean Hamburger Toggle */}
@@ -193,46 +194,42 @@ export function Navbar() {
 
       {/* Clean, Simple & Smooth Mobile Drawer Dropdown */}
       {mobileMenuOpen && (
-        <div className="border-b border-slate-200/80 bg-[#F3F6FA] px-5 py-4 lg:hidden animate-in slide-in-from-top-2 fade-in duration-200 shadow-sm">
-          <nav className="flex flex-col space-y-1.5">
-            {siteConfig.navItems.map((item) => {
+        <div className="lg:hidden border-b border-slate-200 bg-white px-5 pt-3 pb-6 space-y-4 shadow-xl animate-in slide-in-from-top-4 duration-200">
+          <div className="space-y-1">
+            {navItems.map((item) => {
               const isActive =
                 item.href === "/"
                   ? pathname === "/"
                   : pathname === item.href || (pathname.startsWith(item.href) && item.href !== "/");
-
               return (
                 <Link
-                  key={item.title}
+                  key={item.href}
                   href={item.href}
                   onClick={() => setMobileMenuOpen(false)}
                   className={cn(
-                    "px-3.5 py-2.5 rounded-xl text-sm transition-all",
+                    "flex items-center px-4 py-2.5 rounded-xl text-sm transition-all",
                     isActive
-                      ? "font-bold text-[#0F2E59] bg-white shadow-2xs"
-                      : "font-medium text-slate-600 hover:text-[#0F2E59] hover:bg-white/60"
+                      ? "bg-[#F0F7FF] text-[#0F2E59] font-bold"
+                      : "text-slate-600 hover:bg-slate-50 hover:text-slate-900 font-medium"
                   )}
                 >
                   {item.title}
                 </Link>
               );
             })}
+          </div>
 
-            {/* Mobile Get Started Action */}
-            <div className="pt-3 border-t border-slate-200/70 mt-1">
-              <Link
-                href="/care-compass"
-                onClick={() => setMobileMenuOpen(false)}
-                className="w-full text-center rounded-xl bg-[#0F2E59] hover:bg-[#0A2244] text-white py-2.5 text-xs sm:text-sm font-semibold shadow-xs block transition-colors"
-              >
-                Get Started
-              </Link>
-            </div>
-          </nav>
+          <div className="pt-2 border-t border-slate-100">
+            <Link
+              href="/care-compass"
+              onClick={() => setMobileMenuOpen(false)}
+              className="flex w-full items-center justify-center rounded-xl bg-[#0F2E59] py-3 text-sm font-semibold text-white shadow-xs transition-colors"
+            >
+              {t("nav.getStarted")}
+            </Link>
+          </div>
         </div>
       )}
     </header>
   );
 }
-
-export default Navbar;

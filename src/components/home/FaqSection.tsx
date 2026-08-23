@@ -3,7 +3,8 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { PlusCircle, MinusCircle, MessageCircle, ArrowRight } from "lucide-react";
-import { api, FaqItem as ApiFaqItem } from "@/lib/api";
+import { api } from "@/lib/api";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface FaqItem {
   id: string | number;
@@ -11,47 +12,125 @@ interface FaqItem {
   answer: string;
 }
 
-const defaultFaqs: FaqItem[] = [
-  {
-    id: 1,
-    question: "Is Pflege Orientrierung a medical advice platform?",
-    answer:
-      "No. Pflege Orientrierung does not provide medical advice, diagnosis, or treatment. It is a digital guidance platform designed to help family caregivers better understand their situation through the Care Compass assessment and receive personalized recommendations for appropriate next steps.",
-  },
-  {
-    id: 2,
-    question: "How long does the Care Compass assessment take?",
-    answer:
-      "The assessment takes approximately 3 minutes to complete. It asks structured questions to identify your specific care context and provide immediate, relevant guidance.",
-  },
-  {
-    id: 3,
-    question: "Is my personal information kept private?",
-    answer:
-      "Yes. Your privacy is our highest priority. The assessment can be completed anonymously without registration in full compliance with the Swiss Federal Act on Data Protection (FADP).",
-  },
-  {
-    id: 4,
-    question: "How are my recommendations generated?",
-    answer:
-      "Recommendations are dynamically generated based on Swiss care guidelines, home nursing (Spitex) standards, insurance regulations (AHV / IV / supplementary benefits), and your specific assessment answers.",
-  },
-  {
-    id: 5,
-    question: "Can I use Pflege Orientrierung if I'm caring for a family member with complex needs?",
-    answer:
-      "Absolutely. The Care Compass is designed to support a wide range of situations, from light everyday assistance to complex elderly, palliative, or dementia care requirements.",
-  },
-];
+const localizedDefaultFaqs: Record<string, FaqItem[]> = {
+  en: [
+    {
+      id: 1,
+      question: "Is Polaris Care a medical advice platform?",
+      answer:
+        "No. Polaris Care does not provide medical treatment. We are an independent Swiss care guidance platform that helps family caregivers navigate elder care options, Spitex services, and cantonal financial benefits.",
+    },
+    {
+      id: 2,
+      question: "How long does the Care Compass assessment take?",
+      answer:
+        "The assessment takes approximately 3 minutes to complete (12 structured questions). You receive an instant clinical orientation and downloadable roadmap.",
+    },
+    {
+      id: 3,
+      question: "Is my personal information kept private?",
+      answer:
+        "Yes. Your privacy is our highest priority. The assessment is 100% anonymous with no account required, in full compliance with the Swiss Federal Act on Data Protection (FADP).",
+    },
+    {
+      id: 4,
+      question: "How are cantonal benefits calculated?",
+      answer:
+        "Recommendations are dynamically matched with specific cantonal social insurance regulations (SVA / AHV Ergänzungsleistungen) across all 26 Swiss cantons.",
+    },
+  ],
+  de: [
+    {
+      id: 1,
+      question: "Ist Polaris Care eine medizinische Beratungsstelle?",
+      answer:
+        "Nein. Polaris Care bietet keine medizinischen Behandlungen an. Wir sind eine unabhängige Schweizer Orientierungsplattform, die pflegenden Angehörigen hilft, Spitex-Dienste, Ergänzungsleistungen (EL) und Entlastungsangebote zu organisieren.",
+    },
+    {
+      id: 2,
+      question: "Wie lange dauert der Pflege-Kompass?",
+      answer:
+        "Der Test dauert etwa 3 Minuten (12 gezielte Fragen). Sie erhalten sofort eine verständliche Pflegeeinstufung und Ihren persönlichen Massnahmenplan.",
+    },
+    {
+      id: 3,
+      question: "Bleiben meine Daten vertraulich?",
+      answer:
+        "Ja. Datenschutz hat bei uns höchste Priorität. Der Pflege-Kompass kann 100% anonym ohne Registrierung ausgefüllt werden – konform mit dem Schweizer Datenschutzgesetz (DSG).",
+    },
+    {
+      id: 4,
+      question: "Wie werden kantonale Leistungen berechnet?",
+      answer:
+        "Die Empfehlungen orientieren sich dynamisch an den Richtlinien der kantonalen Sozialversicherungsanstalten (SVA / AHV Ergänzungsleistungen) aller 26 Schweizer Kantone.",
+    },
+  ],
+  fr: [
+    {
+      id: 1,
+      question: "Polaris Care fournit-il des conseils médicaux ?",
+      answer:
+        "Non. Polaris Care ne dispense pas de soins médicaux. Nous sommes une plateforme d'orientation indépendante aidant les proches aidants en Suisse à organiser les services CMS, les prestations complémentaires (PC) et le répit.",
+    },
+    {
+      id: 2,
+      question: "Combien de temps prend la Boussole des Soins ?",
+      answer:
+        "L'évaluation prend environ 3 minutes (12 questions simples). Vous recevez immédiatement une synthèse personnalisée et votre feuille de route.",
+    },
+    {
+      id: 3,
+      question: "Mes données personnelles sont-elles protégées ?",
+      answer:
+        "Oui. La confidentialité est primordiale. Le questionnaire est 100% anonyme sans inscription obligatoire, en conformité totale avec la Loi fédérale sur la protection des données (LPD).",
+    },
+    {
+      id: 4,
+      question: "Comment sont identifiées les aides cantonales ?",
+      answer:
+        "Nos recommandations s'adaptent automatiquement aux critères des caisses de compensation cantonales et des régimes de prestations complémentaires (PC/AVS).",
+    },
+  ],
+  it: [
+    {
+      id: 1,
+      question: "Polaris Care fornisce consulenza medica?",
+      answer:
+        "No. Polaris Care non effettua trattamenti medici. Siamo una piattaforma svizzera indipendente che aiuta i familiari curanti a coordinare i servizi Spitex/SACD, le prestazioni complementari (PC) e il sollievo.",
+    },
+    {
+      id: 2,
+      question: "Quanto tempo richiede la Bussola dell'Assistenza?",
+      answer:
+        "La valutazione richiede circa 3 minuti (12 domande guidate). Riceverete subito una stima del livello di cura e la vostra guida d'azione.",
+    },
+    {
+      id: 3,
+      question: "I miei dati sono protetti?",
+      answer:
+        "Sì. La privacy è la nostra massima priorità. La valutazione è 100% anonima senza registrazione, nel rispetto della Legge federale sulla protezione dei dati (LPD).",
+    },
+    {
+      id: 4,
+      question: "Come vengono identificate le prestazioni cantonali?",
+      answer:
+        "Le raccomandazioni si basano sui criteri dei singoli istituti cantonali delle assicurazioni sociali (IAS / PC AVS) di tutti i 26 cantoni svizzeri.",
+    },
+  ],
+};
 
 export function FaqSection() {
-  const [faqs, setFaqs] = useState<FaqItem[]>(defaultFaqs);
+  const { lang, t } = useLanguage();
+  const [faqs, setFaqs] = useState<FaqItem[]>(localizedDefaultFaqs[lang] || localizedDefaultFaqs.en);
   const [openId, setOpenId] = useState<string | number | null>(1);
 
   useEffect(() => {
+    // Set fallback immediately on lang change
+    setFaqs(localizedDefaultFaqs[lang] || localizedDefaultFaqs.en);
+
     async function loadFaqs() {
       try {
-        const fetched = await api.getFaqs("en");
+        const fetched = await api.getFaqs(lang);
         if (fetched && fetched.length > 0) {
           setFaqs(
             fetched.map((f) => ({
@@ -62,11 +141,11 @@ export function FaqSection() {
           );
         }
       } catch {
-        // Keep default FAQs
+        // Keep localized default FAQs
       }
     }
     loadFaqs();
-  }, []);
+  }, [lang]);
 
   const toggleFaq = (id: string | number) => {
     setOpenId((prev) => (prev === id ? null : id));
@@ -80,13 +159,13 @@ export function FaqSection() {
           <div className="lg:col-span-4 flex flex-col justify-between self-stretch min-h-0 lg:min-h-[380px]">
             <div>
               <div className="inline-flex items-center gap-1.5 rounded-full border border-slate-200/80 bg-white px-4 py-1 text-xs font-medium text-slate-600 shadow-2xs mb-4 sm:mb-5">
-                FAQ
+                {t("faq.badge")}
               </div>
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#0C2B4E] tracking-tight leading-tight">
-                Frequently asked questions
+                {t("faq.title")}
               </h2>
               <p className="mt-3 text-xs sm:text-sm text-slate-500 max-w-sm leading-relaxed">
-                Everything you need to know about the Care Compass, Swiss privacy standards, and our independent advisory approach.
+                {t("faq.subtitle")}
               </p>
             </div>
 
@@ -97,8 +176,8 @@ export function FaqSection() {
                   <MessageCircle className="h-5 w-5" />
                 </div>
                 <div>
-                  <h4 className="text-xs sm:text-sm font-bold text-[#0C2B4E]">Have a specific question?</h4>
-                  <p className="text-[11px] text-slate-400">Our care team is here to help you</p>
+                  <h4 className="text-xs sm:text-sm font-bold text-[#0C2B4E]">{t("faq.moreQuestions")}</h4>
+                  <p className="text-[11px] text-slate-400">{t("contact.cantonNote")}</p>
                 </div>
               </div>
               <div className="mt-4 pt-3 border-t border-slate-100">
@@ -106,7 +185,7 @@ export function FaqSection() {
                   href="/contact"
                   className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#0F2E59] hover:bg-[#0A2244] text-white py-2.5 text-xs font-bold shadow-xs transition-colors cursor-pointer"
                 >
-                  <span>Contact Our Team</span>
+                  <span>{t("faq.contactAdvisor")}</span>
                   <ArrowRight className="h-3.5 w-3.5" />
                 </Link>
               </div>
