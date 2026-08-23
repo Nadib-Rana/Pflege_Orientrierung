@@ -2,12 +2,13 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { BookmarkCheck } from "lucide-react";
+import { BookmarkCheck, Loader2 } from "lucide-react";
 import { questions, STORAGE_KEY, CareCompassStage } from "@/components/care-compass/questionsData";
 import { CareCompassStart } from "@/components/care-compass/CareCompassStart";
 import { CareCompassQuestions } from "@/components/care-compass/CareCompassQuestions";
 import { CareCompassComplete } from "@/components/care-compass/CareCompassComplete";
 import { CareCompassGuidanceView } from "@/components/care-compass/CareCompassGuidanceView";
+import { api } from "@/lib/api";
 
 export default function CareCompassPage() {
   const router = useRouter();
@@ -39,6 +40,7 @@ export default function CareCompassPage() {
     }
   });
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [savedToast, setSavedToast] = useState(false);
   const [hasSavedProgress, setHasSavedProgress] = useState(() => {
     try {
@@ -51,13 +53,21 @@ export default function CareCompassPage() {
   const totalSteps = questions.length;
   const currentQ = questions[currentStep - 1];
 
-  const saveProgressToClient = (overrideStep?: number, overrideStage?: CareCompassStage) => {
+  const saveProgressToClient = (
+    overrideStep?: number,
+    overrideStage?: CareCompassStage,
+    extraData?: Record<string, any>
+  ) => {
     try {
+      const existing = localStorage.getItem(STORAGE_KEY);
+      const parsed = existing ? JSON.parse(existing) : {};
       const data = {
+        ...parsed,
         currentStep: overrideStep ?? currentStep,
         stage: overrideStage ?? stage,
         answers,
         updatedAt: new Date().toISOString(),
+        ...extraData,
       };
       localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
       setHasSavedProgress(true);
@@ -85,14 +95,37 @@ export default function CareCompassPage() {
     }
   };
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (currentStep < totalSteps) {
       const nextStep = currentStep + 1;
       setCurrentStep(nextStep);
       saveProgressToClient(nextStep, "questions");
     } else {
-      setStage("complete");
-      saveProgressToClient(totalSteps, "complete");
+      setIsSubmitting(true);
+      try {
+        // Stringify answers map for backend
+        const answersPayload: Record<string, string> = {};
+        Object.entries(answers).forEach(([k, v]) => {
+          answersPayload[k] = v;
+        });
+
+        // Submit to NestJS backend
+        const result = await api.submitAssessment({
+          answers: answersPayload,
+          canton: answers[10] || "ZH",
+        });
+
+        saveProgressToClient(totalSteps, "complete", {
+          assessmentResult: result,
+          publicCode: result?.assessment?.publicCode,
+        });
+      } catch (err) {
+        console.warn("Backend submission error, continuing with local state:", err);
+        saveProgressToClient(totalSteps, "complete");
+      } finally {
+        setIsSubmitting(false);
+        setStage("complete");
+      }
     }
   };
 

@@ -1,15 +1,17 @@
 "use client";
 
-import React, { useState } from "react";
-import { PlusCircle, MinusCircle } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import Link from "next/link";
+import { PlusCircle, MinusCircle, MessageCircle, ArrowRight } from "lucide-react";
+import { api, FaqItem as ApiFaqItem } from "@/lib/api";
 
 interface FaqItem {
-  id: number;
+  id: string | number;
   question: string;
   answer: string;
 }
 
-const faqs: FaqItem[] = [
+const defaultFaqs: FaqItem[] = [
   {
     id: 1,
     question: "Is Pflege Orientrierung a medical advice platform?",
@@ -26,13 +28,13 @@ const faqs: FaqItem[] = [
     id: 3,
     question: "Is my personal information kept private?",
     answer:
-      "Yes. Your privacy is our highest priority. The assessment can be completed anonymously without registration. All responses remain strictly secure and confidential.",
+      "Yes. Your privacy is our highest priority. The assessment can be completed anonymously without registration in full compliance with the Swiss Federal Act on Data Protection (FADP).",
   },
   {
     id: 4,
     question: "How are my recommendations generated?",
     answer:
-      "Recommendations are dynamically generated based on care guidelines, home nursing (Spitex) standards, insurance regulations (OKP / supplementary benefits), and your specific assessment answers.",
+      "Recommendations are dynamically generated based on Swiss care guidelines, home nursing (Spitex) standards, insurance regulations (AHV / IV / supplementary benefits), and your specific assessment answers.",
   },
   {
     id: 5,
@@ -43,9 +45,30 @@ const faqs: FaqItem[] = [
 ];
 
 export function FaqSection() {
-  const [openId, setOpenId] = useState<number | null>(1); // Question 1 is open by default in design
+  const [faqs, setFaqs] = useState<FaqItem[]>(defaultFaqs);
+  const [openId, setOpenId] = useState<string | number | null>(1);
 
-  const toggleFaq = (id: number) => {
+  useEffect(() => {
+    async function loadFaqs() {
+      try {
+        const fetched = await api.getFaqs("en");
+        if (fetched && fetched.length > 0) {
+          setFaqs(
+            fetched.map((f) => ({
+              id: f.id,
+              question: f.question,
+              answer: f.answer,
+            }))
+          );
+        }
+      } catch {
+        // Keep default FAQs
+      }
+    }
+    loadFaqs();
+  }, []);
+
+  const toggleFaq = (id: string | number) => {
     setOpenId((prev) => (prev === id ? null : id));
   };
 
@@ -53,87 +76,81 @@ export function FaqSection() {
     <section id="contact" className="py-16 md:py-24 bg-[#F8FAFC]">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-start max-w-6xl mx-auto">
-          {/* Left Column: FAQ Badge, Heading, and Desktop-only Contact CTA */}
+          {/* Left Column: FAQ Badge, Heading, and Contact CTA */}
           <div className="lg:col-span-4 flex flex-col justify-between self-stretch min-h-0 lg:min-h-[380px]">
             <div>
               <div className="inline-flex items-center gap-1.5 rounded-full border border-slate-200/80 bg-white px-4 py-1 text-xs font-medium text-slate-600 shadow-2xs mb-4 sm:mb-5">
                 FAQ
               </div>
-
-              <h2 className="text-3xl sm:text-4xl lg:text-[52px] font-extrabold tracking-tight text-[#0C2B4E] leading-[1.12]">
-                Still Have <br />
-                Questions?
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#0C2B4E] tracking-tight leading-tight">
+                Frequently asked questions
               </h2>
+              <p className="mt-3 text-xs sm:text-sm text-slate-500 max-w-sm leading-relaxed">
+                Everything you need to know about the Care Compass, Swiss privacy standards, and our independent advisory approach.
+              </p>
             </div>
 
-            {/* Desktop Contact Us Button (hidden on mobile, shown on lg+) */}
-            <div className="hidden lg:block pt-8 space-y-3">
-              <p className="text-xs text-[#718096] leading-relaxed">
-                Contact Us, for more <br />
-                information.
-              </p>
-              <a
-                href="mailto:hello@Pflege.com"
-                className="inline-flex items-center justify-center rounded-xl border-2 border-[#0C2B4E] bg-white hover:bg-slate-50 px-6 py-2.5 text-sm font-semibold text-[#0C2B4E] shadow-2xs transition-colors cursor-pointer"
-              >
-                Contact Us
-              </a>
+            {/* Contact Box */}
+            <div className="mt-8 lg:mt-0 rounded-2xl bg-white p-5 border border-slate-200/70 shadow-2xs">
+              <div className="flex items-center gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#EBF3FC] text-[#0F2E59]">
+                  <MessageCircle className="h-5 w-5" />
+                </div>
+                <div>
+                  <h4 className="text-xs sm:text-sm font-bold text-[#0C2B4E]">Have a specific question?</h4>
+                  <p className="text-[11px] text-slate-400">Our care team is here to help you</p>
+                </div>
+              </div>
+              <div className="mt-4 pt-3 border-t border-slate-100">
+                <Link
+                  href="/contact"
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#0F2E59] hover:bg-[#0A2244] text-white py-2.5 text-xs font-bold shadow-xs transition-colors cursor-pointer"
+                >
+                  <span>Contact Our Team</span>
+                  <ArrowRight className="h-3.5 w-3.5" />
+                </Link>
+              </div>
             </div>
           </div>
 
-          {/* Right Column: Floating White Accordion Cards & Mobile Contact CTA */}
-          <div className="lg:col-span-8 space-y-4">
+          {/* Right Column: FAQ Accordion List */}
+          <div className="lg:col-span-8 space-y-3 sm:space-y-3.5">
             {faqs.map((faq) => {
               const isOpen = openId === faq.id;
               return (
                 <div
                   key={faq.id}
-                  className="rounded-2xl border border-slate-100 bg-white p-5 sm:p-6 shadow-sm hover:shadow-md transition-all duration-200"
+                  className="rounded-2xl bg-white border border-slate-200/70 transition-all duration-200 overflow-hidden shadow-2xs"
                 >
                   <button
                     type="button"
                     onClick={() => toggleFaq(faq.id)}
-                    className="flex w-full items-center justify-between text-left cursor-pointer"
+                    className="w-full flex items-center justify-between p-4 sm:p-5 text-left gap-4 hover:bg-slate-50/50 transition-colors cursor-pointer"
                     aria-expanded={isOpen}
                   >
-                    <span className="text-sm sm:text-base font-bold text-[#0C2B4E] pr-4">
+                    <span className="text-xs sm:text-sm md:text-base font-bold text-[#0C2B4E] leading-snug">
                       {faq.question}
                     </span>
-                    <div className="shrink-0 text-slate-400 hover:text-[#0C2B4E] transition-colors">
+                    <span className="shrink-0 text-[#0F2E59]">
                       {isOpen ? (
-                        <MinusCircle className="h-5 w-5 stroke-[1.5]" />
+                        <MinusCircle className="h-5 w-5 text-[#1A5695]" />
                       ) : (
-                        <PlusCircle className="h-5 w-5 stroke-[1.5]" />
+                        <PlusCircle className="h-5 w-5 text-slate-400" />
                       )}
-                    </div>
+                    </span>
                   </button>
 
                   {isOpen && (
-                    <div className="pt-3 text-xs sm:text-sm text-[#718096] leading-relaxed animate-in fade-in-50 duration-200">
-                      {faq.answer}
+                    <div className="px-4 sm:px-5 pb-4 sm:pb-5 pt-0 text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-100 animate-in fade-in-50 duration-200">
+                      <p className="pt-2">{faq.answer}</p>
                     </div>
                   )}
                 </div>
               );
             })}
-
-            {/* Mobile Contact Us CTA (Placed cleanly at the bottom after FAQ cards) */}
-            <div className="block lg:hidden pt-6 mt-4 border-t border-slate-200/60 space-y-3">
-              <p className="text-xs text-[#718096] leading-relaxed">
-                Contact Us, for more information.
-              </p>
-              <a
-                href="mailto:hello@Pflege.com"
-                className="inline-flex w-full items-center justify-center rounded-xl border-2 border-[#0C2B4E] bg-white hover:bg-slate-50 py-3 text-sm font-semibold text-[#0C2B4E] shadow-2xs transition-colors cursor-pointer text-center"
-              >
-                Contact Us
-              </a>
-            </div>
           </div>
         </div>
       </div>
     </section>
   );
 }
-
-export default FaqSection;

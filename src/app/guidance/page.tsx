@@ -1,15 +1,42 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { BrandLogo } from "@/components/common/BrandLogo";
-import { FileText, AlertCircle } from "lucide-react";
+import { FileText, AlertCircle, Sparkles, CheckCircle2, MapPin, ExternalLink } from "lucide-react";
+import { AssessmentResult } from "@/lib/api";
 
 const STORAGE_KEY = "pflege_care_compass_progress_v1";
 
 export default function GuidancePage() {
   const router = useRouter();
+  const [assessmentData, setAssessmentData] = useState<AssessmentResult | null>(null);
+  const [completedDate, setCompletedDate] = useState<string>("Today");
+
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (parsed.assessmentResult) {
+          setAssessmentData(parsed.assessmentResult);
+        }
+        if (parsed.updatedAt) {
+          const date = new Date(parsed.updatedAt);
+          setCompletedDate(
+            date.toLocaleDateString("en-US", {
+              month: "long",
+              day: "numeric",
+              year: "numeric",
+            })
+          );
+        }
+      }
+    } catch {
+      // Ignore storage error
+    }
+  }, []);
 
   const handleResetGuidance = () => {
     try {
@@ -24,9 +51,36 @@ export default function GuidancePage() {
     router.push("/");
   };
 
+  const publicCode = assessmentData?.assessment?.publicCode || "CC-9014";
+  const estimatedPflegegrad = assessmentData?.assessment?.estimatedPflegegrad || "Grad 2";
+  const urgencyLevel = assessmentData?.assessment?.urgencyLevel || "Medium";
+  const canton = assessmentData?.assessment?.canton || "ZH";
+
+  const situationSummary =
+    assessmentData?.situationGuidance?.summary ||
+    `Your assessment indicates a "Balanced but Transitioning" care environment in Canton ${canton}. While primary daily needs are being met, there is an increasing demand for emotional support and structured respite planning.`;
+
+  const nextSteps = assessmentData?.situationGuidance?.nextSteps || [
+    {
+      step: 1,
+      title: "Physical Therapy & Mobility Review",
+      description: "Review local specialized mobility therapists. Early intervention can significantly improve daily comfort and independence.",
+    },
+    {
+      step: 2,
+      title: "Join Local CareCircle",
+      description: "Connect with families in your area who are navigating similar Swiss care pathways for shared insights and support.",
+    },
+    {
+      step: 3,
+      title: "Equipment & Home Adaptation Guide",
+      description: "Explore our curated guide on home modifications, emergency alarm systems, and adaptive tools.",
+    },
+  ];
+
   return (
     <div className="min-h-screen bg-[#F4F7FB] flex flex-col justify-between">
-      {/* Minimal Header with Reset Guidance & Save & Exit matching exact design */}
+      {/* Header */}
       <header className="sticky top-0 z-40 w-full bg-white/95 backdrop-blur-md border-b border-slate-200/60 px-4 sm:px-8 py-3.5">
         <div className="mx-auto max-w-4xl flex items-center justify-between">
           <BrandLogo />
@@ -52,14 +106,39 @@ export default function GuidancePage() {
       {/* Main Guidance Container */}
       <div className="flex-1 flex flex-col items-center justify-center px-4 py-10 sm:py-14">
         <div className="w-full max-w-3xl space-y-8">
-          {/* Header Title & Date Subtitle */}
-          <div className="space-y-2">
-            <h1 className="text-3xl sm:text-4xl font-extrabold text-[#0C2B4E] tracking-tight">
-              Your Personalised Guidance
-            </h1>
-            <p className="text-xs sm:text-sm text-[#64748B]">
-              Based on your Care Compass assessment completed on October 24, 2024.
-            </p>
+          {/* Header Title & Code Subtitle */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="space-y-1">
+              <h1 className="text-3xl sm:text-4xl font-extrabold text-[#0C2B4E] tracking-tight">
+                Your Personalised Guidance
+              </h1>
+              <p className="text-xs sm:text-sm text-[#64748B]">
+                Based on your Care Compass assessment completed on {completedDate}.
+              </p>
+            </div>
+
+            <div className="inline-flex items-center gap-2 bg-white border border-slate-200/80 rounded-2xl px-4 py-2 shadow-xs">
+              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Reference ID:</span>
+              <span className="font-mono text-sm font-extrabold text-[#0F2E59]">{publicCode}</span>
+            </div>
+          </div>
+
+          {/* Quick Metrics Badges */}
+          <div className="grid grid-cols-3 gap-3">
+            <div className="rounded-2xl bg-white p-3.5 sm:p-4 border border-slate-200/70 text-center">
+              <span className="text-[10px] font-semibold text-slate-400 uppercase">Canton Region</span>
+              <p className="text-sm sm:text-base font-bold text-[#0C2B4E]">{canton}</p>
+            </div>
+            <div className="rounded-2xl bg-white p-3.5 sm:p-4 border border-slate-200/70 text-center">
+              <span className="text-[10px] font-semibold text-slate-400 uppercase">Estimated Pflegegrad</span>
+              <p className="text-sm sm:text-base font-bold text-[#1A5695]">{estimatedPflegegrad}</p>
+            </div>
+            <div className="rounded-2xl bg-white p-3.5 sm:p-4 border border-slate-200/70 text-center">
+              <span className="text-[10px] font-semibold text-slate-400 uppercase">Priority Level</span>
+              <p className={`text-sm sm:text-base font-bold ${urgencyLevel === "High" ? "text-amber-600" : "text-emerald-600"}`}>
+                {urgencyLevel}
+              </p>
+            </div>
           </div>
 
           {/* Situation Summary Card */}
@@ -71,51 +150,26 @@ export default function GuidancePage() {
               <h2 className="text-lg sm:text-xl font-bold text-[#0C2B4E]">Situation Summary</h2>
             </div>
             <p className="text-xs sm:text-sm text-[#5A6A80] leading-relaxed">
-              Your recent assessment indicates a &ldquo;Balanced but Transitioning&rdquo; care
-              environment. While primary medical needs are being met, there is an increasing demand
-              for emotional support and specialized mobility equipment. We&apos;ve identified
-              opportunities to reduce caregiver fatigue by 15% through optimized scheduling and the
-              integration of local community resources.
+              {situationSummary}
             </p>
           </div>
 
-          {/* Recommended Next Steps (3 Columns Grid) */}
+          {/* Recommended Next Steps */}
           <div className="space-y-4">
             <h2 className="text-lg sm:text-xl font-bold text-[#0C2B4E]">Recommended Next Steps</h2>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 items-stretch">
-              {/* Card 1 */}
-              <div className="rounded-2xl bg-white p-5 sm:p-6 border border-slate-200/70 shadow-xs flex flex-col justify-start">
-                <h3 className="text-xs sm:text-sm font-bold text-[#0C2B4E] mb-2 leading-snug">
-                  Physical Therapy Review
-                </h3>
-                <p className="text-[11px] sm:text-xs text-[#64748B] leading-relaxed">
-                  Review local specialized mobility therapists. Early intervention can
-                  significantly improve daily comfort and independence.
-                </p>
-              </div>
-
-              {/* Card 2 */}
-              <div className="rounded-2xl bg-white p-5 sm:p-6 border border-slate-200/70 shadow-xs flex flex-col justify-start">
-                <h3 className="text-xs sm:text-sm font-bold text-[#0C2B4E] mb-2 leading-snug">
-                  Join CareCircle
-                </h3>
-                <p className="text-[11px] sm:text-xs text-[#64748B] leading-relaxed">
-                  Connect with three other families in your area who are navigating similar care
-                  pathways for shared insights and support.
-                </p>
-              </div>
-
-              {/* Card 3 */}
-              <div className="rounded-2xl bg-white p-5 sm:p-6 border border-slate-200/70 shadow-xs flex flex-col justify-start">
-                <h3 className="text-xs sm:text-sm font-bold text-[#0C2B4E] mb-2 leading-snug">
-                  Equipment Guide
-                </h3>
-                <p className="text-[11px] sm:text-xs text-[#64748B] leading-relaxed">
-                  Explore our curated guide on home modifications and adaptive tools specifically
-                  for late-stage mobility support.
-                </p>
-              </div>
+              {nextSteps.map((step, idx) => (
+                <div key={idx} className="rounded-2xl bg-white p-5 sm:p-6 border border-slate-200/70 shadow-xs flex flex-col justify-start">
+                  <span className="text-[10px] font-bold text-slate-400 mb-1">STEP {step.step || idx + 1}</span>
+                  <h3 className="text-xs sm:text-sm font-bold text-[#0C2B4E] mb-2 leading-snug">
+                    {step.title}
+                  </h3>
+                  <p className="text-[11px] sm:text-xs text-[#64748B] leading-relaxed">
+                    {step.description}
+                  </p>
+                </div>
+              ))}
             </div>
           </div>
 
@@ -125,15 +179,12 @@ export default function GuidancePage() {
               <AlertCircle className="h-3.5 w-3.5" />
             </div>
             <p className="text-[11px] sm:text-xs text-[#92400E] leading-relaxed">
-              <span className="font-semibold">Disclaimer:</span> This personalised guidance is
-              provided for informational purposes only and is based on the data you provided in the
-              Care Compass assessment. It is not a substitute for professional medical advice,
-              diagnosis, or treatment. Always seek the advice of your physician or other qualified
-              health providers with any questions you may have regarding a medical condition.
+              <span className="font-semibold">Swiss FADP Notice:</span> This personalised guidance is
+              provided for informational orientation based on your assessment responses. Assessment Reference ID: {publicCode}.
             </p>
           </div>
 
-          {/* 2 Bottom Action Buttons */}
+          {/* Bottom Action Buttons */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
             <Link
               href="/"
@@ -143,7 +194,7 @@ export default function GuidancePage() {
             </Link>
 
             <Link
-              href="/contact"
+              href={`/contact?assessmentId=${encodeURIComponent(publicCode)}`}
               className="w-full inline-flex items-center justify-center rounded-xl bg-[#0F2E59] hover:bg-[#0A2244] text-white py-3 text-xs sm:text-sm font-bold shadow-md transition-colors cursor-pointer"
             >
               Request personal support
