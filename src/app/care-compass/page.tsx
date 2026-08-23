@@ -1,17 +1,53 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { BookmarkCheck, Loader2 } from "lucide-react";
-import { questions, STORAGE_KEY, CareCompassStage } from "@/components/care-compass/questionsData";
+import {
+  getLocalizedQuestions,
+  STORAGE_KEY,
+  CareCompassStage,
+  Question,
+} from "@/components/care-compass/questionsData";
 import { CareCompassStart } from "@/components/care-compass/CareCompassStart";
 import { CareCompassQuestions } from "@/components/care-compass/CareCompassQuestions";
 import { CareCompassComplete } from "@/components/care-compass/CareCompassComplete";
 import { CareCompassGuidanceView } from "@/components/care-compass/CareCompassGuidanceView";
 import { api } from "@/lib/api";
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function CareCompassPage() {
   const router = useRouter();
+  const { lang, t } = useLanguage();
+
+  const [questionsList, setQuestionsList] = useState<Question[]>(() =>
+    getLocalizedQuestions(lang)
+  );
+
+  // Update questions whenever language changes
+  useEffect(() => {
+    setQuestionsList(getLocalizedQuestions(lang));
+
+    // Also attempt to fetch dynamic questions from backend
+    async function syncBackendQuestions() {
+      try {
+        const fetched = await api.getQuestions(lang);
+        if (fetched && fetched.length > 0) {
+          setQuestionsList(
+            fetched.map((q) => ({
+              id: q.id,
+              question: q.question,
+              subtitle: q.subtitle,
+              options: q.options,
+            }))
+          );
+        }
+      } catch {
+        // Fallback to local getLocalizedQuestions
+      }
+    }
+    syncBackendQuestions();
+  }, [lang]);
 
   const [stage, setStage] = useState<CareCompassStage>(() => {
     try {
@@ -25,9 +61,9 @@ export default function CareCompassPage() {
   const [answers, setAnswers] = useState<Record<number, string>>(() => {
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
-      return stored ? JSON.parse(stored).answers : { 1: "A parent or parent-in-law" };
+      return stored ? JSON.parse(stored).answers : {};
     } catch {
-      return { 1: "A parent or parent-in-law" };
+      return {};
     }
   });
 
@@ -50,8 +86,8 @@ export default function CareCompassPage() {
     }
   });
 
-  const totalSteps = questions.length;
-  const currentQ = questions[currentStep - 1];
+  const totalSteps = questionsList.length || 12;
+  const currentQ = questionsList[currentStep - 1] || questionsList[0];
 
   const saveProgressToClient = (
     overrideStep?: number,
@@ -77,6 +113,7 @@ export default function CareCompassPage() {
   };
 
   const handleSelectOption = (option: string) => {
+    if (!currentQ) return;
     const updated = { ...answers, [currentQ.id]: option };
     setAnswers(updated);
     try {
@@ -148,7 +185,7 @@ export default function CareCompassPage() {
   };
 
   const handleRestart = () => {
-    setAnswers({ 1: "A parent or parent-in-law" });
+    setAnswers({});
     setCurrentStep(1);
     setStage("start");
     setHasSavedProgress(false);
@@ -187,7 +224,7 @@ export default function CareCompassPage() {
       )}
 
       {/* Stage 2: 12-Question Assessment Flow */}
-      {stage === "questions" && (
+      {stage === "questions" && currentQ && (
         <CareCompassQuestions
           currentQ={currentQ}
           currentStep={currentStep}

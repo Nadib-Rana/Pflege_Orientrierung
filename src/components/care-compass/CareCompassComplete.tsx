@@ -1,5 +1,8 @@
+"use client";
+
 import React from "react";
 import { Check, RotateCcw } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface CareCompassCompleteProps {
   onViewGuidance: () => void;
@@ -11,6 +14,8 @@ export function CareCompassComplete({
   onViewGuidance,
   onRestart,
 }: CareCompassCompleteProps) {
+  const { t } = useLanguage();
+
   return (
     <div className="flex-1 flex flex-col items-center justify-center px-4 py-12 sm:py-16">
       {/* Completion Container */}
@@ -25,11 +30,10 @@ export function CareCompassComplete({
         {/* Title & Description */}
         <div className="space-y-2">
           <h1 className="text-2xl sm:text-3xl font-extrabold text-[#0C2B4E] tracking-tight">
-            Care Compass Complete
+            {t("guidance.title")}
           </h1>
           <p className="text-xs sm:text-sm text-[#64748B] max-w-sm mx-auto leading-relaxed">
-            Your personalized guidance is now ready. Thank you for sharing your answers.
-            We&apos;ve prepared guidance based on your situation.
+            {t("guidance.subtitle", { canton: "ZH" })}
           </p>
         </div>
 
@@ -40,7 +44,7 @@ export function CareCompassComplete({
             onClick={onViewGuidance}
             className="inline-flex w-full items-center justify-center rounded-xl bg-[#0F2E59] hover:bg-[#0A2244] text-white px-8 py-3 text-sm font-bold shadow-md transition-all cursor-pointer"
           >
-            View My Guidance
+            {t("quiz.submitBtn")}
           </button>
 
           <button
@@ -49,7 +53,7 @@ export function CareCompassComplete({
             className="inline-flex items-center gap-1.5 text-xs text-slate-400 hover:text-slate-700 transition-colors cursor-pointer"
           >
             <RotateCcw className="h-3 w-3" />
-            Retake assessment
+            {t("quiz.badge")}
           </button>
         </div>
       </div>
