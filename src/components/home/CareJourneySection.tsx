@@ -28,60 +28,87 @@ export function CareJourneySection() {
 
         {/* 4-Column Mosaic Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5 max-w-6xl mx-auto items-stretch">
-          {/* Column 1 */}
+          {/* Column 1: Tall Single Card (Adult child helping parent walk) */}
           <div className="group relative overflow-hidden rounded-3xl bg-slate-100 min-h-[460px] sm:min-h-[500px] shadow-xs">
             <Image
               src="/images/journey_parent_walk.png"
-              alt="Adult child helping parent walk"
+              alt={t("careJourney.img1")}
               fill
               className="object-cover transition-transform duration-500 group-hover:scale-103"
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
             />
+            <div className="absolute bottom-3.5 left-3.5 right-3.5 z-10">
+              <span className="inline-block rounded-lg bg-white/95 backdrop-blur-md px-3 py-1.5 text-[10px] sm:text-[11px] font-semibold text-[#0C2B4E] shadow-sm border border-white/60">
+                {t("careJourney.img1")}
+              </span>
+            </div>
           </div>
 
           {/* Column 2: Two Stacked Cards */}
           <div className="flex flex-col gap-4 md:gap-5 min-h-[460px] sm:min-h-[500px]">
+            {/* Top Card: Video call */}
             <div className="group relative overflow-hidden rounded-3xl bg-slate-100 flex-1 min-h-[220px] shadow-xs">
               <Image
                 src="/images/Video_call_check-in_with_sibling.png"
-                alt="Video call check-in with sibling"
+                alt={t("careJourney.img2")}
                 fill
                 className="object-cover transition-transform duration-500 group-hover:scale-103"
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
               />
+              <div className="absolute bottom-3 left-3 right-3 z-10">
+                <span className="inline-block rounded-lg bg-white/95 backdrop-blur-md px-2.5 py-1 text-[10px] sm:text-[11px] font-semibold text-[#0C2B4E] shadow-sm border border-white/60">
+                  {t("careJourney.img2")}
+                </span>
+              </div>
             </div>
 
+            {/* Bottom Card: Medication organizer */}
             <div className="group relative overflow-hidden rounded-3xl bg-slate-100 flex-1 min-h-[220px] shadow-xs">
               <Image
                 src="/images/Image_Gallery_Item.png"
-                alt="Medication organizer on kitchen table"
+                alt={t("careJourney.img3")}
                 fill
                 className="object-cover transition-transform duration-500 group-hover:scale-103"
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
               />
+              <div className="absolute bottom-3 left-3 right-3 z-10">
+                <span className="inline-block rounded-lg bg-white/95 backdrop-blur-md px-2.5 py-1 text-[10px] sm:text-[11px] font-semibold text-[#0C2B4E] shadow-sm border border-white/60">
+                  {t("careJourney.img3")}
+                </span>
+              </div>
             </div>
           </div>
 
-          {/* Column 3 */}
+          {/* Column 3: Tall Single Card (Spouse caregiver) */}
           <div className="group relative overflow-hidden rounded-3xl bg-slate-100 min-h-[460px] sm:min-h-[500px] shadow-xs">
             <Image
               src="/images/Spouse_caregiver_quiet_morning_coffee.png"
-              alt="Spouse caregiver, quiet morning coffee"
+              alt={t("careJourney.img4")}
               fill
               className="object-cover transition-transform duration-500 group-hover:scale-103"
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
             />
+            <div className="absolute bottom-3.5 left-3.5 right-3.5 z-10">
+              <span className="inline-block rounded-lg bg-white/95 backdrop-blur-md px-3 py-1.5 text-[10px] sm:text-[11px] font-semibold text-[#0C2B4E] shadow-sm border border-white/60">
+                {t("careJourney.img4")}
+              </span>
+            </div>
           </div>
 
-          {/* Column 4 */}
+          {/* Column 4: Tall Single Card (Support group) */}
           <div className="group relative overflow-hidden rounded-3xl bg-slate-100 min-h-[460px] sm:min-h-[500px] shadow-xs">
             <Image
               src="/images/Support_group.png"
-              alt="Support group"
+              alt={t("careJourney.img5")}
               fill
               className="object-cover transition-transform duration-500 group-hover:scale-103"
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
             />
+            <div className="absolute bottom-3.5 left-3.5 right-3.5 z-10">
+              <span className="inline-block rounded-lg bg-white/95 backdrop-blur-md px-3 py-1.5 text-[10px] sm:text-[11px] font-semibold text-[#0C2B4E] shadow-sm border border-white/60">
+                {t("careJourney.img5")}
+              </span>
+            </div>
           </div>
         </div>
       </div>

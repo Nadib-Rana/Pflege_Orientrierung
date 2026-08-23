@@ -110,7 +110,8 @@ export function CareCompassQuestions({
           <button
             type="button"
             onClick={onNext}
-            className="rounded-xl bg-[#0F2E59] hover:bg-[#0A2244] text-white px-7 py-2.5 text-xs sm:text-sm font-semibold shadow-sm transition-all cursor-pointer"
+            disabled={!answers[currentQ.id]}
+            className="rounded-xl bg-[#0F2E59] hover:bg-[#0A2244] text-white px-7 py-2.5 text-xs sm:text-sm font-semibold shadow-sm transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
           >
             {currentStep === totalSteps ? t("quiz.submitBtn") : t("quiz.nextBtn")}
           </button>

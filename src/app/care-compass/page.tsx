@@ -133,6 +133,9 @@ export default function CareCompassPage() {
   };
 
   const handleNext = async () => {
+    if (!currentQ || !answers[currentQ.id]) {
+      return;
+    }
     if (currentStep < totalSteps) {
       const nextStep = currentStep + 1;
       setCurrentStep(nextStep);
@@ -150,6 +153,7 @@ export default function CareCompassPage() {
         const result = await api.submitAssessment({
           answers: answersPayload,
           canton: answers[10] || "ZH",
+          lang,
         });
 
         saveProgressToClient(totalSteps, "complete", {

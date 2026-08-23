@@ -105,6 +105,7 @@ export const api = {
     answers: Record<string, string>;
     canton?: string;
     caregiver?: string;
+    lang?: string;
   }): Promise<AssessmentResult> {
     const res = await fetch(`${API_BASE_URL}/care-compass/submit`, {
       method: "POST",
@@ -115,8 +116,8 @@ export const api = {
   },
 
   // Fetch assessment result by public code (e.g. CC-9014)
-  async getAssessmentByCode(code: string): Promise<AssessmentResult> {
-    const res = await fetch(`${API_BASE_URL}/care-compass/${encodeURIComponent(code)}`);
+  async getAssessmentByCode(code: string, lang: string = "de"): Promise<AssessmentResult> {
+    const res = await fetch(`${API_BASE_URL}/care-compass/${encodeURIComponent(code)}?lang=${encodeURIComponent(lang)}`);
     return await handleResponse<AssessmentResult>(res);
   },
 

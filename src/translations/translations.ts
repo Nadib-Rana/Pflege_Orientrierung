@@ -76,6 +76,11 @@ export const translations = {
       quote: "Polaris Care gave our family a clear, empathetic 4-step roadmap in under 5 minutes. We immediately knew which benefits to apply for at SVA Zurich.",
       author: "Elena Fischer",
       authorRole: "Family Caregiver in Canton Zurich",
+      img1: "Adult child helping parent walk",
+      img2: "Video call check-in with sibling",
+      img3: "Medication organizer on kitchen table",
+      img4: "Spouse caregiver, quiet morning coffee",
+      img5: "Support group & CareCircle",
     },
 
     // Core Values
@@ -236,6 +241,11 @@ export const translations = {
       quote: "Polaris Care hat unserer Familie in unter 5 Minuten einen klaren, verständlichen 4-Schritte-Plan gegeben. Wir wussten sofort, welche Anträge bei der SVA Zürich nötig sind.",
       author: "Elena Fischer",
       authorRole: "Pflegende Angehörige im Kanton Zürich",
+      img1: "Erwachsenes Kind hilft Elternteil beim Gehen",
+      img2: "Videoanruf-Absprache mit Geschwistern",
+      img3: "Medikamenten-Dosierer auf dem Küchentisch",
+      img4: "Pflegender Partner, ruhiger Morgenkaffee",
+      img5: "Selbsthilfegruppe & Angehörigennetzwerk",
     },
 
     // Core Values
@@ -396,6 +406,11 @@ export const translations = {
       quote: "Polaris Care a fourni à notre famille une feuille de route claire et humaine en moins de 5 minutes. Nous avons su exactement quelles démarches entreprendre.",
       author: "Béatrice Rochat",
       authorRole: "Proche aidante dans le canton de Vaud",
+      img1: "Enfant adulte aidant un parent à marcher",
+      img2: "Point en appel vidéo avec la fratrie",
+      img3: "Pilulier semainier sur la table de cuisine",
+      img4: "Conjoint aidant, café matinal au calme",
+      img5: "Groupe d'entraide & CareCircle",
     },
 
     // Core Values
@@ -556,6 +571,11 @@ export const translations = {
       quote: "Polaris Care ha fornito alla nostra famiglia un piano chiaro in meno di 5 minuti. Abbiamo saputo subito come orientarci.",
       author: "Marco Bernasconi",
       authorRole: "Familiare curante nel Canton Ticino",
+      img1: "Figlio adulto che aiuta il genitore a camminare",
+      img2: "Videochiamata di confronto con fratelli",
+      img3: "Portapillole settimanale sul tavolo di cucina",
+      img4: "Coniuge caregiver, caffè mattutino tranquillo",
+      img5: "Gruppo di supporto & CareCircle",
     },
 
     // Core Values
