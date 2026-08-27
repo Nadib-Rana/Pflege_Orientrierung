@@ -201,12 +201,26 @@ function ContactFormContent() {
                     </label>
                     <textarea
                       id="details"
-                      rows={4}
+                      rows={3}
                       value={formData.details}
                       onChange={(e) => setFormData({ ...formData, details: e.target.value })}
                       placeholder={t("contact.detailsPlaceholder")}
                       className="w-full rounded-xl bg-[#F3F4F6] px-4 py-3 text-xs sm:text-sm text-slate-800 placeholder:text-slate-400 focus:bg-white focus:ring-2 focus:ring-[#0F2E59] focus:outline-none transition-all resize-none"
                     />
+                  </div>
+
+                  {/* Swiss FADP Explicit Privacy Consent Checkbox */}
+                  <div className="rounded-2xl bg-blue-50/60 p-4 border border-blue-100 flex items-start gap-3">
+                    <input
+                      id="fadpConsent"
+                      type="checkbox"
+                      required
+                      defaultChecked={true}
+                      className="mt-0.5 h-4 w-4 rounded text-[#0F2E59] focus:ring-[#0F2E59] border-slate-300 cursor-pointer"
+                    />
+                    <label htmlFor="fadpConsent" className="text-[11px] text-slate-600 leading-relaxed cursor-pointer select-none">
+                      <span className="font-bold text-[#0C2B4E]">Schweizer Datenschutz (DSG / FADP):</span> Ich stimme zu, dass meine Angaben zur Vermittlung und Durchführung einer individuellen Pflegeberatung gemäss den Schweizer Datenschutzbestimmungen vertraulich verarbeitet werden.
+                    </label>
                   </div>
 
                   {/* Submit Button */}
