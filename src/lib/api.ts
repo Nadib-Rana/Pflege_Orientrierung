@@ -157,9 +157,9 @@ export const api = {
   },
 
   // Fetch verified testimonials
-  async getTestimonials(): Promise<TestimonialItem[]> {
+  async getTestimonials(lang: string = "de"): Promise<TestimonialItem[]> {
     try {
-      const res = await fetch(`${API_BASE_URL}/content/testimonials`, {
+      const res = await fetch(`${API_BASE_URL}/content/testimonials?lang=${encodeURIComponent(lang)}`, {
         next: { revalidate: 120 },
       });
       return await handleResponse<TestimonialItem[]>(res);

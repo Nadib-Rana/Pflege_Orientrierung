@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
@@ -107,6 +107,8 @@ const defaultTestimonials: Testimonial[] = [
   },
 ];
 
+import { api } from "@/lib/api";
+
 const NEXT_MEMBER_LABEL: Record<string, string> = {
   de: "Nächstes Mitglied",
   en: "Next Member",
@@ -116,21 +118,57 @@ const NEXT_MEMBER_LABEL: Record<string, string> = {
 
 export function TestimonialsSection() {
   const { lang, t } = useLanguage();
+  const [testimonials, setTestimonials] = useState<Testimonial[]>(defaultTestimonials);
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const current = defaultTestimonials[currentIndex] || defaultTestimonials[0];
-  const nextIndex = (currentIndex + 1) % defaultTestimonials.length;
-  const nextMember = defaultTestimonials[nextIndex];
+  useEffect(() => {
+    async function loadTestimonials() {
+      try {
+        const fetched = await api.getTestimonials(lang);
+        if (fetched && fetched.length > 0) {
+          setTestimonials(
+            fetched.map((item: any, idx: number) => ({
+              id: item.id || idx + 1,
+              name: item.name,
+              canton: item.canton,
+              role:
+                typeof item.roleMultilingual === "object" && item.roleMultilingual !== null
+                  ? item.roleMultilingual
+                  : typeof item.role === "object"
+                  ? item.role
+                  : { [lang]: item.role, de: item.role, en: item.role },
+              quote:
+                typeof item.quoteMultilingual === "object" && item.quoteMultilingual !== null
+                  ? item.quoteMultilingual
+                  : typeof item.quote === "object"
+                  ? item.quote
+                  : { [lang]: item.quote, de: item.quote, en: item.quote },
+              image: item.imageUrl || item.image || (defaultTestimonials[idx]?.image || "/images/sarah.jpg"),
+            }))
+          );
+        }
+      } catch {
+        // Keep defaultTestimonials
+      }
+    }
+    loadTestimonials();
+  }, [lang]);
+
+  const list = testimonials.length > 0 ? testimonials : defaultTestimonials;
+  const safeIndex = currentIndex % list.length;
+  const current = list[safeIndex] || list[0];
+  const nextIndex = (safeIndex + 1) % list.length;
+  const nextMember = list[nextIndex];
 
   const currentQuote = current.quote[lang] || current.quote.de || current.quote.en || Object.values(current.quote)[0];
   const currentRole = current.role[lang] || current.role.de || current.role.en || Object.values(current.role)[0];
 
   const handlePrev = () => {
-    setCurrentIndex((prev) => (prev === 0 ? defaultTestimonials.length - 1 : prev - 1));
+    setCurrentIndex((prev) => (prev === 0 ? list.length - 1 : prev - 1));
   };
 
   const handleNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % defaultTestimonials.length);
+    setCurrentIndex((prev) => (prev + 1) % list.length);
   };
 
   return (
