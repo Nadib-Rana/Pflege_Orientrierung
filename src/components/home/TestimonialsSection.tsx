@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useState } from "react";
 import Image from "next/image";
@@ -20,16 +20,16 @@ const defaultTestimonials: Testimonial[] = [
     name: "Sarah Renner",
     canton: "ZH",
     role: {
+      de: "Pflegende Angehörige, Zürich",
       en: "Family Caregiver, Canton Zurich",
-      de: "Pflegende Tochter, Kanton Zürich",
       fr: "Proche aidante, Canton de Zurich",
       it: "Familiare curante, Canton Zurigo",
     },
     quote: {
-      en: "The Care Compass was simple to complete, yet the recommendations felt thoughtful and relevant. Instead of endless searching online, I finally had clear guidance tailored to my situation.",
-      de: "Der Pflege-Kompass war einfach auszufüllen und die Empfehlungen waren durchdacht und relevant. Statt endlos online zu suchen, hatte ich endlich eine klare Orientierung für meine Situation.",
-      fr: "La Boussole de soins était simple à remplir et les recommandations très pertinentes. Au lieu de chercher sans fin en ligne, j'ai enfin eu un plan clair adapté à notre situation.",
-      it: "La Bussola dell'Assistenza è stata semplice e le raccomandazioni molto pertinenti. Invece di cercare a lungo online, ho finalmente avuto un piano chiaro per la nostra situazione.",
+      de: "Der Pflege-Kompass war unkompliziert auszufüllen und die Empfehlungen genau auf unsere Situation im Kanton Zürich abgestimmt. Statt stundenlang im Internet nach Antworten zu suchen, hatten wir innerhalb von 5 Minuten Klarheit über unsere nächsten Schritte.",
+      en: "The Care Compass assessment was straightforward to complete and the recommendations were perfectly tailored to our family situation in Canton Zurich. Instead of spending hours searching online, we had clarity on our next steps in just 5 minutes.",
+      fr: "L'évaluation Care Compass était simple à remplir et les recommandations parfaitement adaptées à notre situation dans le canton de Zurich. En 5 minutes, nous avions des réponses claires sur nos prochaines étapes.",
+      it: "Il questionario Care Compass è stato facile da compilare e le raccomandazioni erano perfettamente calibrate sulla nostra situazione nel Canton Zurigo. In 5 minuti abbiamo avuto piena chiarezza sui passi successivi.",
     },
     image: "/images/sarah.jpg",
   },
@@ -38,16 +38,16 @@ const defaultTestimonials: Testimonial[] = [
     name: "Angel Dia",
     canton: "BE",
     role: {
-      en: "Spouse Caregiver, Canton Bern",
-      de: "Pflegende Partnerin, Kanton Bern",
-      fr: "Conjointe aidante, Canton de Berne",
-      it: "Coniuge caregiver, Canton Berna",
+      de: "Ehepartnerin & Betreuerin, Bern",
+      en: "Spouse & Caregiver, Canton Bern",
+      fr: "Conjointe & aidante, Canton de Berne",
+      it: "Coniuge & curante, Canton Berna",
     },
     quote: {
-      en: "Pflege Orientierung helped us clarify our insurance entitlements and find the right local Spitex service within days. The relief our family felt was truly immeasurable.",
-      de: "Pflege Orientierung hat uns geholfen, unsere Ansprüche bei der Krankenkasse zu klären und den passenden Spitex-Dienst in Bern zu finden. Die Erleichterung für unsere Familie war enorm.",
-      fr: "Pflege Orientierung nous a aidés à clarifier nos droits d'assurance et à trouver le bon service CMS en quelques jours. Un soulagement immense pour notre famille.",
-      it: "Pflege Orientierung ci ha aiutati a chiarire i diritti assicurativi e a trovare il servizio Spitex ideale in pochi giorni. Un enorme sollievo per tutti noi.",
+      de: "Pflege Orientierung hat uns geholfen, unsere Ansprüche bei den Ergänzungsleistungen (EL) zu verstehen und den passenden Spitex-Dienst in Bern zu finden. Die Erleichterung für unsere Familie war sofort spürbar.",
+      en: "Pflege Orientierung helped us understand our rights regarding supplementary financial benefits (EL) and find the right accredited Spitex home care provider in Bern. The relief for our family was immediate.",
+      fr: "Pflege Orientierung nous a aidés à comprendre nos droits aux prestations complémentaires (PC) et à trouver le bon service Spitex à Berne. Le soulagement pour notre famille a été immédiat.",
+      it: "Pflege Orientierung ci ha aiutato a comprendere i nostri diritti alle prestazioni complementari (PC) e a trovare il servizio Spitex adatto a Berna. Il sollievo per la nostra famiglia è stato immediato.",
     },
     image: "/images/angel.jpg",
   },
@@ -56,30 +56,74 @@ const defaultTestimonials: Testimonial[] = [
     name: "Thomas Müller",
     canton: "LU",
     role: {
-      en: "Primary Caregiver, Canton Lucerne",
-      de: "Hauptpflegender Sohn, Kanton Luzern",
+      de: "Hauptpflegender Angehöriger, Luzern",
+      en: "Primary Family Caregiver, Canton Lucerne",
       fr: "Proche aidant principal, Canton de Lucerne",
-      it: "Caregiver principale, Canton Lucerna",
+      it: "Familiare curante principale, Canton Lucerna",
     },
     quote: {
-      en: "Navigating elder care for my father felt completely overwhelming before this. The step-by-step roadmap gave our whole family a calm, structured plan to organize legal power of attorney (KESB) and respite care.",
-      de: "Die Pflege meines Vaters zu organisieren war zuvor überwältigend. Der Schritt-für-Schritt-Plan gab unserer Familie sofort Orientierung, um Vorsorgeauftrag (KESB) und Entlastung zu regeln.",
-      fr: "Organiser les soins de mon père semblait insurmontable auparavant. La feuille de route pas à pas a apporté calme et clarté à toute notre famille.",
-      it: "Organizzare le cure per mio padre sembrava insormontabile. Il piano d'azione ha dato a tutta la nostra famiglia serenità e sicurezza.",
+      de: "Die Organisation der Pflege für meinen Vater schien zunächst überwältigend. Der strukturierte Schritt-für-Schritt-Leitfaden gab der ganzen Familie Sicherheit und einen klaren Weg für die Zusammenarbeit mit den Ärzten.",
+      en: "Organizing care for my father initially felt overwhelming. The structured step-by-step roadmap gave our entire family peace of mind and a clear path forward when coordinating with doctors and caregivers.",
+      fr: "Organiser les soins de mon père semblait accablant au début. Le guide étape par étape a apporté à toute notre famille une grande sérénité et une voie claire pour collaborer avec les médecins.",
+      it: "Organizzare l'assistenza per mio padre sembrava inizialmente insormontabile. La guida passo dopo passo ha dato a tutta la nostra famiglia sicurezza e una direzione chiara per collaborare con i medici.",
     },
     image: "/images/journey_videocall.jpg",
   },
+  {
+    id: 4,
+    name: "Claudine Mercier",
+    canton: "VD",
+    role: {
+      de: "Tochter & Pflegekoordinatorin, Waadt",
+      en: "Daughter & Care Coordinator, Canton Vaud",
+      fr: "Fille & coordinatrice des soins, Canton de Vaud",
+      it: "Figlia & coordinatrice dell'assistenza, Canton Vaud",
+    },
+    quote: {
+      de: "Dank der mehrsprachigen Schweizer Plattform konnten wir die kantonalen Hilflosenentschädigungen und Spitex-Zuschüsse in der Westschweiz ohne bürokratische Hürden beantragen.",
+      en: "Thanks to the multilingual Swiss platform, we were able to apply for cantonal helplessness allowances and Spitex subsidies in Romandie without bureaucratic hurdles.",
+      fr: "Grâce à la plateforme suisse multilingue, nous avons pu demander les allocations pour impotent cantonales et les subventions Spitex en Suisse romande sans obstacles bureaucratiques.",
+      it: "Grazie alla piattaforma svizzera multilingue, abbiamo potuto richiedere gli assegni cantonali per grandi invalidi e i sussidi Spitex nella Svizzera romanda senza ostacoli burocratici.",
+    },
+    image: "/images/sarah.jpg",
+  },
+  {
+    id: 5,
+    name: "Matteo Bianchi",
+    canton: "TI",
+    role: {
+      de: "Pflegender Angehöriger, Tessin",
+      en: "Family Caregiver, Canton Ticino",
+      fr: "Proche aidant, Canton du Tessin",
+      it: "Familiare curante, Cantone Ticino",
+    },
+    quote: {
+      de: "Die personalisierten Empfehlungen haben uns geholfen, kantonale Entlastungsbeiträge im Tessin zu aktivieren, von denen wir zuvor nichts wussten. Eine unschätzbare Hilfe für pflegende Familien.",
+      en: "The personalized recommendations helped us activate cantonal relief allowances in Ticino that we didn't know existed. An invaluable help for caregiving families.",
+      fr: "Les recommandations personnalisées nous ont aidés à activer les allocations de répit cantonales au Tessin dont nous ignorions l'existence. Une aide inestimable pour les familles aidantes.",
+      it: "Le raccomandazioni personalizzate ci hanno aiutato ad attivare i contributi di sollievo cantonali in Ticino di cui non eravamo a conoscenza. Un aiuto inestimabile per le famiglie curanti.",
+    },
+    image: "/images/angel.jpg",
+  },
 ];
 
+const NEXT_MEMBER_LABEL: Record<string, string> = {
+  de: "Nächstes Mitglied",
+  en: "Next Member",
+  fr: "Membre suivant",
+  it: "Prossimo membro",
+};
+
 export function TestimonialsSection() {
-  const { lang } = useLanguage();
+  const { lang, t } = useLanguage();
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const current = defaultTestimonials[currentIndex] || defaultTestimonials[0];
   const nextIndex = (currentIndex + 1) % defaultTestimonials.length;
   const nextMember = defaultTestimonials[nextIndex];
 
-  const currentQuote = current.quote[lang] || current.quote.en || current.quote.de;
+  const currentQuote = current.quote[lang] || current.quote.de || current.quote.en || Object.values(current.quote)[0];
+  const currentRole = current.role[lang] || current.role.de || current.role.en || Object.values(current.role)[0];
 
   const handlePrev = () => {
     setCurrentIndex((prev) => (prev === 0 ? defaultTestimonials.length - 1 : prev - 1));
@@ -95,17 +139,17 @@ export function TestimonialsSection() {
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
           <div className="inline-flex items-center gap-1.5 rounded-full border border-slate-200/80 bg-slate-50 px-4 py-1 text-xs font-medium text-slate-600 shadow-2xs mb-4">
-            Testimonials
+            {t("testimonials.badge") || "Testimonials"}
           </div>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-[#0C2B4E] tracking-tight">
-            What Our Members Are Saying
+            {t("testimonials.title") || "What Our Members Are Saying"}
           </h2>
           <p className="mt-3 text-xs sm:text-sm md:text-base text-slate-500 max-w-2xl mx-auto leading-relaxed">
-            Hear from family caregivers who have found greater clarity, confidence, and support with Pflege Orientierung.
+            {t("testimonials.subtitle") || "Hear from family caregivers who have found greater clarity, confidence, and support with Pflege Orientierung."}
           </p>
         </div>
 
-        {/* 3-Column Layout Matching User Design */}
+        {/* 3-Column Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch">
           {/* Left Column: Big Caregiver Photo */}
           <div className="lg:col-span-4 flex">
@@ -139,10 +183,13 @@ export function TestimonialsSection() {
                 &ldquo;{currentQuote}&rdquo;
               </p>
 
-              {/* Bottom Author Name */}
-              <div className="pt-8">
+              {/* Bottom Author Name & Role */}
+              <div className="pt-8 space-y-1">
                 <p className="text-sm sm:text-base font-semibold text-slate-200">
-                  - {current.name}
+                  {current.name}
+                </p>
+                <p className="text-xs text-slate-400 font-normal">
+                  {currentRole}
                 </p>
               </div>
             </div>
@@ -165,7 +212,7 @@ export function TestimonialsSection() {
                 />
               </div>
               <div className="space-y-0.5">
-                <p className="text-xs text-slate-400 font-medium">Next Member</p>
+                <p className="text-xs text-slate-400 font-medium">{NEXT_MEMBER_LABEL[lang] || "Next Member"}</p>
                 <p className="text-sm sm:text-base font-bold text-[#0C2B4E] group-hover:text-[#1A5695] transition-colors flex items-center gap-1">
                   {nextMember.name} &rarr;
                 </p>
@@ -199,3 +246,4 @@ export function TestimonialsSection() {
 }
 
 export default TestimonialsSection;
+
